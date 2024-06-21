@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utils.h"
 
 typedef struct jogador{
     int id;
@@ -15,6 +16,42 @@ typedef struct jogador{
     char pais[12];
 } TJ;
 
+TJ *leJogador(FILE *fp){
+    TJ *j = (TJ *) malloc(sizeof(TJ));
+    char c;
+    char placeholder[40];
+    char dia[3], mes[10], *ano = (char *)malloc(sizeof(char)*5);
+    char datanasc[12];
+    fscanf(fp, "%d", &j->id);
+    fscanf(fp, "%c", &c);
+    fscanf(fp, "%d", &j->num);
+    fscanf(fp, "%c", &c);
+    fscanf(fp, "%3[^/]", j->pos);
+    fscanf(fp, "%c", &c);
+    fscanf(fp, "%30[^/]", j->nome);
+    fscanf(fp, "%c", &c);
+    fscanf(fp, "%s", dia);
+    fscanf(fp, "%s", mes);
+    fscanf(fp, "%s", ano);
+    char *mes_digitos = (char *)malloc(sizeof(char)*4);
+    mes_digitos = strcpy(mes_digitos, converteMes(mes));
+    criaData(datanasc, dia, mes_digitos, ano);
+    free(mes_digitos);
+    free(ano);
+    strcpy(j->data_nasc, datanasc);
+    fscanf(fp, "%11[^/]", placeholder);
+    fscanf(fp, "%c", &c);
+    fscanf(fp, "%d", &j->num_part);
+    fscanf(fp, "%c", &c);
+    fscanf(fp, "%d", &j->num_gols);
+    fscanf(fp, "%c", &c);
+    fscanf(fp, "%21[^/]", j->pais_time);
+    fscanf(fp, "%c", &c);
+    fscanf(fp, "%24[^\n]", j->time);
+    fscanf(fp, "%c", &c);
+    return j;
+}
+
 typedef struct arvbp {
     int folha;
     int num_chaves;
@@ -24,23 +61,6 @@ typedef struct arvbp {
     char *prox;
 } TARVBP;
 
-void readLine(FILE *fp, char *string, int *size){
-    int i = 0, x;
-    char c;
-    while(i < 40){
-        x = fread(&c, sizeof(char), 1, fp);
-        if(x != 1) {
-            (*size) = -1;
-        }
-        if(c == '\n'){
-            string[i] = '\0';
-            break;
-        }
-        string[i] = c;
-        i++;
-    }
-    (*size) = i;
-}
 
 void escreveNo(char *nomeF, TARVBP *no, int t){
     FILE *fp = fopen(nomeF, "wb");
@@ -91,11 +111,11 @@ TARVBP *leNo(char *nomeF, int t){
     int size;
     char c[40];
     for(int j = 0; j < no->num_chaves+1; j++){
-        readLine(fp, c, &size);
+        readLine(fp, c, &size, '\n');
         no->filhos[j] = (char *) malloc(sizeof(char)*size);
         strcpy(no->filhos[j], c);
     }
-    readLine(fp, c, &size);
+    readLine(fp, c, &size, '\n');
     if(size < 0){
         no->prox = NULL;
     } else{
@@ -145,7 +165,7 @@ void imprimeNo(TARVBP *a){
 }
 
 int main(void){
-    TARVBP *a = (TARVBP *) malloc(sizeof(TARVBP));
+    /* TARVBP *a = (TARVBP *) malloc(sizeof(TARVBP));
     a->folha = 0;
     a->num_chaves = 2;
     a->chaves = (int *) malloc(sizeof(int)*3);
@@ -158,13 +178,25 @@ int main(void){
     imprimeNo(a);
     escreveNo("r1.bin", a, 2);
     TARVBP *b = leNo("r1.bin", 2);
-    imprimeNo(b);
+    imprimeNo(b); 
 
     free(b->chaves);
     free(b->filhos);
     free(b);
     free(a->chaves);
     free(a->filhos);
-    free(a);
+    free(a); */
+    FILE *fp = fopen("EURO.txt", "r");
+    int i;
+    char str[40];
+    readLine(fp, str, &i, '\n');
+    TJ *j;
+    
+    for(int i=0; i < 20; i++){
+        j = leJogador(fp);
+    }
+    fclose(fp);
+    imprimeJogador(j);
+    free(j);
     return 0;
 }
