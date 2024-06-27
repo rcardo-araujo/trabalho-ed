@@ -3,13 +3,21 @@
 #include <string.h>
 #include "utils.h"
 
+/*
+Biblioteca que vamos compor para uma série de utilidades que não
+estão diretamente relacionadas à criação das tabelas e estruturas
+de dados do trabalho. 
+*/
+
 void readLine(FILE *fp, char *string, int *size, char splitter){
     int i = 0, x;
     char c;
     while(i < 40){
         x = fread(&c, sizeof(char), 1, fp);
+        printf("%c", string[i]);
         if(x != 1) {
             (*size) = -1;
+            return;
         }
         if(c == splitter){
             string[i] = '\0';
@@ -17,6 +25,7 @@ void readLine(FILE *fp, char *string, int *size, char splitter){
         }
         string[i] = c;
         i++;
+        printf("\n");
     }
     (*size) = i;
 }

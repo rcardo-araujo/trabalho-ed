@@ -1,4 +1,4 @@
-// header de filereader
+// -----------Header de "utils.c"---------------
 
 void readLine(FILE *fp, char *string, int *size, char splitter);
 void criaData(char *destino, char *dia, char *mes, char *ano);
