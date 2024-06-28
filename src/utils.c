@@ -14,18 +14,12 @@ void readLine(FILE *fp, char *string, int *size, char splitter){
     char c;
     while(i < 40){
         x = fread(&c, sizeof(char), 1, fp);
-        printf("%c", string[i]);
-        if(x != 1) {
-            (*size) = -1;
-            return;
-        }
-        if(c == splitter){
+        if((c == splitter) || (x != 1)){
             string[i] = '\0';
             break;
         }
         string[i] = c;
         i++;
-        printf("\n");
     }
     (*size) = i;
 }

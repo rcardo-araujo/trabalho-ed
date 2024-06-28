@@ -108,7 +108,7 @@ void escreveNo(char *nomeF, TARVBP *no){
         }       
     }
     if(!no->folha){
-        for(int i; i < no->num_chaves+1; i++){
+        for(int i = 0; i < no->num_chaves+1; i++){
             fwrite(no->filhos[i], sizeof(char), strlen(no->filhos[i])+1, fp);
             fwrite("\n", sizeof(char), 1, fp);
         }
@@ -122,9 +122,9 @@ void escreveNo(char *nomeF, TARVBP *no){
 }
 
 TARVBP *leNo(char *nomeF, int t){
-    char nomecomext[strlen(nomeF)+5];
-    strcpy(nomecomext, nomeF);
-    strcat(nomecomext, ".bin");
+    char nome_com_ext[strlen(nomeF)+5];
+    strcpy(nome_com_ext, nomeF);
+    strcat(nome_com_ext, ".bin");
     FILE *fp = fopen(nomecomext, "rb");
     if(!fp) return NULL;
     TARVBP *no = TARVBP_cria(nomeF, t);
@@ -153,7 +153,6 @@ TARVBP *leNo(char *nomeF, int t){
     printf("arquivo: %s\n", no->nomeArq);
     readLine(fp, c, &size, '\n');
     if(size > 0){
-        no->prox = (char *) malloc(sizeof(char)*size);
         strcpy(no->prox, c);
     }
     fclose(fp);
