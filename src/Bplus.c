@@ -113,15 +113,11 @@ void escreveNo(char *nomeF, TARVBP *no){
     if(!no->folha){
         for(int i=0; i < no->num_chaves+1; i++){
             fwrite(no->filhos[i], sizeof(char), strlen(no->filhos[i])+1, fp);
-            printf("no->filhos[i]: \n");
             fwrite("\n", sizeof(char), 1, fp);
         }
     }
     //conditional jump or move depends on unitialised value
-    printf("nome arq: %s\n", no->nomeArq);
-    printf("no->prox: %s\n", no->prox);
     if(no->prox[0]) fwrite(no->prox, sizeof(char), strlen(no->prox)+1, fp);
-    printf("salvou o no %s em arquivo\n", nomeF);
     fclose(fp);
 }
 
@@ -211,7 +207,7 @@ TARVBP *buscaAux(TARVBP *a, int elem, int t){
     int i=0;
     while(i < a->num_chaves && a->chaves[i] < elem) i++;
     TARVBP *filho = leNo(a->filhos[i], t);
-    TARVBP_libera(a, t);
+    //TARVBP_libera(a, t);
     TARVBP *no = buscaAux(filho, elem, t);
     if(no && strcmp(filho->nomeArq, no->nomeArq)) TARVBP_libera(filho, t);
     return no;
@@ -247,34 +243,30 @@ TARVBP *divisao(TARVBP *pai, int i, TARVBP *a, int t){
     int j;
     if(!a->folha){
         //esse if ainda nao foi verificado
-        printf("entrou no if da divisao\n");
         z->num_chaves = t-1;
         for(j=0;j<t-1;j++) {
             z->chaves[j] = a->chaves[j+t];
         }
         for(j=0;j<t;j++){
             strcpy(z->filhos[j], a->filhos[j+t]);
-            a->filhos[j+t] = NULL;
+            strcpy(a->filhos[j+t], "");
         }
     } else {
         z->num_chaves = t;
         for(j=0;j < t;j++){
             z->reg[j] = a->reg[j+t-1];
-            a->reg[j+t-1] = NULL;
         }
         strcpy(z->prox, a->prox);
         strcpy(a->prox, z->nomeArq);
     }
     a->num_chaves = t-1;
     for(j=pai->num_chaves; j>=i; j--) strcpy(pai->filhos[j+1], pai->filhos[j]);
-    printf("pai->num_chaves: %d\n", pai->num_chaves);
-    for(int k=0; k<i; k++) printf("nome filho[%d]: %s\n", k, pai->filhos[k]);
-    printf("i=%d, z->nomeArq=%s\n", i, z->nomeArq);
     strcpy(pai->filhos[i], z->nomeArq);
     for(j=pai->num_chaves; j>=i; j--) pai->chaves[j] = pai->chaves[j-1];
-    if(a->folha) pai->chaves[i-1] = z->reg[0]->id; // a->folha, logo não possui chaves e sim registros!
+    if(a->folha) pai->chaves[i-1] = a->reg[t-1]->id; // a->folha, logo não possui chaves e sim registros!
     else pai->chaves[i-1] = a->chaves[t-1];
     pai->num_chaves++;
+    for(int k=t-1; k<2*t-1; k++) a->reg[k] = NULL;
     escreveNo(a->nomeArq, a);
     escreveNo(z->nomeArq, z);
     escreveNo(pai->nomeArq, pai);
@@ -284,6 +276,7 @@ TARVBP *divisao(TARVBP *pai, int i, TARVBP *a, int t){
 
 TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
     int i = a->num_chaves-1;
+    printf("o i vale: %d\n", i);
     if(a->folha){
         while((i>=0) && (j->id < a->reg[i]->id)){
             a->reg[i+1] = a->reg[i];
@@ -294,17 +287,18 @@ TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
         escreveNo(a->nomeArq, a);
         return a;
     }
+    printf("i: %d e id: %d e chave: %d\n", i, j->id, a->chaves[i]);
     while((i>=0) && (j->id < a->chaves[i])) i--;
     i++;
+    printf("vai guardar no filho %d\n", i);
     TARVBP *filho = leNo(a->filhos[i], t);
     if(filho->num_chaves == ((2*t)-1)){
         //esse if tambem nao foi verificado!
-        printf("entrou no if do insere_nao_completo\n");
         a = divisao(a, (i+1), filho, t);
         if(!a->folha && j->id > a->chaves[i]) i++;
         if(a->folha && j->id > a->reg[i]->id) i++;
     }
-    printf("entra insere_nao_completo\n");
+    printf("chamou insere_nao_completo recursivo\n");
     filho = insere_nao_completo(filho, j, t);
     escreveNo(filho->nomeArq, filho);
     TARVBP_libera(filho, t);
@@ -319,9 +313,7 @@ TARVBP *TARVBP_insere(TARVBP *a, TJ *j, int t){
         printf("A arvore nao foi criada com um nome para os arquivos!\n");
         exit(1);
     }
-    printf("%d %s\n", a->folha, a->nomeArq);
     if(a->num_chaves == 2*t-1){
-        printf("entrou no 2*t-1\n");
         numofnodes++;
         char str[10];
         sprintf(str, "%d", numofnodes);
@@ -333,9 +325,8 @@ TARVBP *TARVBP_insere(TARVBP *a, TJ *j, int t){
         pai = insere_nao_completo(pai, j, t);
         return pai;
     }
-    printf("entrou no insere_nao_completo\n");
+    printf("a->num_chaves: %d\n", a->num_chaves);
     a = insere_nao_completo(a, j, t);
-    printf("saiu do insere_nao_completo\n\n");
     return a;
 }
 
@@ -346,13 +337,12 @@ TARVBP *arq2Tree(char *nomeArq, int t){
     char selecao[40];
     int size;
     TJ *j;
-    int i = 20;
-    while(i >= 0){
+    int i = 5;
+    while(i > 0){
         if(verificaSelecao(fp)){
             readLine(fp, selecao, &size, '\n');
         } else {
             j = leJogador(fp, selecao);
-            printf("%s\n", j->nome);
             a = TARVBP_insere(a, j, t);
             i--;
         }
@@ -362,7 +352,20 @@ TARVBP *arq2Tree(char *nomeArq, int t){
 
 int main(void){
     TARVBP *a = arq2Tree("igor", 2);
-    printf("fim\n");
+    TARVBP *b = TARVBP_busca(a, 1, 2);
+    imprimeNo(a);
+    char *p = (char *)malloc(sizeof(char)*40);
+    imprimeNo(b);
+    p = strcpy(p, b->prox);
+    while(strcmp(p, "\0")){
+        TARVBP *c = leNo(p, 2);
+        imprimeNo(c);
+        p = strcpy(p, c->prox);
+        TARVBP_libera(c, 2);
+    }
+    TARVBP_libera(b, 2);
+    TARVBP_libera(a, 2);
+    free(p);
 
     return 0;
 }
