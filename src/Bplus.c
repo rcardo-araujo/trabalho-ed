@@ -276,7 +276,6 @@ TARVBP *divisao(TARVBP *pai, int i, TARVBP *a, int t){
 
 TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
     int i = a->num_chaves-1;
-    printf("o i vale: %d\n", i);
     if(a->folha){
         while((i>=0) && (j->id < a->reg[i]->id)){
             a->reg[i+1] = a->reg[i];
@@ -287,18 +286,18 @@ TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
         escreveNo(a->nomeArq, a);
         return a;
     }
-    printf("i: %d e id: %d e chave: %d\n", i, j->id, a->chaves[i]);
     while((i>=0) && (j->id < a->chaves[i])) i--;
     i++;
-    printf("vai guardar no filho %d\n", i);
     TARVBP *filho = leNo(a->filhos[i], t);
     if(filho->num_chaves == ((2*t)-1)){
         //esse if tambem nao foi verificado!
         a = divisao(a, (i+1), filho, t);
+        TARVBP_libera(filho, t);
+        filho = NULL;
         if(!a->folha && j->id > a->chaves[i]) i++;
         if(a->folha && j->id > a->reg[i]->id) i++;
     }
-    printf("chamou insere_nao_completo recursivo\n");
+    if(!filho) filho = leNo(a->filhos[i], t);
     filho = insere_nao_completo(filho, j, t);
     escreveNo(filho->nomeArq, filho);
     TARVBP_libera(filho, t);
@@ -325,7 +324,6 @@ TARVBP *TARVBP_insere(TARVBP *a, TJ *j, int t){
         pai = insere_nao_completo(pai, j, t);
         return pai;
     }
-    printf("a->num_chaves: %d\n", a->num_chaves);
     a = insere_nao_completo(a, j, t);
     return a;
 }
@@ -337,7 +335,7 @@ TARVBP *arq2Tree(char *nomeArq, int t){
     char selecao[40];
     int size;
     TJ *j;
-    int i = 5;
+    int i = 284;
     while(i > 0){
         if(verificaSelecao(fp)){
             readLine(fp, selecao, &size, '\n');
