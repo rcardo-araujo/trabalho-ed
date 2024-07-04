@@ -121,39 +121,38 @@ void TARVBP_libera(TARVBP *a, int t){
 
 TARVBP *buscaAux(TARVBP *a, int elem, int t){
     if(!a) return NULL;
-    if(a->folha){
-        for(int i=0; i<a->num_chaves; i++)
-            if(a->reg[i]->id == elem) return a;
-    }
-    int i=0;
-    while(i < a->num_chaves && a->chaves[i] < elem) i++;
-    TARVBP *filho = leNo(a->filhos[i], t);
-    //TARVBP_libera(a, t);
-    TARVBP *no = buscaAux(filho, elem, t);
-    if(no && strcmp(filho->nomeArq, no->nomeArq)) TARVBP_libera(filho, t);
-    return no;
-}
-
-//Rever como os nós são liberados na busca
-//A busca não está liberando nós antigos, deixando memória alocada, o que pode dar muito problema
-TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
-    if(!a) return NULL;
     if(!a->folha){
         int i = 0;
         while(i < a->num_chaves && a->chaves[i] < elem){
             i++;
         }
         TARVBP *filho = leNo(a->filhos[i], t);
-        return buscaAux(filho, elem, t);
+        TARVBP *res = buscaAux(filho, elem, t);
+        TARVBP_libera(a, t);
+        return res;
+    }else{
+        for(int i = 0; i < a->num_chaves; i++){
+            if(a->reg[i]->id == elem) return a;
+        }
+        return NULL;
     }
-    int i = 0;
-    while(i < a->num_chaves && a->reg[i]->id < elem){
-        i++;
-    }
-    if(i < a->num_chaves && a->reg[i]->id == elem) return a;
-    return NULL;
 }
 
+/**
+ * Faz a busca de um nó numa árvore B+.
+ * @param a Árvore
+ * @param elem Elemento a ser buscado
+ * @param t Ordem da árvore
+ * @return TARVB contendo as informações referentes ao nó.
+ */
+TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
+    int i = 0;
+    while(i < a->num_chaves && a->chaves[i] < elem){
+        i++;
+    }
+    TARVBP *res = buscaAux(leNo(a->filhos[i], t), elem, t);
+    return res;
+}
 
 TARVBP *divisao(TARVBP *pai, int i, TARVBP *a, int t){
     numofnodes++;

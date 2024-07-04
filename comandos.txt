@@ -1,7 +1,7 @@
 ## Compilação ##
 gcc -fsanitize=address -g ./src/main.c ./lib/*.c -o ./bin/main
 gcc ./src/main.c ./lib/*.c -o ./bin/main
-gcc ./src/main.c ./lib/*.c -g
+gcc -g ./src/main.c ./lib/*.c -o ./bin/a.out
 
 ## Execução ##
 ./bin/main

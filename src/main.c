@@ -21,17 +21,17 @@ TARVBP* catalogo2Arv(char *nomeArq, int t){
 
 int main(void){
     TARVBP *a = catalogo2Arv("root", 2);
-    TARVBP *b = TARVBP_busca(a, 1, 2);
+    TARVBP *b = TARVBP_busca(a, 153, 2);
     imprimeNo(a);
     char *p = (char *)malloc(sizeof(char)*40);
     imprimeNo(b);
     p = strcpy(p, b->prox);
-    while(strcmp(p, "\0")){
-        TARVBP *c = leNo(p, 2);
-        imprimeNo(c);
-        p = strcpy(p, c->prox);
-        TARVBP_libera(c, 2);
-    }
+    // while(strcmp(p, "\0")){
+    //     TARVBP *c = leNo(p, 2);
+    //     imprimeNo(c);
+    //     p = strcpy(p, c->prox);
+    //     TARVBP_libera(c, 2);
+    // }
     TARVBP_libera(b, 2);
     TARVBP_libera(a, 2);
     free(p);
