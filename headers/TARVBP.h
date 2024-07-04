@@ -39,4 +39,10 @@ void TARVBP_libera(TARVBP* a, int t);
 
 TARVBP *TARVBP_retira(TARVBP* a, int id, int t);
 
+void imprimeNo(TARVBP* a);
+void TARVBP_imprime(TARVBP *arv, int t);
+void TARVBP_imprime_chaves(TARVBP *a, int t);
+
+void TARVBP_libera(TARVBP* a, int t);
+
 #endif
