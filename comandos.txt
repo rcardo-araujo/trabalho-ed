@@ -1,6 +1,15 @@
 ## Compilação ##
-gcc -fsanitize=address -g ./src/main.c ./lib/TARVBP.c ./lib/TJ.c ./lib/utils.c -o ./bin/main
-gcc ./src/main.c ./lib/TARVBP.c ./lib/TJ.c -o ./bin/main
+gcc -fsanitize=address -g ./src/main.c ./lib/*.c -o ./bin/main
+gcc -fsanitize=address -g ./src/teste.c ./lib/*.c -o ./bin/teste
+gcc ./src/main.c ./lib/*.c -o ./bin/main
 
 ## Execução ##
 ./bin/main
+./bin/teste
+
+## Compilação + Execução ##
+gcc -fsanitize=address -g ./src/main.c ./lib/*.c -o ./bin/main && ./bin
+gcc -fsanitize=address -g ./src/teste.c ./lib/*.c -o ./bin/teste && ./bin/teste
+
+## Exclusão dos nós ##
+rm ./db/*.c

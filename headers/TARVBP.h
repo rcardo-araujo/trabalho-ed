@@ -4,7 +4,7 @@
 #include "TJ.h"
 
 typedef struct arvbp {
-    char *nomeArq;
+    char *nome_arq;
     int folha;
     int num_chaves;
     int *chaves;
@@ -18,8 +18,9 @@ TARVBP *leNo(char* nome_arq, int t);
 void imprimeNo(TARVBP* a);
 
 TARVBP* TARVBP_cria(char* nome_arq, int t);
-TARVBP* TARVBP_busca(TARVBP* a, int elem, int t);
+TARVBP* TARVBP_busca(TARVBP* a, int id, int t);
 TARVBP* TARVBP_insere(TARVBP* a, TJ* elem, int t);
+TARVBP* TARVBP_retira(TARVBP* a, int id, int t);
 void TARVBP_libera(TARVBP* a, int t);
 
 #endif
