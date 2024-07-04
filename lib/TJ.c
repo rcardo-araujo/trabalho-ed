@@ -1,5 +1,16 @@
+/**
+ * @file TJ.c
+ * @brief Implementação das funções relacionadas ao TJ
+ */
+
 #include "../headers/includes.h"
 
+/**
+ * @brief Retorna uma estrutura com as informações do jogador carregadas de um arquivo
+ * @param fp Ponteiro para o arquivo
+ * @param selecao Nome da seleção do jogador
+ * @return Ponteiro para estrutura do jogador @c TJ
+ */
 TJ *leJogador(FILE *fp, char *selecao){
     TJ *j = (TJ *) malloc(sizeof(TJ));
     strcpy(j->pais, selecao);
@@ -37,6 +48,10 @@ TJ *leJogador(FILE *fp, char *selecao){
     return j;
 }
 
+/**
+ * @brief Imprime o jogador
+ * @param j Jogador
+ */
 void imprimeJogador(TJ *j){
     printf("------Jogador------\n");
     printf("id: %d\nnum: %d \npos: %s\nnome: %s\nnasc: %s\nnum_part: %d\nnum_gols: %d\npais_time: %s\ntime: %s\npais: %s\n",
@@ -44,6 +59,11 @@ void imprimeJogador(TJ *j){
     printf("-------------------\n");
 }
 
+/**
+ * @brief Le uma linha do arquivo e verifica se leu uma seleção
+ * @param fp Ponteiro para o arquivo
+ * @return 0 se não for seleção ou 1 se for seleção
+ */
 int verificaSelecao(FILE *fp){
     char c;
     int i = fread(&c, sizeof(char), 1, fp);
