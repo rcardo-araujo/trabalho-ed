@@ -76,7 +76,7 @@ $(function() {
 
 <p>Arquivo cabeçalho da árvore B+.  
 <a href="#details">Mais...</a></p>
-<div class="textblock"><code>#include &quot;TJ.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="TJ_8h_source.html">TJ.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Diagrama de dependências de inclusão para TARVBP.h:</div>
 <div class="dyncontent">
@@ -111,7 +111,7 @@ Funções</h2></td></tr>
 <tr class="memdesc:a89c85cd7f62891d8feab06f474eda9c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carrega um arquivo para um <code>TARVBP</code>.  <a href="TARVBP_8h.html#a89c85cd7f62891d8feab06f474eda9c2">Mais...</a><br /></td></tr>
 <tr class="separator:a89c85cd7f62891d8feab06f474eda9c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39733be0a5697d8a10cc6b734f00e08d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TARVBP_8h.html#a39733be0a5697d8a10cc6b734f00e08d">imprimeNo</a> (<a class="el" href="structarvbp.html">TARVBP</a> *a)</td></tr>
-<tr class="memdesc:a39733be0a5697d8a10cc6b734f00e08d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Imprime um nó da árvore B+.  <a href="TARVBP_8h.html#a39733be0a5697d8a10cc6b734f00e08d">Mais...</a><br /></td></tr>
+<tr class="memdesc:a39733be0a5697d8a10cc6b734f00e08d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Imprime um nó da árvore.  <a href="TARVBP_8h.html#a39733be0a5697d8a10cc6b734f00e08d">Mais...</a><br /></td></tr>
 <tr class="separator:a39733be0a5697d8a10cc6b734f00e08d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b68719cc59400ef5ea357a699fc60fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structarvbp.html">TARVBP</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TARVBP_8h.html#a7b68719cc59400ef5ea357a699fc60fa">TARVBP_cria</a> (char *nome_arq, int t)</td></tr>
 <tr class="memdesc:a7b68719cc59400ef5ea357a699fc60fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cria um novo nó da árvore B+.  <a href="TARVBP_8h.html#a7b68719cc59400ef5ea357a699fc60fa">Mais...</a><br /></td></tr>
@@ -123,11 +123,17 @@ Funções</h2></td></tr>
 <a class="el" href="structarvbp.html">TARVBP</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>TARVBP_insere</b> (<a class="el" href="structarvbp.html">TARVBP</a> *a, <a class="el" href="structjogador.html">TJ</a> *elem, int t)</td></tr>
 <tr class="separator:ac3a02bbfb4f8c8491953d0299365f583"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b937947bde20cfb1ef91c3d0d9e2e9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TARVBP_8h.html#a7b937947bde20cfb1ef91c3d0d9e2e9b">TARVBP_libera</a> (<a class="el" href="structarvbp.html">TARVBP</a> *a, int t)</td></tr>
-<tr class="memdesc:a7b937947bde20cfb1ef91c3d0d9e2e9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Libera uma árvore B+.  <a href="TARVBP_8h.html#a7b937947bde20cfb1ef91c3d0d9e2e9b">Mais...</a><br /></td></tr>
+<tr class="memdesc:a7b937947bde20cfb1ef91c3d0d9e2e9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Libera o nó da memória.  <a href="TARVBP_8h.html#a7b937947bde20cfb1ef91c3d0d9e2e9b">Mais...</a><br /></td></tr>
 <tr class="separator:a7b937947bde20cfb1ef91c3d0d9e2e9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabb82d945d1bf3f66bb2edf0f6a88260"><td class="memItemLeft" align="right" valign="top"><a id="aabb82d945d1bf3f66bb2edf0f6a88260"></a>
 <a class="el" href="structarvbp.html">TARVBP</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>TARVBP_retira</b> (<a class="el" href="structarvbp.html">TARVBP</a> *a, int id, int t)</td></tr>
 <tr class="separator:aabb82d945d1bf3f66bb2edf0f6a88260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fa4e70463058ac89e3a44089e86c37d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TARVBP_8h.html#a7fa4e70463058ac89e3a44089e86c37d">TARVBP_imprime</a> (<a class="el" href="structarvbp.html">TARVBP</a> *arv, int t)</td></tr>
+<tr class="memdesc:a7fa4e70463058ac89e3a44089e86c37d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Imprime a árvore.  <a href="TARVBP_8h.html#a7fa4e70463058ac89e3a44089e86c37d">Mais...</a><br /></td></tr>
+<tr class="separator:a7fa4e70463058ac89e3a44089e86c37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af59daf685f86400d1565f721bdef4030"><td class="memItemLeft" align="right" valign="top"><a id="af59daf685f86400d1565f721bdef4030"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>TARVBP_imprime_chaves</b> (<a class="el" href="structarvbp.html">TARVBP</a> *a, int t)</td></tr>
+<tr class="separator:af59daf685f86400d1565f721bdef4030"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Descrição detalhada</h2>
 <div class="textblock"><p>Arquivo cabeçalho da árvore B+. </p>
@@ -185,10 +191,10 @@ Funções</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Imprime um nó da árvore B+. </p>
+<p>Imprime um nó da árvore. </p>
 <dl class="params"><dt>Parâmetros</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td><code>TARVB</code> </td></tr>
+    <tr><td class="paramname">a</td><td>Nó </td></tr>
   </table>
   </dd>
 </dl>
@@ -316,6 +322,43 @@ Funções</h2></td></tr>
 
 </div>
 </div>
+<a id="a7fa4e70463058ac89e3a44089e86c37d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fa4e70463058ac89e3a44089e86c37d">&#9670;&nbsp;</a></span>TARVBP_imprime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void TARVBP_imprime </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structarvbp.html">TARVBP</a> *&#160;</td>
+          <td class="paramname"><em>arv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Imprime a árvore. </p>
+<dl class="params"><dt>Parâmetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arv</td><td>Árvore </td></tr>
+    <tr><td class="paramname">t</td><td>Ordem da árvore </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a7b937947bde20cfb1ef91c3d0d9e2e9b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b937947bde20cfb1ef91c3d0d9e2e9b">&#9670;&nbsp;</a></span>TARVBP_libera()</h2>
 
@@ -342,15 +385,14 @@ Funções</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Libera uma árvore B+. </p>
+<p>Libera o nó da memória. </p>
 <dl class="params"><dt>Parâmetros</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>Raiz da árvore a ser removida </td></tr>
-    <tr><td class="paramname">t</td><td>Ordem da árvore</td></tr>
+    <tr><td class="paramname">a</td><td>Nó </td></tr>
+    <tr><td class="paramname">t</td><td>Ordem da árvore </td></tr>
   </table>
   </dd>
 </dl>
-<p>Este algoritmo é recursivo </p>
 
 </div>
 </div>

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['filhos_31',['filhos',['../structarvbp.html#a16d7cf5ea23ca710edae86542524e412',1,'arvbp']]],
-  ['folha_32',['folha',['../structarvbp.html#a1fc36897d806c4fe675faf5fe51d8370',1,'arvbp']]]
+  ['data_5fnasc_61',['data_nasc',['../structjogador.html#abe105a814d0caefc5254e6df49a49042',1,'jogador']]]
 ];

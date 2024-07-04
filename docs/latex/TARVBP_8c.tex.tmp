@@ -17,15 +17,15 @@ void \mbox{\hyperlink{TARVBP_8c_ae1c78fe85b4b0b8fa0766cc8ea32a3f2}{escreve\+No}}
 \begin{DoxyCompactList}\small\item\em Escreve as informações do nó em um arquivo binário. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$ \mbox{\hyperlink{TARVBP_8c_a26b7f14d0b87621f1fe6882d3dd91165}{le\+No}} (char $\ast$nomeF, int t)
 \begin{DoxyCompactList}\small\item\em Carrega um arquivo para um {\ttfamily TARVBP}. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{TARVBP_8c_a39733be0a5697d8a10cc6b734f00e08d}{imprime\+No}} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a)
-\begin{DoxyCompactList}\small\item\em Imprime um nó da árvore B+. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{TARVBP_8c_a7b937947bde20cfb1ef91c3d0d9e2e9b}{TARVBP\+\_\+libera}} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a, int t)
-\begin{DoxyCompactList}\small\item\em Libera uma árvore B+. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Libera o nó da memória. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{TARVBP_8c_aa537615c5ce2e8dcea25006579bfd528}\label{TARVBP_8c_aa537615c5ce2e8dcea25006579bfd528}} 
 \mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$ {\bfseries busca\+Aux} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a, int elem, int t)
 \item 
 \mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$ \mbox{\hyperlink{TARVBP_8c_a27c97d1494b2fa45d5681bc438285bfc}{TARVBP\+\_\+busca}} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a, int elem, int t)
 \begin{DoxyCompactList}\small\item\em Faz a busca de um nó numa árvore B+. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{TARVBP_8c_af28c199d2cb62a62e94263ba962bd54b}{TARVB\+\_\+possui\+\_\+elemento}} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a, int elem, int t)
+\begin{DoxyCompactList}\small\item\em Verifica se a árvore possui um elemento. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$ \mbox{\hyperlink{TARVBP_8c_aeb99bf289311500ba8fead94584f1478}{divisao}} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$pai, int i, \mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a, int t)
 \begin{DoxyCompactList}\small\item\em Faz a divisão de um nó \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{TARVBP_8c_acf38a064c2361e712e50709b4267f115}\label{TARVBP_8c_acf38a064c2361e712e50709b4267f115}} 
@@ -39,7 +39,16 @@ void \mbox{\hyperlink{TARVBP_8c_a7b937947bde20cfb1ef91c3d0d9e2e9b}{TARVBP\+\_\+l
 \item 
 \mbox{\Hypertarget{TARVBP_8c_aabb82d945d1bf3f66bb2edf0f6a88260}\label{TARVBP_8c_aabb82d945d1bf3f66bb2edf0f6a88260}} 
 \mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$ {\bfseries TARVBP\+\_\+retira} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a, int id, int t)
-\end{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{TARVBP_8c_a39733be0a5697d8a10cc6b734f00e08d}{imprime\+No}} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a)
+\begin{DoxyCompactList}\small\item\em Imprime um nó da árvore. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{TARVBP_8c_ade8a9656135f669b99a0dd4074c468d6}{TARVBP\+\_\+imprime\+\_\+registros}} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$a, int t)
+\begin{DoxyCompactList}\small\item\em Imprime os registros da árvore. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{TARVBP_8c_a0cfcdad98859b7e656460cc1d859d5c4}\label{TARVBP_8c_a0cfcdad98859b7e656460cc1d859d5c4}} 
+void {\bfseries TARVBP\+\_\+imprime\+\_\+aux} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$arv, int andar, int t)
+\item 
+void \mbox{\hyperlink{TARVBP_8c_a7fa4e70463058ac89e3a44089e86c37d}{TARVBP\+\_\+imprime}} (\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$arv, int t)
+\begin{DoxyCompactList}\small\item\em Imprime a árvore. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Descrição detalhada}
@@ -97,11 +106,11 @@ Escreve as informações do nó em um arquivo binário.
 
 
 
-Imprime um nó da árvore B+. 
+Imprime um nó da árvore. 
 
 
 \begin{DoxyParams}{Parâmetros}
-{\em a} & {\ttfamily TARVB} \\
+{\em a} & Nó \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{TARVBP_8c_a26b7f14d0b87621f1fe6882d3dd91165}\label{TARVBP_8c_a26b7f14d0b87621f1fe6882d3dd91165}} 
@@ -123,6 +132,28 @@ Carrega um arquivo para um {\ttfamily TARVBP}.
 \end{DoxyParams}
 \begin{DoxyReturn}{Retorna}
 {\ttfamily TARVB} com as informações carregadas do arquivo. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{TARVBP_8c_af28c199d2cb62a62e94263ba962bd54b}\label{TARVBP_8c_af28c199d2cb62a62e94263ba962bd54b}} 
+\index{TARVBP.c@{TARVBP.c}!TARVB\_possui\_elemento@{TARVB\_possui\_elemento}}
+\index{TARVB\_possui\_elemento@{TARVB\_possui\_elemento}!TARVBP.c@{TARVBP.c}}
+\doxysubsubsection{\texorpdfstring{TARVB\_possui\_elemento()}{TARVB\_possui\_elemento()}}
+{\footnotesize\ttfamily int TARVB\+\_\+possui\+\_\+elemento (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$}]{a,  }\item[{int}]{elem,  }\item[{int}]{t }\end{DoxyParamCaption})}
+
+
+
+Verifica se a árvore possui um elemento. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em a} & Árvore \\
+\hline
+{\em elem} & Elemento para procurar \\
+\hline
+{\em t} & Ordem da árvore \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Retorna}
+0 se não existe ou 1 se existe 
 \end{DoxyReturn}
 \mbox{\Hypertarget{TARVBP_8c_a27c97d1494b2fa45d5681bc438285bfc}\label{TARVBP_8c_a27c97d1494b2fa45d5681bc438285bfc}} 
 \index{TARVBP.c@{TARVBP.c}!TARVBP\_busca@{TARVBP\_busca}}
@@ -166,6 +197,40 @@ Cria um novo nó da árvore B+.
 \begin{DoxyReturn}{Retorna}
 {\ttfamily TARVBP} vazia 
 \end{DoxyReturn}
+\mbox{\Hypertarget{TARVBP_8c_a7fa4e70463058ac89e3a44089e86c37d}\label{TARVBP_8c_a7fa4e70463058ac89e3a44089e86c37d}} 
+\index{TARVBP.c@{TARVBP.c}!TARVBP\_imprime@{TARVBP\_imprime}}
+\index{TARVBP\_imprime@{TARVBP\_imprime}!TARVBP.c@{TARVBP.c}}
+\doxysubsubsection{\texorpdfstring{TARVBP\_imprime()}{TARVBP\_imprime()}}
+{\footnotesize\ttfamily void TARVBP\+\_\+imprime (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$}]{arv,  }\item[{int}]{t }\end{DoxyParamCaption})}
+
+
+
+Imprime a árvore. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em arv} & Árvore \\
+\hline
+{\em t} & Ordem da árvore \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{TARVBP_8c_ade8a9656135f669b99a0dd4074c468d6}\label{TARVBP_8c_ade8a9656135f669b99a0dd4074c468d6}} 
+\index{TARVBP.c@{TARVBP.c}!TARVBP\_imprime\_registros@{TARVBP\_imprime\_registros}}
+\index{TARVBP\_imprime\_registros@{TARVBP\_imprime\_registros}!TARVBP.c@{TARVBP.c}}
+\doxysubsubsection{\texorpdfstring{TARVBP\_imprime\_registros()}{TARVBP\_imprime\_registros()}}
+{\footnotesize\ttfamily void TARVBP\+\_\+imprime\+\_\+registros (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$}]{a,  }\item[{int}]{t }\end{DoxyParamCaption})}
+
+
+
+Imprime os registros da árvore. 
+
+
+\begin{DoxyParams}{Parâmetros}
+{\em a} & Árvore \\
+\hline
+{\em t} & Ordem da árvore \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{TARVBP_8c_a7b937947bde20cfb1ef91c3d0d9e2e9b}\label{TARVBP_8c_a7b937947bde20cfb1ef91c3d0d9e2e9b}} 
 \index{TARVBP.c@{TARVBP.c}!TARVBP\_libera@{TARVBP\_libera}}
 \index{TARVBP\_libera@{TARVBP\_libera}!TARVBP.c@{TARVBP.c}}
@@ -174,13 +239,12 @@ Cria um novo nó da árvore B+.
 
 
 
-Libera uma árvore B+. 
+Libera o nó da memória. 
 
 
 \begin{DoxyParams}{Parâmetros}
-{\em a} & Raiz da árvore a ser removida \\
+{\em a} & Nó \\
 \hline
-{\em t} & Ordem da árvore\\
+{\em t} & Ordem da árvore \\
 \hline
 \end{DoxyParams}
-Este algoritmo é recursivo 

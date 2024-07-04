@@ -15,10 +15,10 @@ digraph "/home/pcbmoreira2/Projetos/trabalho-ed/lib/TARVBP.c"
   Node2 -> Node6 [color="midnightblue",fontsize="10",style="solid"];
   Node6 [label="../headers/TARVBP.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$TARVBP_8h.html",tooltip="Arquivo cabeçalho da árvore B+."];
   Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
-  Node7 [label="TJ.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$TJ_8h_source.html",tooltip=" "];
+  Node7 [label="TJ.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$TJ_8h.html",tooltip="Cabeçalho do tipo jogador TJ."];
   Node7 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
   Node2 -> Node8 [color="midnightblue",fontsize="10",style="solid"];
-  Node8 [label="../headers/utils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$utils_8h_source.html",tooltip=" "];
+  Node8 [label="../headers/utils.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$utils_8h.html",tooltip="Cabeçalho das funções de Utils."];
   Node8 -> Node3 [color="midnightblue",fontsize="10",style="solid"];
   Node2 -> Node7 [color="midnightblue",fontsize="10",style="solid"];
 }
