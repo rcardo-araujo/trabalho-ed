@@ -1,7 +1,14 @@
 #include "../headers/includes.h"
 
+// Número de nós
 static int numofnodes = 0;
 
+/**
+ * Cria um novo nó da árvore B+.
+ * @param nomeArq Nome do arquivo
+ * @param t Ordem da árvore
+ * @return @c TARVBP vazia
+ */
 TARVBP *TARVBP_cria(char *nomeArq, int t){
     TARVBP *a = (TARVBP *) malloc(sizeof(TARVBP));
     a->folha = 1;
@@ -21,6 +28,11 @@ TARVBP *TARVBP_cria(char *nomeArq, int t){
     return a;
 }
 
+/**
+ * Escreve as informações do nó em um arquivo binário.
+ * @param nomeF Nome do arquivo
+ * @param no Nó
+ */
 void escreveNo(char *nomeF, TARVBP *no){
     char nome_com_ext[50];
     strcpy(nome_com_ext, "./db/");
@@ -48,6 +60,12 @@ void escreveNo(char *nomeF, TARVBP *no){
     fclose(fp);
 }
 
+/**
+ * Carrega um arquivo para um @c TARVBP.
+ * @param nomeF Nome do arquivo
+ * @param t Ordem da árvore
+ * @return @c TARVB com as informações carregadas do arquivo.
+ */
 TARVBP *leNo(char *nomeF, int t){
     char nome_com_ext[strlen(nomeF)+10];
     strcpy(nome_com_ext, "./db/");
@@ -109,7 +127,9 @@ void imprimeNo(TARVBP *a){
 void TARVBP_libera(TARVBP *a, int t){
     free(a->chaves);
     if(a->folha){
-        for(int i=0; i < 2*t-1; i++) free(a->reg[i]);
+        for(int i=0; i < 2*t-1; i++){
+             if(a->reg[i]) free(a->reg[i]);
+        }
     }
     free(a->reg);
     for(int i=0; i < 2*t; i++) free(a->filhos[i]);
@@ -143,17 +163,18 @@ TARVBP *buscaAux(TARVBP *a, int elem, int t){
  * @param a Árvore
  * @param elem Elemento a ser buscado
  * @param t Ordem da árvore
- * @return TARVB contendo as informações referentes ao nó.
+ * @return @c TARVB contendo as informações referentes ao nó.
  */
 TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
     int i = 0;
-    while(i < a->num_chaves && a->chaves[i] < elem){
+    while(i < a->num_chaves && a->chaves[i] <= elem){
         i++;
     }
     TARVBP *res = buscaAux(leNo(a->filhos[i], t), elem, t);
     return res;
 }
 
+#pragma region Inserção
 TARVBP *divisao(TARVBP *pai, int i, TARVBP *a, int t){
     numofnodes++;
     char str[10];
@@ -225,9 +246,7 @@ TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
 }
 
 TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
-    //if(TARVBP_busca(a, j->id, t)) return a;
-    //tirei essa linha pq a busca nao esta funcionando de maneira ideal
-    //mas para continuar de fato, vamos ter que adicionar a busca de se o no ja existe
+    if(TARVBP_busca(a, elem->id, t)) return a;
     if(!a) {
         printf("A arvore nao foi criada com um nome para os arquivos!\n");
         exit(1);
@@ -247,7 +266,9 @@ TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
     a = insere_nao_completo(a, elem, t);
     return a;
 }
+#pragma endregion
 
+#pragma region Remoção
 TARVBP *remover(TARVBP *a, int id, int t){
     if(!a) return a;
     int i;
@@ -257,6 +278,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
         for(i=0; i< a->num_chaves && a->reg[i]->id < id; i++);
     
     if((i < a->num_chaves) && (a->folha) && (id == a->reg[i]->id)){
+        //FUNCIONANDO !!
         printf("\nCASO 1\n");
         int j;
         free(a->reg[i]);
@@ -394,10 +416,10 @@ TARVBP *remover(TARVBP *a, int id, int t){
             printf("\nCASO 3B: i igual a num_chaves\n");
             if(!y->folha){
                 if(i == a->num_chaves) z->chaves[t-1] = a->chaves[i-1];
-            } else {
-                z->chaves[t-1] = a->chaves[i];
+                else z->chaves[t-1] = a->chaves[i];
+
+                z->num_chaves++;
             }
-            z->num_chaves++;
             int j = 0;
             while(j < t-1){
                 if(!y->folha) z->chaves[t+j] = y->chaves[j];
@@ -417,9 +439,11 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 remove(str);
                 TARVBP_libera(y, t);
             }
+            escreveNo(z->nomeArq, z);
             strcpy(a->filhos[a->num_chaves], "");
             a->num_chaves--;
             if(!a->num_chaves){
+                // ta errado (double free)
                 TARVBP *tmp = a;
                 a = leNo(a->filhos[0], t);
                 strcpy(tmp->filhos[0], "");
@@ -431,14 +455,14 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 a = remover(a, id, t);
             } else{
                 i--;
-                TARVBP *x = leNo(a->filhos[i], t);
-                x = remover(x, id, t);
-                escreveNo(x->nomeArq, x);
-                TARVBP_libera(x, t);
+                // TARVBP *x = leNo(a->filhos[i], t);
+                z = remover(z, id, t);
+                escreveNo(z->nomeArq, z);
+                TARVBP_libera(z, t);
+                z = NULL;
             }
-            if(z->folha) TARVBP_libera(y, t);
-            escreveNo(z->nomeArq, z);
-            TARVBP_libera(z, t);
+            if(z && z->folha) TARVBP_libera(y, t);
+            if(z) TARVBP_libera(z, t);
             return a;
         }
         TARVBP_libera(z, t);
@@ -450,9 +474,10 @@ TARVBP *remover(TARVBP *a, int id, int t){
 }
 
 TARVBP *TARVBP_retira(TARVBP* a, int id, int t){
-    //if(!a || !TARVBP_busca(a, id, t)) return a;
+    if(!a || !TARVBP_busca(a, id, t)) return a;
     printf("vai remover\n");
     a = remover(a, id, t);
     escreveNo(a->nomeArq, a);
     return a;
 }
+#pragma endregion

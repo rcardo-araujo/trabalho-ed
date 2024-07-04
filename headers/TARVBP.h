@@ -21,5 +21,6 @@ TARVBP* TARVBP_cria(char* nome_arq, int t);
 TARVBP* TARVBP_busca(TARVBP* a, int elem, int t);
 TARVBP* TARVBP_insere(TARVBP* a, TJ* elem, int t);
 void TARVBP_libera(TARVBP* a, int t);
+TARVBP *TARVBP_retira(TARVBP* a, int id, int t);
 
 #endif
