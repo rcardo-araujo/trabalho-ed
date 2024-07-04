@@ -247,3 +247,212 @@ TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
     a = insere_nao_completo(a, elem, t);
     return a;
 }
+
+TARVBP *remover(TARVBP *a, int id, int t){
+    if(!a) return a;
+    int i;
+    if(!a->folha)
+        for(i=0; i< a->num_chaves && a->chaves[i] < id; i++);
+    else
+        for(i=0; i< a->num_chaves && a->reg[i]->id < id; i++);
+    
+    if((i < a->num_chaves) && (a->folha) && (id == a->reg[i]->id)){
+        printf("\nCASO 1\n");
+        int j;
+        free(a->reg[i]);
+        for(j=i; j < a->num_chaves-1; j++) a->reg[j] = a->reg[j+1];
+        a->reg[a->num_chaves-1] = NULL;
+        a->num_chaves--;
+        escreveNo(a->nomeArq, a);
+        if(!a->num_chaves){
+            char path[60] = "./db/";
+            strcat(path, a->nomeArq);
+            strcat(path, ".bin");
+            remove(path);
+            TARVBP_libera(a, t);
+            a = NULL;
+        }
+        return a;
+    }
+
+    if((i < a->num_chaves) && (id == a->chaves[i])) i++;
+    TARVBP *y = leNo(a->filhos[i], t), *z = NULL;
+    if(y->num_chaves == t-1) { //CASOS 3A e 3B
+        if(i <= a->num_chaves) z = leNo(a->filhos[i+1], t);
+        if((i < a->num_chaves) && (z->num_chaves >= t)){ //caso 3A
+            //FUNCIONANDO!!
+            printf("\nCASO 3A: i menor que num_chaves\n");
+            if(!y->folha){
+                y->chaves[t-1] = a->chaves[i];
+                a->chaves[i] = z->chaves[0];
+            } else {
+                a->chaves[i] = z->reg[0]->id + 1;
+                y->reg[t-1] = z->reg[0];
+                z->reg[0] = NULL;
+            }
+            y->num_chaves++;
+
+            int j;
+            if(z->folha){
+                for(j = 0; j < z->num_chaves-1; j++) z->reg[j] = z->reg[j+1];
+                z->reg[z->num_chaves-1] = NULL;
+            } else {
+                for(j = 0; j< z->num_chaves-1; j++) z->chaves[j] = z->chaves[j+1];
+                strcpy(y->filhos[y->num_chaves], z->filhos[0]);
+                for(j=0; j < z->num_chaves; j++) strcpy(z->filhos[j], z->filhos[j+1]);
+            }
+            z->num_chaves--;
+            escreveNo(z->nomeArq, z);
+            escreveNo(y->nomeArq, y);
+            y = remover(y, id, t);
+            TARVBP_libera(y, t);
+            TARVBP_libera(z, t);
+            return a;
+        }
+        if(z) TARVBP_libera(z, t);
+        z = NULL;
+        if(i) z = leNo(a->filhos[i-1], t);
+        if((i > 0) && (z->num_chaves >= t)){ //CASO 3A 
+            // FUNCIONANDO!!!!
+            printf("\nCASO 3A: i igual a num_chaves\n");
+            int j;
+            if(!y->folha){
+                for(j = y->num_chaves; j > 0; j--) y->chaves[j] = y->chaves[j-1];
+                y->chaves[0] = a->chaves[i-1];
+                a->chaves[i-1] = z->chaves[z->num_chaves-1];
+            } else{
+                for(j = y->num_chaves; j > 0; j--) y->reg[j] = y->reg[j-1];
+                a->chaves[i-1] = z->reg[z->num_chaves-1]->id;
+                y->reg[0] = z->reg[z->num_chaves-1];
+                z->reg[z->num_chaves-1] = NULL;
+            }
+            y->num_chaves++;
+            if(!y->folha) strcpy(y->filhos[0], z->filhos[z->num_chaves]);
+            z->num_chaves--;
+            escreveNo(z->nomeArq, z);
+            TARVBP_libera(z, t);
+            y = remover(y, id, t);
+            escreveNo(y->nomeArq, y);
+            TARVBP_libera(y, t);
+            return a;
+        }
+        if(z) TARVBP_libera(z, t);
+        z = leNo(a->filhos[i+1], t);
+        if(i < a->num_chaves && z->num_chaves == t-1){
+            //FUNCIONANDO!!
+            printf("\nCASO 3B: i menor que num_chaves\n");
+            if(!y->folha){
+                y->chaves[t-1] = a->chaves[i];
+                y->num_chaves++;
+            }
+            int j=0;
+            while(j < t-1){
+                if(!y->folha) y->chaves[t+j] = z->chaves[j];
+                else {
+                    y->reg[t+j-1] = z->reg[j];
+                    z->reg[j] = NULL;
+                }
+                y->num_chaves++;
+                j++;
+            }
+            strcpy(y->prox, z->prox);
+            if(!y->folha){
+                for(j=0; j<t; j++){
+                    strcpy(y->filhos[t+j], z->filhos[j]);
+                }
+            }
+            char str[60] = "./db/";
+            strcat(str, z->nomeArq);
+            strcat(str, ".bin");
+            remove(str);
+            TARVBP_libera(z, t);
+
+            for(j=i; j<a->num_chaves-1; j++){
+                a->chaves[j] = a->chaves[j+1];
+                strcpy(a->filhos[j+1], a->filhos[j+2]);
+            }
+            strcpy(a->filhos[a->num_chaves], "");
+            a->num_chaves--;
+            if(!a->num_chaves){
+                TARVBP *tmp = a;
+                a = leNo(a->filhos[0], t);
+                strcpy(tmp->filhos[0], "");
+                char f[60] = "./db/";
+                strcat(f, tmp->nomeArq);
+                strcat(f, ".bin");
+                remove(f);
+                TARVBP_libera(tmp, t);
+            }
+            escreveNo(y->nomeArq, y);
+            TARVBP_libera(y, t);
+            a = remover(a, id, t);
+            return a;
+        }
+        if(z) TARVBP_libera(z, t);
+        z = leNo(a->filhos[i-1], t);
+        if((i > 0) && (z->num_chaves == t-1)){
+            printf("\nCASO 3B: i igual a num_chaves\n");
+            if(!y->folha){
+                if(i == a->num_chaves) z->chaves[t-1] = a->chaves[i-1];
+            } else {
+                z->chaves[t-1] = a->chaves[i];
+            }
+            z->num_chaves++;
+            int j = 0;
+            while(j < t-1){
+                if(!y->folha) z->chaves[t+j] = y->chaves[j];
+                else z->reg[t+j-1] = y->reg[j];
+                z->num_chaves++;
+                j++;
+            }
+            strcpy(z->prox, y->prox);
+            if(!z->folha){
+                for(j=0; j<t; j++){
+                    strcpy(z->filhos[t+j], y->filhos[j]);
+                    strcpy(y->filhos[j], "");
+                }
+                char str[60] = "./db/";
+                strcat(str, y->nomeArq);
+                strcat(str, ".bin");
+                remove(str);
+                TARVBP_libera(y, t);
+            }
+            strcpy(a->filhos[a->num_chaves], "");
+            a->num_chaves--;
+            if(!a->num_chaves){
+                TARVBP *tmp = a;
+                a = leNo(a->filhos[0], t);
+                strcpy(tmp->filhos[0], "");
+                char f[60] = "./db/";
+                strcat(f, tmp->nomeArq);
+                strcat(f, ".bin");
+                remove(f);
+                TARVBP_libera(tmp, t);
+                a = remover(a, id, t);
+            } else{
+                i--;
+                TARVBP *x = leNo(a->filhos[i], t);
+                x = remover(x, id, t);
+                escreveNo(x->nomeArq, x);
+                TARVBP_libera(x, t);
+            }
+            if(z->folha) TARVBP_libera(y, t);
+            escreveNo(z->nomeArq, z);
+            TARVBP_libera(z, t);
+            return a;
+        }
+        TARVBP_libera(z, t);
+    }
+    y = remover(y, id, t);
+    escreveNo(y->nomeArq, y);
+    TARVBP_libera(y, t);
+    return a;
+}
+
+TARVBP *TARVBP_retira(TARVBP* a, int id, int t){
+    //if(!a || !TARVBP_busca(a, id, t)) return a;
+    printf("vai remover\n");
+    a = remover(a, id, t);
+    escreveNo(a->nomeArq, a);
+    return a;
+}
