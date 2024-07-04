@@ -1,6 +1,5 @@
 {
-    "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "tarvbm.h": "c"
+        "tj.h": "c"
     }
 }
