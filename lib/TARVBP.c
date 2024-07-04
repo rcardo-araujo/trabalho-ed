@@ -1,10 +1,15 @@
+/**
+ * @file TARVBP.c
+ * @brief Funções relacionadas ao funcionamento da Árvore B+
+ */
+
 #include "../headers/includes.h"
 
-// Número de nós
+/// Número de nós
 static int numofnodes = 0;
 
 /**
- * Cria um novo nó da árvore B+.
+ * @brief Cria um novo nó da árvore B+.
  * @param nomeArq Nome do arquivo
  * @param t Ordem da árvore
  * @return @c TARVBP vazia
@@ -29,7 +34,7 @@ TARVBP *TARVBP_cria(char *nomeArq, int t){
 }
 
 /**
- * Escreve as informações do nó em um arquivo binário.
+ * @brief Escreve as informações do nó em um arquivo binário.
  * @param nomeF Nome do arquivo
  * @param no Nó
  */
@@ -61,7 +66,7 @@ void escreveNo(char *nomeF, TARVBP *no){
 }
 
 /**
- * Carrega um arquivo para um @c TARVBP.
+ * @brief Carrega um arquivo para um @c TARVBP.
  * @param nomeF Nome do arquivo
  * @param t Ordem da árvore
  * @return @c TARVB com as informações carregadas do arquivo.
@@ -101,6 +106,10 @@ TARVBP *leNo(char *nomeF, int t){
     return no;
 }
 
+/**
+ * @brief Imprime um nó da árvore B+
+ * @param a @c TARVB
+ */
 void imprimeNo(TARVBP *a){
     printf("------No lido:------\n");
     printf("folha: %d\n", a->folha);
@@ -123,7 +132,12 @@ void imprimeNo(TARVBP *a){
     printf("---------------------------\n");
 }
 
-
+/**
+ * @brief Libera uma árvore B+
+ * @param a Raiz da árvore a ser removida
+ * @param t Ordem da árvore
+ * @details Este algoritmo é recursivo
+ */
 void TARVBP_libera(TARVBP *a, int t){
     free(a->chaves);
     if(a->folha){
@@ -159,7 +173,7 @@ TARVBP *buscaAux(TARVBP *a, int elem, int t){
 }
 
 /**
- * Faz a busca de um nó numa árvore B+.
+ * @brief Faz a busca de um nó numa árvore B+.
  * @param a Árvore
  * @param elem Elemento a ser buscado
  * @param t Ordem da árvore
@@ -175,6 +189,14 @@ TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
 }
 
 #pragma region Inserção
+/**
+ * @brief Faz a divisão de um nó
+ * @param pai Raiz da árvore a ser dividida
+ * @param i nao sei
+ * @param a nao sei
+ * @param t Ordem da ávore
+ * @return Nova raiz @c TARVBP com a divisão feita
+ */
 TARVBP *divisao(TARVBP *pai, int i, TARVBP *a, int t){
     numofnodes++;
     char str[10];
