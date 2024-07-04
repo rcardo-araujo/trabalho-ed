@@ -6,7 +6,7 @@ TARVBP* catalogo2Arv(char *nomeArq, int t){
     char selecao[40];
     int size;
     TJ *j;
-    int i = 284;
+    int i = 6;
     while(i > 0){
         if(verificaSelecao(fp)){
             readLine(fp, selecao, &size, '\n');
@@ -21,6 +21,10 @@ TARVBP* catalogo2Arv(char *nomeArq, int t){
 
 int main(void){
     TARVBP *a = catalogo2Arv("root", 2);
+    a = TARVBP_retira(a, 131, 2);
+    a = TARVBP_retira(a, 152, 2);
+    a = TARVBP_retira(a, 216, 2);
+    a = TARVBP_retira(a, 63, 2);
     TARVBP *b = TARVBP_busca(a, 1, 2);
     imprimeNo(a);
     char *p = (char *)malloc(sizeof(char)*40);
