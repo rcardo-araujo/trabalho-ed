@@ -85,6 +85,7 @@ TARVBP *leNo(char *nomeF, int t){
 }
 
 void imprimeNo(TARVBP *a){
+    if(!a) return;
     printf("------No lido:------\n");
     printf("folha: %d\n", a->folha);
     printf("num_chaves: %d\n", a->num_chaves);
@@ -108,8 +109,7 @@ void imprimeNo(TARVBP *a){
 
 
 void TARVBP_libera(TARVBP *a, int t){
-    // Remover arquivos!!!
-
+    imprimeNo(a);
     free(a->chaves);
     if(a->folha){
         for(int i=0; i < 2*t-1; i++) free(a->reg[i]);
@@ -453,7 +453,8 @@ TARVBP *remover(TARVBP *a, int id, int t){
     if((i < a->num_chaves) && (a->folha) && (id == a->reg[i]->id)){
         printf("\nCASO 1\n");
         int j;
-        for(j=i; j < a->num_chaves-1; j++) a->reg[i] = a->reg[j+1];
+        free(a->reg[i]);
+        for(j=i; j < a->num_chaves-1; j++) a->reg[j] = a->reg[j+1];
         a->num_chaves--;
         escreveNo(a->nome_arq, a);
         if(!a->num_chaves){
@@ -499,12 +500,10 @@ TARVBP *remover(TARVBP *a, int id, int t){
             return a;
         }
         TARVBP_libera(z, t);
-        printf("\nI: %d\t\n", i);
-        for(int k = 0; k <= a->num_chaves; k++) {
-            printf("%s\n", a->filhos[k]);
-        }
-        z = leNo(a->filhos[i-1], t);
-        if((i > 0) && (z->num_chaves >= t)){ //CASO 3A 
+        z = NULL;
+
+        if(i) z = leNo(a->filhos[i-1], t);
+        if((i > 0) && (!z) && (z->num_chaves >= t)){ //CASO 3A 
             printf("\nCASO 3A: i igual a num_chaves\n");
             int j;
             if(!y->folha){
