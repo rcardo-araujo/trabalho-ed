@@ -108,7 +108,7 @@ void imprimeNo(TARVBP *a){
     printf("num_filhos: %d\n", a->folha ? 0 : a->num_chaves+1);
     if(a->folha){
         for(int i=0; i<a->num_chaves; i++){
-            imprimeJogador(a->reg[i]);
+            if(a->reg[i]) imprimeJogador(a->reg[i]);
         }
         if(a->prox) printf("prox: %s\n", a->prox);
        return;
@@ -396,14 +396,18 @@ TARVBP *remover(TARVBP *a, int id, int t){
             strcpy(a->filhos[a->num_chaves], "");
             a->num_chaves--;
             if(!a->num_chaves){
+                printf("entrou no if\n");
                 TARVBP *tmp = a;
-                a = leNo(a->filhos[0], t);
+                a = y;
                 strcpy(tmp->filhos[0], "");
                 char f[60] = "./db/";
                 strcat(f, tmp->nomeArq);
                 strcat(f, ".bin");
                 remove(f);
                 TARVBP_libera(tmp, t);
+                a = remover(a, id, t);
+                escreveNo(a->nomeArq, a);
+                return a;
             }
             escreveNo(y->nomeArq, y);
             TARVBP_libera(y, t);
@@ -423,7 +427,10 @@ TARVBP *remover(TARVBP *a, int id, int t){
             int j = 0;
             while(j < t-1){
                 if(!y->folha) z->chaves[t+j] = y->chaves[j];
-                else z->reg[t+j-1] = y->reg[j];
+                else {
+                    z->reg[t+j-1] = y->reg[j];
+                    y->reg[j] = NULL;
+                }
                 z->num_chaves++;
                 j++;
             }
@@ -443,7 +450,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
             strcpy(a->filhos[a->num_chaves], "");
             a->num_chaves--;
             if(!a->num_chaves){
-                // ta errado (double free)
                 TARVBP *tmp = a;
                 a = leNo(a->filhos[0], t);
                 strcpy(tmp->filhos[0], "");
@@ -453,6 +459,9 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 remove(f);
                 TARVBP_libera(tmp, t);
                 a = remover(a, id, t);
+                TARVBP_libera(y, t);
+                TARVBP_libera(z, t);
+                return a;
             } else{
                 i--;
                 // TARVBP *x = leNo(a->filhos[i], t);
@@ -475,7 +484,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
 
 TARVBP *TARVBP_retira(TARVBP* a, int id, int t){
     if(!a || !TARVBP_busca(a, id, t)) return a;
-    printf("vai remover\n");
     a = remover(a, id, t);
     escreveNo(a->nomeArq, a);
     return a;
