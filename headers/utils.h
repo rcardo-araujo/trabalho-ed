@@ -1,3 +1,7 @@
+/**
+ * @file utils.h
+ * @brief Cabeçalho das funções de Utils
+ */
 #ifndef UTILS_H
 #define UTILS_H
 

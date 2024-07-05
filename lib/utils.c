@@ -1,9 +1,10 @@
 #include "../headers/includes.h"
 
-/*
-Biblioteca que vamos compor para uma série de utilidades que não
-estão diretamente relacionadas à criação das tabelas e estruturas
-de dados do trabalho. 
+/**
+ * @file utils.c
+ * @brief   Biblioteca que vamos compor para uma série de utilidades que não
+            estão diretamente relacionadas à criação das tabelas e estruturas
+            de dados do trabalho. 
 */
 
 void readLine(FILE *fp, char *string, int *size, char splitter){
