@@ -459,8 +459,8 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 strcat(str, y->nomeArq);
                 strcat(str, ".bin");
                 remove(str);
-                TARVBP_libera(y, t);
             }
+            TARVBP_libera(y, t);
             escreveNo(z->nomeArq, z);
             strcpy(a->filhos[a->num_chaves], "");
             a->num_chaves--;
@@ -474,7 +474,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 remove(f);
                 TARVBP_libera(tmp, t);
                 a = remover(a, id, t);
-                TARVBP_libera(y, t);
                 TARVBP_libera(z, t);
                 return a;
             } else{
@@ -485,7 +484,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 TARVBP_libera(z, t);
                 z = NULL;
             }
-            if(z && z->folha) TARVBP_libera(y, t);
             if(z) TARVBP_libera(z, t);
             return a;
         }
