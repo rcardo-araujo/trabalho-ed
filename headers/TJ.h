@@ -24,5 +24,6 @@ typedef struct jogador{
 TJ* leJogador(FILE* fp, char* selecao);
 void imprimeJogador(TJ* j);
 int verificaSelecao(FILE* fp);
+TJ *TJ_copiaJogador(TJ *j);
 
 #endif
