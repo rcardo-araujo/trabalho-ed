@@ -25,23 +25,14 @@ int main(void){
     a = TARVBP_retira(a, 152, 2);
     a = TARVBP_retira(a, 63, 2);
     a = TARVBP_retira(a, 216, 2);
-    a = TARVBP_retira(a, 1, 2);
+    a = TARVBP_retira(a, 38, 2);
     imprimeNo(a);
-    char *p = (char *)malloc(sizeof(char)*40);
+    // char *p = (char *)malloc(sizeof(char)*40);
     TARVBP *b = TARVBP_busca(a, 1, 2);
-    if(b) imprimeNo(b);
-    return 0;
-    strcpy(p, b->prox);
-    printf("%s\n", b->prox);
-    while(strcmp(p, "\0")){
-        TARVBP *c = leNo(p, 2);
-        imprimeNo(c);
-        p = strcpy(p, c->prox);
-        TARVBP_libera(c, 2);
+    if(b) {
+        imprimeNo(b);
+        TARVBP_libera(b, 2);
     }
-    imprimeNo(a);
     TARVBP_libera(a, 2);
-    free(p);
-
     return 0;
 }

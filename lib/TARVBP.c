@@ -171,7 +171,7 @@ TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
  * @param t Ordem da árvore
  * @return 0 se não existe ou 1 se existe
  */
-int TARVB_possui_elemento(TARVBP *a, int elem, int t){
+int TARVBP_possui_elemento(TARVBP *a, int elem, int t){
     TARVBP *b = TARVBP_busca(a, elem, t);
     if(b){
         TARVBP_libera(b, t);
@@ -261,7 +261,7 @@ TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
 }
 
 TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
-    if(TARVB_possui_elemento(a, elem->id, t)) return a;
+    if(TARVBP_possui_elemento(a, elem->id, t)) return a;
 
     if(!a) {
         printf("A arvore nao foi criada com um nome para os arquivos!\n");
@@ -412,7 +412,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
             strcpy(a->filhos[a->num_chaves], "");
             a->num_chaves--;
             if(!a->num_chaves){
-                printf("entrou no if\n");
                 TARVBP *tmp = a;
                 a = y;
                 strcpy(tmp->filhos[0], "");
@@ -499,7 +498,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
 }
 
 TARVBP *TARVBP_retira(TARVBP* a, int id, int t){
-    if(!a || !TARVBP_busca(a, id, t)) return a;
+    if(!a || !TARVBP_possui_elemento(a, id, t)) return a;
     a = remover(a, id, t);
     escreveNo(a->nomeArq, a);
     return a;
