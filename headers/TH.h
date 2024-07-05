@@ -13,7 +13,7 @@ typedef struct idadeJogador{
 
 int TH_hash(char *data);
 void TH_inicializa(char *arq, char *dados);
-TIJ* TH_busca(char *tabHash, char *dados, int n, char *data);
+TIJ **TH_busca_mes_ano(char *tabHash, char *dados,  char *data, int *tam);
 int TH_retira(char *tabHash, char *arq, char *data);
 void TH_insere(char *tabHash, char *arq, char *data, int id);
 void TH_imprime (char *nome_hash, char *nome_dados);

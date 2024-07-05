@@ -38,7 +38,17 @@ TIJ* TH_aloca(int id, char *data){
 	return novo;
 }
 
-TIJ* TH_busca(char *tabHash, char *dados, int n, char *data){
+int TIJcmp(const void *p1, const void *p2){
+	TIJ *tij1 = *(TIJ **) p1;
+	TIJ *tij2 = *(TIJ **) p2;
+    for(int i = 0; i < 3; i++){
+        if(tij1->data[i] > tij2->data[i]) return -1;
+        if(tij1->data[i] < tij2->data[i]) return 1;
+    }
+    return 0;
+}
+
+TIJ** TH_busca_mes_ano(char *tabHash, char *dados,  char *data, int *tam){
 	FILE *fp = fopen(tabHash, "rb");
 	if(!fp)exit(1);
 	int pos, h = TH_hash(data);
@@ -49,14 +59,50 @@ TIJ* TH_busca(char *tabHash, char *dados, int n, char *data){
 	fp = fopen(dados,"rb");
 	if(!fp) exit(1);
 	fseek(fp, pos, SEEK_SET);
+
+	int n = 3; 
+	TIJ **jL = (TIJ  **) malloc(sizeof(TIJ) * n);
+
 	TIJ aux;
 	fread(&aux, sizeof(TIJ), 1, fp);
 
-	TIJ *j = TH_aloca(aux.id, aux.data);
-	j->prox = aux.prox;
-	fclose(fp);
+	int i = 0;
+	while(aux.prox != -1){
+		if(!aux.status) {
+			fseek(fp, aux.prox, SEEK_SET);
+			fread(&aux, sizeof(TIJ), 1, fp);
+		}
 
-	return j;
+
+		if(i >= n){
+			n *= 2;
+			jL = (TIJ **) realloc(jL, sizeof(TIJ) * n);
+		}
+		TIJ *j = TH_aloca(aux.id, aux.data);
+		jL[i++] = j;
+		fseek(fp, aux.prox, SEEK_SET);
+		fread(&aux, sizeof(TIJ), 1, fp);
+	}
+	TIJ *j = TH_aloca(aux.id, aux.data);
+	jL[i++] = j;
+
+	fclose(fp);
+	qsort(jL, i, sizeof(TIJ *), TIJcmp);
+	jL = (TIJ **) realloc(jL, sizeof(TIJ *) * i);
+	*tam = i;
+	return jL;
+	// int *v = (int *) malloc(sizeof(int) * i);
+	// for(int h = 0; h < i; h++){
+	// 	v[h] = jL[h]->id;
+	// }
+	// *tam = i;
+
+	// for(int f = 0; f < i; f++){
+	// 	free(jL[f]);
+	// }
+	// free(jL);
+
+	// return v;
 }
 
 int TH_retira(char *tabHash, char *arq, char *data){
