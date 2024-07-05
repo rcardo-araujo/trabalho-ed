@@ -132,7 +132,7 @@ TARVBP *buscaAux(TARVBP *a, int elem, int t){
     if(!a) return NULL;
     if(!a->folha){
         int i = 0;
-        while(i < a->num_chaves && a->chaves[i] < elem){
+        while(i < a->num_chaves && a->chaves[i] <= elem){
             i++;
         }
         TARVBP *filho = leNo(a->filhos[i], t);
@@ -262,11 +262,14 @@ TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
 
 TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
     if(TARVBP_possui_elemento(a, elem->id, t)) return a;
-
+    
     if(!a) {
         printf("A arvore nao foi criada com um nome para os arquivos!\n");
         exit(1);
     }
+
+    TH_insere("hash.dat", "dados.dat", elem->data_nasc, elem->id);
+
     if(a->num_chaves == 2*t-1){
         numofnodes++;
         char str[10];
