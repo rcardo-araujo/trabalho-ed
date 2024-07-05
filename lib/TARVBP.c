@@ -29,6 +29,7 @@ TARVBP *TARVBP_cria(char *nomeArq, int t){
     strcpy(a->nomeArq, nomeArq);
     a->prox = (char *)malloc(sizeof(char)*40);
     a->prox[0] = '\0';
+
     return a;
 }
 
@@ -267,8 +268,6 @@ TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
         printf("A arvore nao foi criada com um nome para os arquivos!\n");
         exit(1);
     }
-
-    TH_insere("hash.dat", "dados.dat", elem->data_nasc, elem->id);
 
     if(a->num_chaves == 2*t-1){
         numofnodes++;
