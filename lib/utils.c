@@ -37,9 +37,39 @@ char *converteMes(char *str){
     if(!strcmp(str, "December")) return "12";
 }
 
+void converteDia(char *str){
+    if(atoi(str) < 10){
+        str[1] = str[0];
+        str[0] = '0';
+        str[2] = '\0';
+    }
+}
+
 void criaData(char *destino, char *dia, char *meses, char *ano){
     destino = strcpy(destino, strcat(dia, "/"));
     strcat(meses, "/");
     strcat(destino, meses);
     strcat(destino, ano);
 }
+
+TARVBP* catalogo2Arv(char *nomeArq, int t){
+    TARVBP *a = TARVBP_cria(nomeArq, t);
+    TH_inicializa("hash.dat", "dados.dat");
+    FILE *fp = fopen("catalogo.txt", "r");
+    char selecao[40];
+    int size;
+    TJ *j;
+    int i = 284;
+    while(i > 0){
+        if(verificaSelecao(fp)){
+            readLine(fp, selecao, &size, '\n');
+        } else {
+            j = leJogador(fp, selecao);
+            TH_insere("hash.dat", "dados.dat", j->data_nasc, j->id);
+            a = TARVBP_insere(a, j, t);
+            i--;
+        }
+    }
+    return a;
+}
+
