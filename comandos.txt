@@ -8,8 +8,9 @@ gcc ./src/main.c ./lib/*.c -o ./bin/main
 ./bin/teste
 
 ## Compilação + Execução ##
-gcc -fsanitize=address -g ./src/main.c ./lib/*.c -o ./bin/main && ./bin
+gcc -fsanitize=address -g ./src/main.c ./lib/*.c -o ./bin/main && ./bin/main
 gcc -fsanitize=address -g ./src/teste.c ./lib/*.c -o ./bin/teste && ./bin/teste
+gcc ./src/main.c ./lib/*.c -o ./bin/main && ./bin/main
 
 ## Exclusão dos nós ##
 rm ./db/*.c

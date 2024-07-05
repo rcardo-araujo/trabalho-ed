@@ -139,6 +139,15 @@ void TARVBP_libera(TARVBP *a, int t){
     free(a);
 }
 
+TJ* buscaJogador(TARVBP* no, int id) {
+    if(no) {    
+        for(int i = 0; i < no->num_chaves; i++) {
+            if(no->reg[i]->id == id) return no->reg[i];
+        }
+    }
+    return NULL;
+}
+
 TARVBP *buscaAux(TARVBP *a, int elem, int t){
     if(!a) return NULL;
     if(!a->folha){
@@ -246,7 +255,9 @@ TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
 }
 
 TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
-    if(TARVBP_busca(a, elem->id, t)) return a;
+    if(TARVBP_busca(a, elem->id, t)) return a;;
+    TABSELE_adicionaJogador(elem);
+    
     if(!a) {
         printf("A arvore nao foi criada com um nome para os arquivos!\n");
         exit(1);
@@ -281,6 +292,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
         //FUNCIONANDO !!
         printf("\nCASO 1\n");
         int j;
+        TABSELE_removeJogador(a->reg[i]);
         free(a->reg[i]);
         for(j=i; j < a->num_chaves-1; j++) a->reg[j] = a->reg[j+1];
         a->reg[a->num_chaves-1] = NULL;

@@ -4,3 +4,5 @@
 #include "../headers/TARVBP.h"
 #include "../headers/utils.h"
 #include "../headers/TJ.h"
+#include "../headers/TABSELE.h"
+#include "../headers/operacoes.h"

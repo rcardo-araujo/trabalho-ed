@@ -1,5 +1,9 @@
 #include "../headers/includes.h"
 
+int capitao(char* nome) {
+    return strstr(nome, "(captain)") != NULL; 
+}
+
 TJ *leJogador(FILE *fp, char *selecao){
     TJ *j = (TJ *) malloc(sizeof(TJ));
     strcpy(j->pais, selecao);
@@ -14,6 +18,11 @@ TJ *leJogador(FILE *fp, char *selecao){
     fscanf(fp, "%3[^/]", j->pos);
     fscanf(fp, "%c", &c);
     fscanf(fp, "%30[^/]", j->nome);
+    j->capitao = capitao(j->nome);
+    if (j->capitao) {
+        char* pos = strstr(j->nome, " (captain)");
+        if(pos) *pos = '\0';
+    }
     fscanf(fp, "%c", &c);
     fscanf(fp, "%s", dia);
     fscanf(fp, "%s", mes);
