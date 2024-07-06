@@ -1,7 +1,7 @@
 #include "../headers/includes.h"
 #include <limits.h>
 
-// Operação [2] - Mais atuaram por equipe específica
+// Operação [02] - Mais atuaram por equipe específica
 TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais) {
     FILE* ftab  = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
@@ -23,12 +23,13 @@ TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais) {
         else if(jog_aux->num_part == maior) {
             l = TLSETJ_insere(l, jog_aux);
         }
+        else free(jog_aux);
     }
     fclose(ftab);
     return l;
 }
 
-// Operação [2] - Menos atuaram por equipe específica
+// Operação [02] - Menos atuaram por equipe específica
 TLSETJ* menosAtuaramEquipe(TARVBP* a, int t, char* pais) {
     FILE* ftab  = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
@@ -50,12 +51,61 @@ TLSETJ* menosAtuaramEquipe(TARVBP* a, int t, char* pais) {
         else if(jog_aux->num_part == menor) {
             l = TLSETJ_insere(l, jog_aux);
         }
+        else free(jog_aux);
     }
     fclose(ftab);
     return l;
 }
 
-// Operação [3] - Menos atuaram no total
+// Operação [02] - Mais atuaram em cada equipe
+TLSETJ* maisAtuaramCadaEquipe(TARVBP* a, int t) {
+    FILE* ftab = fopen(TAB_SELECOES, "rb");
+    if(!ftab) exit(1);
+
+    TLSETJ* l = TLSETJ_inicializa(), * l_aux, * p;
+    TSELE reg_aux;
+    int i = 0;
+    while(i < TABSELE_tam()) {
+        fseek(ftab, i, SEEK_SET);
+        fread(&reg_aux, sizeof(TSELE), 1, ftab);
+        l_aux = maisAtuaramEquipe(a, t, reg_aux.nome_pais);
+        p = l_aux;
+        while(p) {
+            l = TLSETJ_insere(l, p->jogador);
+            p = p->prox;
+        }
+        TLSETJ_libera(l_aux);
+        i += sizeof(TSELE);
+    }
+    fclose(ftab);
+    return l;
+}
+
+// Operação [02] - Menos atuaram em cada equipe
+TLSETJ* menosAtuaramCadaEquipe(TARVBP* a, int t) {
+    FILE* ftab = fopen(TAB_SELECOES, "rb");
+    if(!ftab) exit(1);
+
+    TLSETJ* l = TLSETJ_inicializa(), * l_aux, * p;
+    TSELE reg_aux;
+    int i = 0;
+    while(i < TABSELE_tam()) {
+        fseek(ftab, i, SEEK_SET);
+        fread(&reg_aux, sizeof(TSELE), 1, ftab);
+        l_aux = menosAtuaramEquipe(a, t, reg_aux.nome_pais);
+        p = l_aux;
+        while(p) {
+            l = TLSETJ_insere(l, p->jogador);
+            p = p->prox;
+        }
+        TLSETJ_libera(l_aux);
+        i += sizeof(TSELE);
+    }
+    fclose(ftab);
+    return l;
+}
+
+// Operação [03] - Menos atuaram no total
 TLSETJ* menosAtuaramTotal(TARVBP* a, int t) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
@@ -77,6 +127,7 @@ TLSETJ* menosAtuaramTotal(TARVBP* a, int t) {
             else if(jog_aux->num_part == menor) {
                 l = TLSETJ_insere(l, jog_aux);
             }
+            else free(jog_aux);
         }
         i += sizeof(TSELE);
     }
@@ -84,7 +135,7 @@ TLSETJ* menosAtuaramTotal(TARVBP* a, int t) {
     return l;
 }
 
-// Operação [3] - Mais atuaram no total
+// Operação [03] - Mais atuaram no total
 TLSETJ* maisAtuaramTotal(TARVBP* a, int t) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
@@ -106,6 +157,7 @@ TLSETJ* maisAtuaramTotal(TARVBP* a, int t) {
             else if(jog_aux->num_part == maior) {
                 l = TLSETJ_insere(l, jog_aux);
             }
+            else free(jog_aux);
         }
         i += sizeof(TSELE);
     }
@@ -113,7 +165,7 @@ TLSETJ* maisAtuaramTotal(TARVBP* a, int t) {
     return l;
 }
 
-// Operação [4] - Maiores seleções (convocados)
+// Operação [04] - Maiores seleções (convocados)
 TLSECHAR* maioresEquipes(int* qtd) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
@@ -139,7 +191,7 @@ TLSECHAR* maioresEquipes(int* qtd) {
     return l;
 }
 
-// Operação [4] - Menores seleções (convocados)
+// Operação [04] - Menores seleções (convocados)
 TLSECHAR* menoresEquipes(int* qtd) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
@@ -165,7 +217,7 @@ TLSECHAR* menoresEquipes(int* qtd) {
     return l;
 }
 
-// Operação [5] - Busca de todos os jogadores
+// Operação [05] - Busca de todos os jogadores
 // de uma equipe que atuam fora da origem
 TLSETJ* buscaAllForaOrigemEquipe(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
@@ -183,12 +235,13 @@ TLSETJ* buscaAllForaOrigemEquipe(TARVBP* a, int t, char* nome_pais) {
         if(strcmp(nome_pais, jog_aux->pais_time)) {
             l = TLSETJ_insere(l, jog_aux);
         }
+        else free(jog_aux);
     }
     fclose(ftab);
     return l;
 }
 
-// Operação [5] - Busca de todos os
+// Operação [05] - Busca de todos os
 // jogadores que atuam fora da origem
 TLSETJ* buscaAllForaOrigem(TARVBP* a, int t) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
@@ -214,8 +267,8 @@ TLSETJ* buscaAllForaOrigem(TARVBP* a, int t) {
     return l;
 }
 
-// Operação [6] - Busca de todos os jogadores
-// de uma equipe que atuam naa origem
+// Operação [06] - Busca de todos os jogadores
+// de uma equipe que atuam na origem
 TLSETJ* buscaAllNaOrigemEquipe(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
@@ -232,12 +285,13 @@ TLSETJ* buscaAllNaOrigemEquipe(TARVBP* a, int t, char* nome_pais) {
         if(!strcmp(nome_pais, jog_aux->pais_time)) {
             l = TLSETJ_insere(l, jog_aux);
         }
+        else free(jog_aux);
     }
     fclose(ftab);
     return l;
 }
 
-// Operação [6] - Busca de todos os
+// Operação [06] - Busca de todos os
 // jogadores que atuam na origem
 TLSETJ* buscaAllNaOrigem(TARVBP* a, int t) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
@@ -443,6 +497,7 @@ TARVBP* retiraAllEquipePais(TARVBP* a, int t, char* nome_equipe, char* nome_pais
         if(!strcmp(nome_equipe, jog_aux->pais_time)) {
             a = TARVBP_retira(a, jog_aux->id, t);
         }
+        free(jog_aux);
     }
     fclose(ftab);
     return a;
@@ -465,6 +520,7 @@ TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais) {
         if(!strcmp(jog_aux->pais, reg_aux.nome_pais)) {
             a = TARVBP_retira(a, jog_aux->id, t);
         }
+        free(jog_aux);
     }
     fclose(ftab);
     return a;
@@ -487,6 +543,7 @@ TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais) {
         if(strcmp(jog_aux->pais, reg_aux.nome_pais)) {
             a = TARVBP_retira(a, jog_aux->id, t);
         }
+        free(jog_aux);
     }
     fclose(ftab);
     return a;
@@ -495,7 +552,7 @@ TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais) {
 // Operação [19] - Retira todos 
 // os jogadores de uma equipe
 TARVBP* retiraAllEquipe(TARVBP* a, int t, char* nome_pais) {
-    FILE* ftab = fopen(TAB_SELECOES, "rb+");
+    FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
 
     int ind = indSelecao(ftab, nome_pais), i;

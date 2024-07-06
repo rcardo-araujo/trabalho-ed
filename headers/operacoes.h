@@ -11,6 +11,8 @@ TARVBP **BuscaJogadoresPorMes_8(TARVBP *arv, int t, char *mes, int *tam);
 
 TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]
 TLSETJ* menosAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]
+TLSETJ* maisAtuaramCadaEquipe(TARVBP* a, int t); // [02]
+TLSETJ* menosAtuaramCadaEquipe(TARVBP* a, int t); // [02]
 TLSETJ* menosAtuaramTotal(TARVBP* a, int t); // [03]
 TLSETJ* maisAtuaramTotal(TARVBP* a, int t); // [03]
 TLSECHAR* maioresEquipes(int* qtd); // [04]
