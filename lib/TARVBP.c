@@ -29,6 +29,7 @@ TARVBP *TARVBP_cria(char *nomeArq, int t){
     strcpy(a->nomeArq, nomeArq);
     a->prox = (char *)malloc(sizeof(char)*40);
     a->prox[0] = '\0';
+
     return a;
 }
 
@@ -275,6 +276,7 @@ TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
         printf("A arvore nao foi criada com um nome para os arquivos!\n");
         exit(1);
     }
+
     if(a->num_chaves == 2*t-1){
         numofnodes++;
         char str[10];
@@ -302,6 +304,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
         for(i=0; i< a->num_chaves && a->reg[i]->id < id; i++);
     
     if((i < a->num_chaves) && (a->folha) && (id == a->reg[i]->id)){
+        TABSELE_removeJogador(a->reg[i]);
         int j;
         free(a->reg[i]);
         for(j=i; j < a->num_chaves-1; j++) a->reg[j] = a->reg[j+1];

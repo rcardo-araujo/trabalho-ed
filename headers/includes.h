@@ -8,3 +8,5 @@
 #include "../headers/operacoes.h"
 #include "../headers/TLSE_TJ.h"
 #include "../headers/TLSE_CHAR.h"
+#include "../headers/operacoes.h"
+#include "../headers/TH.h"

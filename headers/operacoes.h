@@ -1,7 +1,13 @@
-#include "TARVBP.h"
-#include "TJ.h"
-#include "TLSE_TJ.h"
-#include "TLSE_CHAR.h"
+#ifndef OP_H
+#define OP_H
+
+#include "../headers/includes.h"
+
+TARVBP *BuscaJogadorMaisNovo_1(TARVBP *arv, int t);
+int TIJcmp(const void *p1, const void *p2);
+TARVBP *BuscaJogadorMaisVelho_2(TARVBP *arv, int t);
+TARVBP **BuscaJogadoresPorAno_7(TARVBP *arv, int t, char *ano, int *tam);
+TARVBP **BuscaJogadoresPorMes_8(TARVBP *arv, int t, char *mes, int *tam);
 
 TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]
 TLSETJ* menosAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]
@@ -24,3 +30,5 @@ TARVBP* retiraAllEquipePais(TARVBP* a, int t, char* nome_equipe, char* nome_pais
 TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais); // [17]
 TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais); // [18]
 TARVBP* retiraAllEquipe(TARVBP* a, int t, char* nome_pais); // [19]
+
+#endif

@@ -38,6 +38,7 @@ TJ *leJogador(FILE *fp, char *selecao){
     fscanf(fp, "%s", dia);
     fscanf(fp, "%s", mes);
     fscanf(fp, "%s", ano);
+    converteDia(dia);
     char *mes_digitos = (char *)malloc(sizeof(char)*4);
     mes_digitos = strcpy(mes_digitos, converteMes(mes));
     criaData(datanasc, dia, mes_digitos, ano);
@@ -83,4 +84,21 @@ int verificaSelecao(FILE *fp){
         return 0;
     }
     return 1;
+}
+
+TJ *TJ_copiaJogador(TJ *j){
+    TJ *novo = malloc(sizeof(TJ));
+    
+    novo->id = j->id;            
+    novo->num = j->num;
+    strcpy(novo->pos, j->pos);
+    strcpy(novo->nome, j->nome);  
+    strcpy(novo->data_nasc, j->data_nasc);
+    novo->num_part = j->num_part;
+    novo->num_gols = j->num_gols;
+    strcpy(novo->pais_time, j->pais_time);
+    strcpy(novo->time, j->time);
+    strcpy(novo->pais, j->pais);
+
+    return novo;
 }
