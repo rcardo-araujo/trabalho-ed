@@ -43,3 +43,19 @@ void criaData(char *destino, char *dia, char *meses, char *ano){
     strcat(destino, meses);
     strcat(destino, ano);
 }
+
+int datacmp(char *data1, char *data2){
+    for(int i = 7; i < 11; i++){
+        if(data1[i] > data2[i]) return -1;
+        if(data2[i] > data1[i]) return 1;
+    }
+    for(int i = 4; i < 6; i++){
+        if(data1[i] > data2[i]) return -1;
+        if(data2[i] > data1[i]) return 1;
+    }
+    for(int i = 0; i < 3; i++){
+        if(data1[i] > data2[i]) return -1;
+        if(data2[i] > data1[i]) return 1;
+    }
+    return 0;
+}

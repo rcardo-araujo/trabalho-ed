@@ -294,8 +294,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
         for(i=0; i< a->num_chaves && a->reg[i]->id < id; i++);
     
     if((i < a->num_chaves) && (a->folha) && (id == a->reg[i]->id)){
-        //FUNCIONANDO !!
-        printf("\nCASO 1\n");
         int j;
         free(a->reg[i]);
         for(j=i; j < a->num_chaves-1; j++) a->reg[j] = a->reg[j+1];
@@ -316,10 +314,8 @@ TARVBP *remover(TARVBP *a, int id, int t){
     if((i < a->num_chaves) && (id == a->chaves[i])) i++;
     TARVBP *y = leNo(a->filhos[i], t), *z = NULL;
     if(y->num_chaves == t-1) { //CASOS 3A e 3B
-        if(i <= a->num_chaves) z = leNo(a->filhos[i+1], t);
-        if((i < a->num_chaves) && (z->num_chaves >= t)){ //caso 3A
-            //FUNCIONANDO!!
-            printf("\nCASO 3A: i menor que num_chaves\n");
+        if(i < a->num_chaves) z = leNo(a->filhos[i+1], t);
+        if((i < a->num_chaves) && (z) && (z->num_chaves >= t)){ //caso 3A
             if(!y->folha){
                 y->chaves[t-1] = a->chaves[i];
                 a->chaves[i] = z->chaves[0];
@@ -351,13 +347,12 @@ TARVBP *remover(TARVBP *a, int id, int t){
         z = NULL;
         if(i) z = leNo(a->filhos[i-1], t);
         if((i > 0) && (z->num_chaves >= t)){ //CASO 3A 
-            // FUNCIONANDO!!!!
-            printf("\nCASO 3A: i igual a num_chaves\n");
             int j;
             if(!y->folha){
                 for(j = y->num_chaves; j > 0; j--) y->chaves[j] = y->chaves[j-1];
                 y->chaves[0] = a->chaves[i-1];
                 a->chaves[i-1] = z->chaves[z->num_chaves-1];
+                for(j = y->num_chaves+1; j>0; j--) strcpy(y->filhos[j], y->filhos[j-1]);
             } else{
                 for(j = y->num_chaves; j > 0; j--) y->reg[j] = y->reg[j-1];
                 a->chaves[i-1] = z->reg[z->num_chaves-1]->id;
@@ -377,8 +372,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
         if(z) TARVBP_libera(z, t);
         z = leNo(a->filhos[i+1], t);
         if(i < a->num_chaves && z->num_chaves == t-1){
-            //FUNCIONANDO!!
-            printf("\nCASO 3B: i menor que num_chaves\n");
             if(!y->folha){
                 y->chaves[t-1] = a->chaves[i];
                 y->num_chaves++;
@@ -432,11 +425,9 @@ TARVBP *remover(TARVBP *a, int id, int t){
         if(z) TARVBP_libera(z, t);
         z = leNo(a->filhos[i-1], t);
         if((i > 0) && (z->num_chaves == t-1)){
-            printf("\nCASO 3B: i igual a num_chaves\n");
             if(!y->folha){
                 if(i == a->num_chaves) z->chaves[t-1] = a->chaves[i-1];
                 else z->chaves[t-1] = a->chaves[i];
-
                 z->num_chaves++;
             }
             int j = 0;
@@ -478,7 +469,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 return a;
             } else{
                 i--;
-                // TARVBP *x = leNo(a->filhos[i], t);
                 z = remover(z, id, t);
                 escreveNo(z->nomeArq, z);
                 TARVBP_libera(z, t);
