@@ -23,6 +23,7 @@ TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais) {
         else if(jog_aux->num_part == maior) {
             l = TLSETJ_insere(l, jog_aux);
         }
+        free(jog_aux);
     }
     fclose(ftab);
     return l;

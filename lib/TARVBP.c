@@ -132,7 +132,12 @@ TJ* TARVBP_buscaJogador(TARVBP* a, int id, int t) {
     TARVBP* no = TARVBP_busca(a, id, t);
     if(!no) return NULL;   
     for(int i = 0; i < no->num_chaves; i++) {
-        if(no->reg[i]->id == id) return no->reg[i];
+        if(no->reg[i]->id == id) {
+            TJ *j = no->reg[i];
+            no->reg[i] = NULL;
+            TARVBP_libera(no, t);
+            return j;
+        }
     }
 }
 
@@ -354,10 +359,12 @@ TARVBP *remover(TARVBP *a, int id, int t){
             TARVBP_libera(z, t);
             return a;
         }
-        if(z) TARVBP_libera(z, t);
-        z = NULL;
+        if(z) {
+            TARVBP_libera(z, t);
+            z = NULL;
+        }
         if(i) z = leNo(a->filhos[i-1], t);
-        if((i > 0) && (z->num_chaves >= t)){ //CASO 3A 
+        if((i > 0) && (z) &&(z->num_chaves >= t)){ //CASO 3A 
             int j;
             if(!y->folha){
                 for(j = y->num_chaves; j > 0; j--) y->chaves[j] = y->chaves[j-1];
@@ -380,9 +387,12 @@ TARVBP *remover(TARVBP *a, int id, int t){
             TARVBP_libera(y, t);
             return a;
         }
-        if(z) TARVBP_libera(z, t);
-        z = leNo(a->filhos[i+1], t);
-        if(i < a->num_chaves && z->num_chaves == t-1){
+        if(z) {
+            TARVBP_libera(z, t);
+            z = NULL;
+        }
+        if(i < a->num_chaves) z = leNo(a->filhos[i+1], t);
+        if(i < a->num_chaves && (z) && z->num_chaves == t-1){
             if(!y->folha){
                 y->chaves[t-1] = a->chaves[i];
                 y->num_chaves++;
@@ -433,9 +443,12 @@ TARVBP *remover(TARVBP *a, int id, int t){
             a = remover(a, id, t);
             return a;
         }
-        if(z) TARVBP_libera(z, t);
-        z = leNo(a->filhos[i-1], t);
-        if((i > 0) && (z->num_chaves == t-1)){
+        if(z) {
+            TARVBP_libera(z, t);
+            z = NULL;
+        }
+        if(i > 0) z = leNo(a->filhos[i-1], t);
+        if((i > 0) && (z) &&(z->num_chaves == t-1)){
             if(!y->folha){
                 if(i == a->num_chaves) z->chaves[t-1] = a->chaves[i-1];
                 else z->chaves[t-1] = a->chaves[i];
@@ -488,7 +501,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
             if(z) TARVBP_libera(z, t);
             return a;
         }
-        TARVBP_libera(z, t);
+        if(z) TARVBP_libera(z, t);
     }
     y = remover(y, id, t);
     escreveNo(y->nomeArq, y);

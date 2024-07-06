@@ -1,24 +1,24 @@
 #include "../headers/includes.h"
 #include <locale.h>
 
-TARVBP* catalogo2Arv(char *nomeArq, int t){
-    TARVBP *a = TARVBP_cria(nomeArq, t);
-    FILE *fp = fopen("catalogo.txt", "r");
-    char selecao[40];
-    int size;
-    TJ *j;
-    int i = 284;
-    while(i > 0){
-        if(verificaSelecao(fp)){
-            readLine(fp, selecao, &size, '\n');
-        } else {
-            j = leJogador(fp, selecao);
-            a = TARVBP_insere(a, j, t);
-            i--;
-        }
-    }
-    return a;
-}
+// TARVBP* catalogo2Arv(char *nomeArq, int t){
+//     TARVBP *a = TARVBP_cria(nomeArq, t);
+//     FILE *fp = fopen("catalogo.txt", "r");
+//     char selecao[40];
+//     int size;
+//     TJ *j;
+//     int i = 284;
+//     while(i > 0){
+//         if(verificaSelecao(fp)){
+//             readLine(fp, selecao, &size, '\n');
+//         } else {
+//             j = leJogador(fp, selecao);
+//             a = TARVBP_insere(a, j, t);
+//             i--;
+//         }
+//     }
+//     return a;
+// }
 
 void menu(TARVBP* a, int t) {
     do {
@@ -422,6 +422,7 @@ int main(void){
     TABSELE_inicializa();
     TARVBP *a = catalogo2Arv("root", 2);
     
+    //corrigir pois quando ocorrem remoções, a raiz pode se perder!
     menu(a, 2);
     
     TARVBP_libera(a, 2);
