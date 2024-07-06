@@ -1,0 +1,24 @@
+\hypertarget{main_8c}{}\doxysection{Referência ao ficheiro /home/pcbmoreira2/\+Projetos/trabalho-\/ed/src/main.c}
+\label{main_8c}\index{/home/pcbmoreira2/Projetos/trabalho-\/ed/src/main.c@{/home/pcbmoreira2/Projetos/trabalho-\/ed/src/main.c}}
+
+
+Main do programa.  
+
+
+{\ttfamily \#include \char`\"{}../headers/includes.\+h\char`\"{}}\newline
+Diagrama de dependências de inclusão para main.\+c\+:
+% FIG 0
+\doxysubsection*{Funções}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{main_8c_a9ca4210db57e0ab14295216472ccdc63}\label{main_8c_a9ca4210db57e0ab14295216472ccdc63}} 
+\mbox{\hyperlink{structarvbp}{TARVBP}} $\ast$ {\bfseries catalogo2\+Arv} (char $\ast$nome\+Arq, int t)
+\item 
+\mbox{\Hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}\label{main_8c_a840291bc02cba5474a4cb46a9b9566fe}} 
+int {\bfseries main} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrição detalhada}
+Main do programa. 
+

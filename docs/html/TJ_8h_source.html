@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tabalho de ED: Código-Fonte de /home/pcbmoreira2/Projetos/trabalho-ed/headers/TJ.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Tabalho de ED
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Gerado por Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Localizar','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Localizar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_7f57b1e41c5acd0e859ae5f3a2b075a9.html">headers</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">TJ.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="TJ_8h.html">Ir para a documentação deste ficheiro.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#ifndef TJ_H</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define TJ_H</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="structjogador.html">   11</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structjogador.html">jogador</a>{</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="structjogador.html#a95b64625873b588bd0bbe8ee07f5540f">   12</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structjogador.html#a95b64625873b588bd0bbe8ee07f5540f">id</a>;             </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="structjogador.html#a8cbf22e1144a8016dbdd83b55481dfb4">   13</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structjogador.html#a8cbf22e1144a8016dbdd83b55481dfb4">num</a>;            </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="structjogador.html#a80e566edc475efeb17d21f417836b38c">   14</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structjogador.html#a80e566edc475efeb17d21f417836b38c">pos</a>[3];        </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="structjogador.html#a668511bded85ad7ca67ee237b084b88e">   15</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structjogador.html#a668511bded85ad7ca67ee237b084b88e">nome</a>[30];      </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="structjogador.html#abe105a814d0caefc5254e6df49a49042">   16</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structjogador.html#abe105a814d0caefc5254e6df49a49042">data_nasc</a>[11]; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="structjogador.html#a5e0f03404c361888a70023f738fad102">   17</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structjogador.html#a5e0f03404c361888a70023f738fad102">num_part</a>;       </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="structjogador.html#a0239c0e1fc4bae446ef8c357ae4b72b9">   18</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structjogador.html#a0239c0e1fc4bae446ef8c357ae4b72b9">num_gols</a>;       </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="structjogador.html#a3c330450d2aba4ff53ad525d56f33d58">   19</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structjogador.html#a3c330450d2aba4ff53ad525d56f33d58">pais_time</a>[21]; </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="structjogador.html#a620f42838239f089d0b9bc8a6b98b224">   20</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structjogador.html#a620f42838239f089d0b9bc8a6b98b224">time</a>[24];      </div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="structjogador.html#a5174f24c419e00b0680ef830984cfb7f">   21</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structjogador.html#a5174f24c419e00b0680ef830984cfb7f">pais</a>[12];      </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;} <a class="code" href="structjogador.html">TJ</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<a class="code" href="structjogador.html">TJ</a>* <a class="code" href="TJ_8h.html#ae3c146df21e1c9b296c7de0fca0795ca">leJogador</a>(FILE* fp, <span class="keywordtype">char</span>* selecao);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> <a class="code" href="TJ_8h.html#af560df86f1175d3a6dac0d9e836968cf">imprimeJogador</a>(<a class="code" href="structjogador.html">TJ</a>* j);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">int</span> <a class="code" href="TJ_8h.html#a791daa4e72d035e55b711c9daf90efd1">verificaSelecao</a>(FILE* fp);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aTJ_8h_html_a791daa4e72d035e55b711c9daf90efd1"><div class="ttname"><a href="TJ_8h.html#a791daa4e72d035e55b711c9daf90efd1">verificaSelecao</a></div><div class="ttdeci">int verificaSelecao(FILE *fp)</div><div class="ttdoc">Le uma linha do arquivo e verifica se leu uma seleção.</div><div class="ttdef"><b>Definition:</b> TJ.c:67</div></div>
+<div class="ttc" id="aTJ_8h_html_ae3c146df21e1c9b296c7de0fca0795ca"><div class="ttname"><a href="TJ_8h.html#ae3c146df21e1c9b296c7de0fca0795ca">leJogador</a></div><div class="ttdeci">TJ * leJogador(FILE *fp, char *selecao)</div><div class="ttdoc">Retorna uma estrutura com as informações do jogador carregadas de um arquivo.</div><div class="ttdef"><b>Definition:</b> TJ.c:14</div></div>
+<div class="ttc" id="aTJ_8h_html_af560df86f1175d3a6dac0d9e836968cf"><div class="ttname"><a href="TJ_8h.html#af560df86f1175d3a6dac0d9e836968cf">imprimeJogador</a></div><div class="ttdeci">void imprimeJogador(TJ *j)</div><div class="ttdoc">Imprime o jogador.</div><div class="ttdef"><b>Definition:</b> TJ.c:55</div></div>
+<div class="ttc" id="astructjogador_html"><div class="ttname"><a href="structjogador.html">jogador</a></div><div class="ttdef"><b>Definition:</b> TJ.h:11</div></div>
+<div class="ttc" id="astructjogador_html_a0239c0e1fc4bae446ef8c357ae4b72b9"><div class="ttname"><a href="structjogador.html#a0239c0e1fc4bae446ef8c357ae4b72b9">jogador::num_gols</a></div><div class="ttdeci">int num_gols</div><div class="ttdef"><b>Definition:</b> TJ.h:18</div></div>
+<div class="ttc" id="astructjogador_html_a3c330450d2aba4ff53ad525d56f33d58"><div class="ttname"><a href="structjogador.html#a3c330450d2aba4ff53ad525d56f33d58">jogador::pais_time</a></div><div class="ttdeci">char pais_time[21]</div><div class="ttdef"><b>Definition:</b> TJ.h:19</div></div>
+<div class="ttc" id="astructjogador_html_a5174f24c419e00b0680ef830984cfb7f"><div class="ttname"><a href="structjogador.html#a5174f24c419e00b0680ef830984cfb7f">jogador::pais</a></div><div class="ttdeci">char pais[12]</div><div class="ttdef"><b>Definition:</b> TJ.h:21</div></div>
+<div class="ttc" id="astructjogador_html_a5e0f03404c361888a70023f738fad102"><div class="ttname"><a href="structjogador.html#a5e0f03404c361888a70023f738fad102">jogador::num_part</a></div><div class="ttdeci">int num_part</div><div class="ttdef"><b>Definition:</b> TJ.h:17</div></div>
+<div class="ttc" id="astructjogador_html_a620f42838239f089d0b9bc8a6b98b224"><div class="ttname"><a href="structjogador.html#a620f42838239f089d0b9bc8a6b98b224">jogador::time</a></div><div class="ttdeci">char time[24]</div><div class="ttdef"><b>Definition:</b> TJ.h:20</div></div>
+<div class="ttc" id="astructjogador_html_a668511bded85ad7ca67ee237b084b88e"><div class="ttname"><a href="structjogador.html#a668511bded85ad7ca67ee237b084b88e">jogador::nome</a></div><div class="ttdeci">char nome[30]</div><div class="ttdef"><b>Definition:</b> TJ.h:15</div></div>
+<div class="ttc" id="astructjogador_html_a80e566edc475efeb17d21f417836b38c"><div class="ttname"><a href="structjogador.html#a80e566edc475efeb17d21f417836b38c">jogador::pos</a></div><div class="ttdeci">char pos[3]</div><div class="ttdef"><b>Definition:</b> TJ.h:14</div></div>
+<div class="ttc" id="astructjogador_html_a8cbf22e1144a8016dbdd83b55481dfb4"><div class="ttname"><a href="structjogador.html#a8cbf22e1144a8016dbdd83b55481dfb4">jogador::num</a></div><div class="ttdeci">int num</div><div class="ttdef"><b>Definition:</b> TJ.h:13</div></div>
+<div class="ttc" id="astructjogador_html_a95b64625873b588bd0bbe8ee07f5540f"><div class="ttname"><a href="structjogador.html#a95b64625873b588bd0bbe8ee07f5540f">jogador::id</a></div><div class="ttdeci">int id</div><div class="ttdef"><b>Definition:</b> TJ.h:12</div></div>
+<div class="ttc" id="astructjogador_html_abe105a814d0caefc5254e6df49a49042"><div class="ttname"><a href="structjogador.html#abe105a814d0caefc5254e6df49a49042">jogador::data_nasc</a></div><div class="ttdeci">char data_nasc[11]</div><div class="ttdef"><b>Definition:</b> TJ.h:16</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Gerado por&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

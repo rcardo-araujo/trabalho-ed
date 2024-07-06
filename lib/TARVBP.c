@@ -1,10 +1,14 @@
+/**
+ * @file TARVBP.c
+ * @brief Funções relacionadas ao funcionamento da Árvore B+
+ */
+
 #include "../headers/includes.h"
 
-// Número de nós
-static int numofnodes = 0;
+static int numofnodes = 0; ///< Número de nós
 
 /**
- * Cria um novo nó da árvore B+.
+ * @brief Cria um novo nó da árvore B+.
  * @param nomeArq Nome do arquivo
  * @param t Ordem da árvore
  * @return @c TARVBP vazia
@@ -28,8 +32,9 @@ TARVBP *TARVBP_cria(char *nomeArq, int t){
     return a;
 }
 
+#pragma region Utils
 /**
- * Escreve as informações do nó em um arquivo binário.
+ * @brief Escreve as informações do nó em um arquivo binário.
  * @param nomeF Nome do arquivo
  * @param no Nó
  */
@@ -61,7 +66,7 @@ void escreveNo(char *nomeF, TARVBP *no){
 }
 
 /**
- * Carrega um arquivo para um @c TARVBP.
+ * @brief Carrega um arquivo para um @c TARVBP.
  * @param nomeF Nome do arquivo
  * @param t Ordem da árvore
  * @return @c TARVB com as informações carregadas do arquivo.
@@ -101,29 +106,11 @@ TARVBP *leNo(char *nomeF, int t){
     return no;
 }
 
-void imprimeNo(TARVBP *a){
-    printf("------No lido:------\n");
-    printf("folha: %d\n", a->folha);
-    printf("num_chaves: %d\n", a->num_chaves);
-    printf("num_filhos: %d\n", a->folha ? 0 : a->num_chaves+1);
-    if(a->folha){
-        for(int i=0; i<a->num_chaves; i++){
-            imprimeJogador(a->reg[i]);
-        }
-        if(a->prox) printf("prox: %s\n", a->prox);
-       return;
-    } else {
-        for(int i=0; i < a->num_chaves; i++){
-            printf("chave %d: %d\n", i, a->chaves[i]);
-        }
-    }
-    for(int i=0; i < a->num_chaves+1; i++){
-        printf("filho %d: %s\n", i, a->filhos[i]);
-    }
-    printf("---------------------------\n");
-}
-
-
+/**
+ * @brief Libera o nó da memória
+ * @param a Nó
+ * @param t Ordem da árvore
+ */
 void TARVBP_libera(TARVBP *a, int t){
     free(a->chaves);
     if(a->folha){
@@ -138,21 +125,22 @@ void TARVBP_libera(TARVBP *a, int t){
     free(a->nomeArq);
     free(a);
 }
+#pragma endregion
 
-TJ* buscaJogador(TARVBP* no, int id) {
-    if(no) {    
-        for(int i = 0; i < no->num_chaves; i++) {
-            if(no->reg[i]->id == id) return no->reg[i];
-        }
+TJ* TARVBP_buscaJogador(TARVBP* a, int id, int t) {
+    TARVBP* no = TARVBP_busca(a, id, t);
+    if(!no) return NULL;   
+    for(int i = 0; i < no->num_chaves; i++) {
+        if(no->reg[i]->id == id) return no->reg[i];
     }
-    return NULL;
 }
 
+#pragma region Busca
 TARVBP *buscaAux(TARVBP *a, int elem, int t){
     if(!a) return NULL;
     if(!a->folha){
         int i = 0;
-        while(i < a->num_chaves && a->chaves[i] < elem){
+        while(i < a->num_chaves && a->chaves[i] <= elem){
             i++;
         }
         TARVBP *filho = leNo(a->filhos[i], t);
@@ -163,12 +151,13 @@ TARVBP *buscaAux(TARVBP *a, int elem, int t){
         for(int i = 0; i < a->num_chaves; i++){
             if(a->reg[i]->id == elem) return a;
         }
+        TARVBP_libera(a, t);
         return NULL;
     }
 }
 
 /**
- * Faz a busca de um nó numa árvore B+.
+ * @brief Faz a busca de um nó numa árvore B+.
  * @param a Árvore
  * @param elem Elemento a ser buscado
  * @param t Ordem da árvore
@@ -183,7 +172,32 @@ TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
     return res;
 }
 
+/**
+ * @brief Verifica se a árvore possui um elemento
+ * @param a Árvore
+ * @param elem Elemento para procurar
+ * @param t Ordem da árvore
+ * @return 0 se não existe ou 1 se existe
+ */
+int TARVBP_possui_elemento(TARVBP *a, int elem, int t){
+    TARVBP *b = TARVBP_busca(a, elem, t);
+    if(b){
+        TARVBP_libera(b, t);
+        return 1;
+    }
+    return 0;
+}
+#pragma endregion
+
 #pragma region Inserção
+/**
+ * @brief Faz a divisão de um nó
+ * @param pai Raiz da árvore a ser dividida
+ * @param i nao sei
+ * @param a nao sei
+ * @param t Ordem da ávore
+ * @return Nova raiz @c TARVBP com a divisão feita
+ */
 TARVBP *divisao(TARVBP *pai, int i, TARVBP *a, int t){
     numofnodes++;
     char str[10];
@@ -255,9 +269,8 @@ TARVBP *insere_nao_completo(TARVBP *a, TJ *j, int t){
 }
 
 TARVBP *TARVBP_insere(TARVBP *a, TJ *elem, int t){
-    if(TARVBP_busca(a, elem->id, t)) return a;;
+    if(TARVBP_possui_elemento(a, elem->id, t)) return a;
     TABSELE_adicionaJogador(elem);
-    
     if(!a) {
         printf("A arvore nao foi criada com um nome para os arquivos!\n");
         exit(1);
@@ -289,10 +302,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
         for(i=0; i< a->num_chaves && a->reg[i]->id < id; i++);
     
     if((i < a->num_chaves) && (a->folha) && (id == a->reg[i]->id)){
-        //FUNCIONANDO !!
-        printf("\nCASO 1\n");
         int j;
-        TABSELE_removeJogador(a->reg[i]);
         free(a->reg[i]);
         for(j=i; j < a->num_chaves-1; j++) a->reg[j] = a->reg[j+1];
         a->reg[a->num_chaves-1] = NULL;
@@ -312,10 +322,8 @@ TARVBP *remover(TARVBP *a, int id, int t){
     if((i < a->num_chaves) && (id == a->chaves[i])) i++;
     TARVBP *y = leNo(a->filhos[i], t), *z = NULL;
     if(y->num_chaves == t-1) { //CASOS 3A e 3B
-        if(i <= a->num_chaves) z = leNo(a->filhos[i+1], t);
-        if((i < a->num_chaves) && (z->num_chaves >= t)){ //caso 3A
-            //FUNCIONANDO!!
-            printf("\nCASO 3A: i menor que num_chaves\n");
+        if(i < a->num_chaves) z = leNo(a->filhos[i+1], t);
+        if((i < a->num_chaves) && (z) && (z->num_chaves >= t)){ //caso 3A
             if(!y->folha){
                 y->chaves[t-1] = a->chaves[i];
                 a->chaves[i] = z->chaves[0];
@@ -347,13 +355,12 @@ TARVBP *remover(TARVBP *a, int id, int t){
         z = NULL;
         if(i) z = leNo(a->filhos[i-1], t);
         if((i > 0) && (z->num_chaves >= t)){ //CASO 3A 
-            // FUNCIONANDO!!!!
-            printf("\nCASO 3A: i igual a num_chaves\n");
             int j;
             if(!y->folha){
                 for(j = y->num_chaves; j > 0; j--) y->chaves[j] = y->chaves[j-1];
                 y->chaves[0] = a->chaves[i-1];
                 a->chaves[i-1] = z->chaves[z->num_chaves-1];
+                for(j = y->num_chaves+1; j>0; j--) strcpy(y->filhos[j], y->filhos[j-1]);
             } else{
                 for(j = y->num_chaves; j > 0; j--) y->reg[j] = y->reg[j-1];
                 a->chaves[i-1] = z->reg[z->num_chaves-1]->id;
@@ -373,8 +380,6 @@ TARVBP *remover(TARVBP *a, int id, int t){
         if(z) TARVBP_libera(z, t);
         z = leNo(a->filhos[i+1], t);
         if(i < a->num_chaves && z->num_chaves == t-1){
-            //FUNCIONANDO!!
-            printf("\nCASO 3B: i menor que num_chaves\n");
             if(!y->folha){
                 y->chaves[t-1] = a->chaves[i];
                 y->num_chaves++;
@@ -409,13 +414,16 @@ TARVBP *remover(TARVBP *a, int id, int t){
             a->num_chaves--;
             if(!a->num_chaves){
                 TARVBP *tmp = a;
-                a = leNo(a->filhos[0], t);
+                a = y;
                 strcpy(tmp->filhos[0], "");
                 char f[60] = "./db/";
                 strcat(f, tmp->nomeArq);
                 strcat(f, ".bin");
                 remove(f);
                 TARVBP_libera(tmp, t);
+                a = remover(a, id, t);
+                escreveNo(a->nomeArq, a);
+                return a;
             }
             escreveNo(y->nomeArq, y);
             TARVBP_libera(y, t);
@@ -425,17 +433,18 @@ TARVBP *remover(TARVBP *a, int id, int t){
         if(z) TARVBP_libera(z, t);
         z = leNo(a->filhos[i-1], t);
         if((i > 0) && (z->num_chaves == t-1)){
-            printf("\nCASO 3B: i igual a num_chaves\n");
             if(!y->folha){
                 if(i == a->num_chaves) z->chaves[t-1] = a->chaves[i-1];
                 else z->chaves[t-1] = a->chaves[i];
-
                 z->num_chaves++;
             }
             int j = 0;
             while(j < t-1){
                 if(!y->folha) z->chaves[t+j] = y->chaves[j];
-                else z->reg[t+j-1] = y->reg[j];
+                else {
+                    z->reg[t+j-1] = y->reg[j];
+                    y->reg[j] = NULL;
+                }
                 z->num_chaves++;
                 j++;
             }
@@ -449,13 +458,12 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 strcat(str, y->nomeArq);
                 strcat(str, ".bin");
                 remove(str);
-                TARVBP_libera(y, t);
             }
+            TARVBP_libera(y, t);
             escreveNo(z->nomeArq, z);
             strcpy(a->filhos[a->num_chaves], "");
             a->num_chaves--;
             if(!a->num_chaves){
-                // ta errado (double free)
                 TARVBP *tmp = a;
                 a = leNo(a->filhos[0], t);
                 strcpy(tmp->filhos[0], "");
@@ -465,15 +473,15 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 remove(f);
                 TARVBP_libera(tmp, t);
                 a = remover(a, id, t);
+                TARVBP_libera(z, t);
+                return a;
             } else{
                 i--;
-                // TARVBP *x = leNo(a->filhos[i], t);
                 z = remover(z, id, t);
                 escreveNo(z->nomeArq, z);
                 TARVBP_libera(z, t);
                 z = NULL;
             }
-            if(z && z->folha) TARVBP_libera(y, t);
             if(z) TARVBP_libera(z, t);
             return a;
         }
@@ -486,10 +494,93 @@ TARVBP *remover(TARVBP *a, int id, int t){
 }
 
 TARVBP *TARVBP_retira(TARVBP* a, int id, int t){
-    if(!a || !TARVBP_busca(a, id, t)) return a;
-    printf("vai remover\n");
+    if(!a || !TARVBP_possui_elemento(a, id, t)) return a;
     a = remover(a, id, t);
     escreveNo(a->nomeArq, a);
     return a;
+}
+#pragma endregion
+
+#pragma region Impressao
+/**
+ * @brief Imprime um nó da árvore
+ * @param a Nó
+ */
+void imprimeNo(TARVBP *a){
+    if(!a) return;
+    printf("------No lido:------\n");
+    printf("folha: %d\n", a->folha);
+    printf("num_chaves: %d\n", a->num_chaves);
+    printf("num_filhos: %d\n", a->folha ? 0 : a->num_chaves+1);
+    if(a->folha){
+        for(int i=0; i<a->num_chaves; i++){
+            imprimeJogador(a->reg[i]);
+        }
+        if(a->prox) printf("prox: %s\n", a->prox);
+       return;
+    } else {
+        for(int i=0; i < a->num_chaves; i++){
+            printf("chave %d: %d\n", i, a->chaves[i]);
+        }
+    }
+    for(int i=0; i < a->num_chaves+1; i++){
+        printf("filho %d: %s\n", i, a->filhos[i]);
+    }
+    printf("---------------------------\n");
+}
+
+/**
+ * @brief Imprime os registros da árvore
+ * @param a Árvore
+ * @param t Ordem da árvore
+ */
+void TARVBP_imprime_registros(TARVBP *a, int t){
+    if(!a) return;
+    TARVBP *p = a;
+    TARVBP *no = leNo(p->filhos[0], t);
+    while(no) {
+        if(p != a) TARVBP_libera(p, t);
+        p = no;
+        no = leNo(p->filhos[0], t);
+    }
+    while(p){
+        int i;
+        for(i = 0; i < p->num_chaves; i++) printf("%d ", p->reg[i]->id);
+        TARVBP *temp = p;
+        p = leNo(p->prox, t);
+        TARVBP_libera(temp, t);
+    }
+    printf("\n");
+}
+
+void TARVBP_imprime_aux(TARVBP *arv, int andar, int t){
+    if(arv){
+        int i,j;
+        for(i=0; i<=arv->num_chaves-1; i++){
+            TARVBP *filho = leNo(arv->filhos[i], t);
+            TARVBP_imprime_aux(filho, andar+1, t);
+            if(filho) TARVBP_libera(filho, t);
+            for(j=0; j<=andar; j++) printf("\t");
+            if(!arv->folha){
+                printf("%d\n", arv->chaves[i]);
+            }else{
+                printf("%d\n", arv->reg[i]->id);
+            }
+        }
+        TARVBP *filho = leNo(arv->filhos[i], t);
+        TARVBP_imprime_aux(filho, andar+1, t);
+        if(filho) TARVBP_libera(filho, t);
+    }
+}
+
+/**
+ * @brief Imprime a árvore
+ * @param arv Árvore
+ * @param t Ordem da árvore
+ */
+void TARVBP_imprime(TARVBP *arv, int t){
+    TARVBP_imprime_aux(arv, 0, t);
+    printf("\n");
+    TARVBP_imprime_registros(arv, t);
 }
 #pragma endregion

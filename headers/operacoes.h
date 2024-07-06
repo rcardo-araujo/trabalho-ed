@@ -1,5 +1,26 @@
 #include "TARVBP.h"
 #include "TJ.h"
+#include "TLSE_TJ.h"
+#include "TLSE_CHAR.h"
 
-TJ** buscaAllJogadoresSelecao(TARVBP* a, int t, int* tam, char* nome_pais);
-TJ** buscaAllCapitaes(TARVBP* a, int t, int* tam);
+TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]
+TLSETJ* menosAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]
+TLSETJ* menosAtuaramTotal(TARVBP* a, int t); // [03]
+TLSETJ* maisAtuaramTotal(TARVBP* a, int t); // [03]
+TLSECHAR* maioresEquipes(int* qtd); // [04]
+TLSECHAR* menoresEquipes(int* qtd); // [04]
+TLSETJ* buscaAllForaOrigemEquipe(TARVBP* a, int t, char* nome_pais); // [05]
+TLSETJ* buscaAllForaOrigem(TARVBP* a, int t); // [05]
+TLSETJ* buscaAllNaOrigemEquipe(TARVBP* a, int t, char* nome_pais); //[06]
+TLSETJ* buscaAllNaOrigem(TARVBP* a, int t); // [06]
+TLSECHAR* maioresEquipesForaOrigem(TARVBP* a, int t, int* qtd); // [09]
+TLSECHAR* maioresEquipesNaOrigem(TARVBP* a, int t, int* qtd); // [10]
+TLSETJ* buscaAllJogadoresEquipe(TARVBP* a, int t, char* nome_pais); // [13]
+TJ* buscaCapitaoEquipe(TARVBP* a, int t, char* nome_pais); // [14]
+TLSETJ* buscaAllCapitaes(TARVBP* a, int t); // [14]
+TARVBP* retiraCapitaoEquipe(TARVBP* a, int t, char* nome_pais); // [14]
+TARVBP* retiraAllCapitaes(TARVBP* a, int t); // [14]
+TARVBP* retiraAllEquipePais(TARVBP* a, int t, char* nome_equipe, char* nome_pais); // [16]
+TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais); // [17]
+TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais); // [18]
+TARVBP* retiraAllEquipe(TARVBP* a, int t, char* nome_pais); // [19]

@@ -1,0 +1,87 @@
+\hypertarget{structarvbp}{}\doxysection{Referência à estrutura arvbp}
+\label{structarvbp}\index{arvbp@{arvbp}}
+
+
+Representa um nó da árvore B+.  
+
+
+
+
+{\ttfamily \#include $<$TARVBP.\+h$>$}
+
+
+
+Diagrama de colaboração para arvbp\+:
+% FIG 0
+\doxysubsection*{Campos de Dados}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \mbox{\hyperlink{structarvbp_a411f518d6f6cce608a1bdc02ed3408ca}{nome\+Arq}}
+\item 
+int \mbox{\hyperlink{structarvbp_a1fc36897d806c4fe675faf5fe51d8370}{folha}}
+\item 
+int \mbox{\hyperlink{structarvbp_ae24bcda2048410a2c18205fd7e9273d5}{num\+\_\+chaves}}
+\item 
+int $\ast$ \mbox{\hyperlink{structarvbp_a4325fb056d9fe1b034b2920e37a04ac3}{chaves}}
+\item 
+\mbox{\hyperlink{structjogador}{TJ}} $\ast$$\ast$ \mbox{\hyperlink{structarvbp_ab3fc1bc4bf09617cc1b7653aac68eb33}{reg}}
+\item 
+char $\ast$$\ast$ \mbox{\hyperlink{structarvbp_a16d7cf5ea23ca710edae86542524e412}{filhos}}
+\item 
+char $\ast$ \mbox{\hyperlink{structarvbp_a277c986639ce34db9e12963dd45b7ea6}{prox}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrição detalhada}
+Representa um nó da árvore B+. 
+
+Esta árvore é processada em arquivos binários 
+
+\doxysubsection{Documentação dos campos e atributos}
+\mbox{\Hypertarget{structarvbp_a4325fb056d9fe1b034b2920e37a04ac3}\label{structarvbp_a4325fb056d9fe1b034b2920e37a04ac3}} 
+\index{arvbp@{arvbp}!chaves@{chaves}}
+\index{chaves@{chaves}!arvbp@{arvbp}}
+\doxysubsubsection{\texorpdfstring{chaves}{chaves}}
+{\footnotesize\ttfamily int$\ast$ arvbp\+::chaves}
+
+Vetor de chaves \mbox{\Hypertarget{structarvbp_a16d7cf5ea23ca710edae86542524e412}\label{structarvbp_a16d7cf5ea23ca710edae86542524e412}} 
+\index{arvbp@{arvbp}!filhos@{filhos}}
+\index{filhos@{filhos}!arvbp@{arvbp}}
+\doxysubsubsection{\texorpdfstring{filhos}{filhos}}
+{\footnotesize\ttfamily char$\ast$$\ast$ arvbp\+::filhos}
+
+Vetor de strings (char $\ast$) representando os filhos deste nó (cada elemento é um nome de arquivo) \mbox{\Hypertarget{structarvbp_a1fc36897d806c4fe675faf5fe51d8370}\label{structarvbp_a1fc36897d806c4fe675faf5fe51d8370}} 
+\index{arvbp@{arvbp}!folha@{folha}}
+\index{folha@{folha}!arvbp@{arvbp}}
+\doxysubsubsection{\texorpdfstring{folha}{folha}}
+{\footnotesize\ttfamily int arvbp\+::folha}
+
+Variável booleana para dizer se o nó é uma folha (1) ou não (0) \mbox{\Hypertarget{structarvbp_a411f518d6f6cce608a1bdc02ed3408ca}\label{structarvbp_a411f518d6f6cce608a1bdc02ed3408ca}} 
+\index{arvbp@{arvbp}!nomeArq@{nomeArq}}
+\index{nomeArq@{nomeArq}!arvbp@{arvbp}}
+\doxysubsubsection{\texorpdfstring{nomeArq}{nomeArq}}
+{\footnotesize\ttfamily char$\ast$ arvbp\+::nome\+Arq}
+
+Nome do arquivo que representa este nó \mbox{\Hypertarget{structarvbp_ae24bcda2048410a2c18205fd7e9273d5}\label{structarvbp_ae24bcda2048410a2c18205fd7e9273d5}} 
+\index{arvbp@{arvbp}!num\_chaves@{num\_chaves}}
+\index{num\_chaves@{num\_chaves}!arvbp@{arvbp}}
+\doxysubsubsection{\texorpdfstring{num\_chaves}{num\_chaves}}
+{\footnotesize\ttfamily int arvbp\+::num\+\_\+chaves}
+
+Quantidade de chaves deste nó \mbox{\Hypertarget{structarvbp_a277c986639ce34db9e12963dd45b7ea6}\label{structarvbp_a277c986639ce34db9e12963dd45b7ea6}} 
+\index{arvbp@{arvbp}!prox@{prox}}
+\index{prox@{prox}!arvbp@{arvbp}}
+\doxysubsubsection{\texorpdfstring{prox}{prox}}
+{\footnotesize\ttfamily char$\ast$ arvbp\+::prox}
+
+String (char $\ast$) com o nome do arquivo para o próximo nó da lista encadeada \mbox{\Hypertarget{structarvbp_ab3fc1bc4bf09617cc1b7653aac68eb33}\label{structarvbp_ab3fc1bc4bf09617cc1b7653aac68eb33}} 
+\index{arvbp@{arvbp}!reg@{reg}}
+\index{reg@{reg}!arvbp@{arvbp}}
+\doxysubsubsection{\texorpdfstring{reg}{reg}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structjogador}{TJ}}$\ast$$\ast$ arvbp\+::reg}
+
+Vetor de ponteiros para TJ 
+
+A documentação para esta estrutura foi gerada a partir do seguinte ficheiro\+:\begin{DoxyCompactItemize}
+\item 
+/home/pcbmoreira2/\+Projetos/trabalho-\/ed/headers/\mbox{\hyperlink{TARVBP_8h}{TARVBP.\+h}}\end{DoxyCompactItemize}

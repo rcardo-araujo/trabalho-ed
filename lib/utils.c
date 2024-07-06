@@ -1,23 +1,35 @@
 #include "../headers/includes.h"
 
-/*
-Biblioteca que vamos compor para uma série de utilidades que não
-estão diretamente relacionadas à criação das tabelas e estruturas
-de dados do trabalho. 
+/**
+ * @file utils.c
+ * @brief   Biblioteca que vamos compor para uma série de utilidades que não
+            estão diretamente relacionadas à criação das tabelas e estruturas
+            de dados do trabalho. 
 */
 
-void readLine(FILE *fp, char *string, int *size, char splitter){
+void readLine(FILE *fp, char *string, int *size, char splitter) {
     int i = 0, x;
     char c;
-    while(i < 40){
+
+    while(i < 40) {
         x = fread(&c, sizeof(char), 1, fp);
-        if((c == splitter) || (x != 1)){
+        if ((c == splitter) || (x != 1)) {
             string[i] = '\0';
             break;
         }
-        string[i] = c;
-        i++;
+        if (c != '\n' && c != '\r') { // Ignorar nova linha e retorno de carro
+            string[i] = c;
+            i++;
+        }
     }
+
+    // Garantir que a string é terminada corretamente
+    if (i < 40) {
+        string[i] = '\0';
+    } else {
+        string[39] = '\0';
+    }
+
     (*size) = i;
 }
 

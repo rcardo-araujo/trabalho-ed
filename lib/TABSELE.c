@@ -1,8 +1,12 @@
 #include "../headers/includes.h"
 
+int TABSELE_tam() {
+    return TAM;
+}
+
 void TABSELE_inicializa(void) {
-    FILE* ftab = fopen(tab_selecoes, "wb");
-    printf("%s", tab_selecoes);
+    FILE* ftab = fopen(TAB_SELECOES, "wb");
+    printf("%s", TAB_SELECOES);
     if(!ftab) {
         printf("Nao foi possivel abrir arquivo em tab_selecao->inicializa\n");
         exit(1);
@@ -10,21 +14,26 @@ void TABSELE_inicializa(void) {
     fclose(ftab);
 }
 
-int indSelecao(FILE* ftab, char* nome) {
-    fseek(ftab, 0L, SEEK_END);
-    int tam_arq = ftell(ftab), i = 0;
+int indSelecao(FILE* ftab, char* nome_pais) {
+    int i = 0;
     TSELE reg_aux;
-    while(i < tam_arq) {
+    //printf("%sSize: %d\n", nome_pais, strlen(nome_pais));
+    while(i < TABSELE_tam()) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
-        if(!strcmp(reg_aux.nome, nome)) return i;
+        //printf("%s Size: %d\n", reg_aux.nome_pais, strlen(reg_aux.nome_pais));
+        if(!strncmp(nome_pais, reg_aux.nome_pais, 3)) {
+            // printf("Encontrou seleção %s na posição %d\n", nome_pais, i);
+            return i;
+        }
         i += sizeof(TSELE);
     }
+    //printf("Seleção %s não encontrada\n", nome_pais);
     return -1;
 }
 
-int existeSelecao(FILE* ftab, char* nome) {
-    if(indSelecao(ftab, nome) != -1) return 1;
+int existeSelecao(FILE* ftab, char* nome_pais) {
+    if(indSelecao(ftab, nome_pais) != -1) return 1;
     return 0;
 }
 
@@ -35,7 +44,6 @@ int existeJogador(FILE* ftab, TJ* jogador) {
 
     TSELE reg_aux;
     fread(&reg_aux, sizeof(TSELE), 1, ftab);
-    if(reg_aux.tem_capitao && reg_aux.id_capitao == jogador->id) return 1;
     if(reg_aux.num_jogadores) {
         for(i = 0; i < reg_aux.num_jogadores; i++) {
             if(reg_aux.jogadores[i] == jogador->id) return 1;
@@ -46,38 +54,31 @@ int existeJogador(FILE* ftab, TJ* jogador) {
 
 TSELE* TABSELE_criaReg(char* nome_pais) {
     TSELE* novo = (TSELE*)malloc(sizeof(TSELE));
-    strcpy(novo->nome, nome_pais);
+    strncpy(novo->nome_pais, nome_pais, 12);
     novo->tem_capitao = 0;
-    novo->id_capitao = -1;
+    novo->ind_capitao = 0;
     novo->num_jogadores = 0;
     return novo;
 }
 
 void TABSELE_adicionaJogador(TJ* jogador) {
-    FILE* ftab = fopen(tab_selecoes, "rb+");
-    if(!ftab) {
-        printf("Nao foi possivel abrir arquivo em tab_selecao->adicionaJogador\n");
-        exit(1);
-    }
+    FILE* ftab = fopen(TAB_SELECOES, "rb+");
+    if(!ftab) exit(1);
     
     if(existeJogador(ftab, jogador)) {
         fclose(ftab);
         return;
     }
     if(!existeSelecao(ftab, jogador->pais)) {
-        // printf("Nome: %s\tSelecao: %s\n", jogador->nome, jogador->pais);
         TSELE* novo = TABSELE_criaReg(jogador->pais);
         fseek(ftab, 0L, SEEK_END);
+        novo->num_jogadores = 1;
+        novo->jogadores[0] = jogador->id;
         if(jogador->capitao) {
             novo->tem_capitao = 1;
-            novo->id_capitao = jogador->id;
-            fwrite(novo, sizeof(TSELE), 1, ftab);
+            novo->ind_capitao = 0;
         }
-        else {
-            novo->num_jogadores = 1;
-            novo->jogadores[0] = jogador->id;
-            fwrite(novo, sizeof(TSELE), 1, ftab);
-        }
+        fwrite(novo, sizeof(TSELE), 1, ftab);
         free(novo);
     }
     else {
@@ -87,12 +88,9 @@ void TABSELE_adicionaJogador(TJ* jogador) {
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         if(jogador->capitao) {
             reg_aux.tem_capitao = 1;
-            reg_aux.id_capitao = jogador->id;
+            reg_aux.ind_capitao = reg_aux.num_jogadores;
         }
-        else {
-            reg_aux.jogadores[reg_aux.num_jogadores++] = jogador->id;
-        }
-
+        reg_aux.jogadores[reg_aux.num_jogadores++] = jogador->id;
         fseek(ftab, ind_sele, SEEK_SET);
         fwrite(&reg_aux, sizeof(TSELE), 1, ftab);
     }
@@ -100,36 +98,32 @@ void TABSELE_adicionaJogador(TJ* jogador) {
 }
 
 void TABSELE_removeJogador(TJ* jogador) {
-    FILE* ftab = fopen(tab_selecoes, "rb+");
-    if(!ftab) {
-        printf("Nao foi possivel abrir arquivo em tab_selecao->removeJogador\n");
-        exit(1);
-    }
+    FILE* ftab = fopen(TAB_SELECOES, "rb+");
+    if(!ftab) return;
 
-    if(!existeJogador(ftab, jogador)) return;
+    if(existeJogador(ftab, jogador)) {
+        TSELE reg_aux;
+        int ind_sele = indSelecao(ftab, jogador->pais), i, j;
+        fseek(ftab, ind_sele, SEEK_SET);
+        fread(&reg_aux, sizeof(TSELE), 1, ftab);
 
-    int ind_sele = indSelecao(ftab, jogador->pais), j;
-    TSELE reg_aux;
-    if(reg_aux.tem_capitao && reg_aux.id_capitao == jogador->id) {
-        reg_aux.tem_capitao = 0;
-        reg_aux.id_capitao = -1;
-    }
-    else if(reg_aux.num_jogadores) {
-        for(j = 0; j < reg_aux.num_jogadores && reg_aux.jogadores[j] != jogador->id; j++);
-        if(j != reg_aux.num_jogadores) {
-            reg_aux.num_jogadores--;
-            for(j; j < reg_aux.num_jogadores - 1; j++)
-                reg_aux.jogadores[j] = reg_aux.jogadores[j + 1];
+        for(i = 0; i < reg_aux.num_jogadores; i++) {
+            if(jogador->id == reg_aux.jogadores[i]) {
+                reg_aux.num_jogadores--;
+                for(j = i; j < reg_aux.num_jogadores; j++)
+                    reg_aux.jogadores[j] = reg_aux.jogadores[j + 1];
+                if(jogador->capitao) reg_aux.tem_capitao = 0;
+                fseek(ftab, ind_sele, SEEK_SET);
+                fwrite(&reg_aux, sizeof(TSELE), 1, ftab);
+                break;
+            }
         }
     }
-    
-    fseek(ftab, ind_sele, SEEK_SET);
-    fwrite(&reg_aux, sizeof(TSELE), 1, ftab);
     fclose(ftab);
 }
 
 void TABSELE_imprimeTabela(void) {
-    FILE* ftab = fopen(tab_selecoes, "rb");
+    FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) {
         printf("Nao foi possivel abrir arquivo em tab_selecao->imprimeTabela\n");
         exit(1);
@@ -144,9 +138,10 @@ void TABSELE_imprimeTabela(void) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
 
-        printf("\n%s\n", reg_aux.nome);
+        printf("\n-------------------------\n");
+        printf("%s\n", reg_aux.nome_pais);
         printf("Tem capitao?: %s\n", (reg_aux.tem_capitao) ? "Sim" : "Nao");
-        if(reg_aux.tem_capitao) printf("ID do capitao: %d\n", reg_aux.id_capitao);
+        if(reg_aux.tem_capitao) printf("ID do capitao: %d\n", reg_aux.jogadores[reg_aux.ind_capitao]);
         printf("Numero de jogadores: %d\n", reg_aux.num_jogadores);
         if(reg_aux.num_jogadores) {
             printf("IDs dos jogadores: ");
@@ -159,5 +154,4 @@ void TABSELE_imprimeTabela(void) {
         i += sizeof(TSELE);
     }
     fclose(ftab);
-    printf("@@@@@@@@@@@@@@@@@@@@@@@\n");
 }

@@ -6,3 +6,5 @@
 #include "../headers/TJ.h"
 #include "../headers/TABSELE.h"
 #include "../headers/operacoes.h"
+#include "../headers/TLSE_TJ.h"
+#include "../headers/TLSE_CHAR.h"
