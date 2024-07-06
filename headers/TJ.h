@@ -21,7 +21,6 @@ typedef struct jogador{
 } TJ;
 
 TJ* leJogador(FILE* fp, char* selecao);
-int capitao(char* nome);
 void imprimeJogador(TJ* j);
 int verificaSelecao(FILE* fp);
 
