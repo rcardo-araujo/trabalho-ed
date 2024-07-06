@@ -15,7 +15,7 @@ int TH_hash(char *data){
     }
     ano[4] = '\0';
 
-	return (atoi(mes)-1) + ((atoi(ano)-1983) * 12);
+	return (atoi(mes)-1) + ((atoi(ano)-1977) * 12);
 }
 
 void TH_inicializa(char *arq, char *dados){
