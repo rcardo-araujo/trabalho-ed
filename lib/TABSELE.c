@@ -1,7 +1,10 @@
 #include "../headers/includes.h"
 
+const char* TAB_SELECOES = "tabelas/tab_selecoes.bin";
+const int TAM_TABSELE = (sizeof(TSELE)) * 11;
+
 int TABSELE_tam() {
-    return TAM;
+    return TAM_TABSELE;
 }
 
 void TABSELE_inicializa(void) {
@@ -17,18 +20,14 @@ void TABSELE_inicializa(void) {
 int indSelecao(FILE* ftab, char* nome_pais) {
     int i = 0;
     TSELE reg_aux;
-    //printf("%sSize: %d\n", nome_pais, strlen(nome_pais));
     while(i < TABSELE_tam()) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
-        //printf("%s Size: %d\n", reg_aux.nome_pais, strlen(reg_aux.nome_pais));
         if(!strncmp(nome_pais, reg_aux.nome_pais, 3)) {
-            // printf("Encontrou seleção %s na posição %d\n", nome_pais, i);
             return i;
         }
         i += sizeof(TSELE);
     }
-    //printf("Seleção %s não encontrada\n", nome_pais);
     return -1;
 }
 

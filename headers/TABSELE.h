@@ -21,7 +21,7 @@ void TABSELE_adicionaJogador(TJ* jogador);
 void TABSELE_removeJogador(TJ* jogador);
 void TABSELE_imprimeTabela(void);
 
-static const char* TAB_SELECOES = "tabelas/tab_selecoes.bin";
-static const int TAM = (sizeof(TSELE)) * 11;
+extern const char* TAB_SELECOES;
+extern const int TAM_TABSELE;
 
 #endif
