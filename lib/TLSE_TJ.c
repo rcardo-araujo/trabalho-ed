@@ -22,6 +22,7 @@ TLSETJ* TLSETJ_insere(TLSETJ* l, TJ* elem) {
 
 TLSETJ* TLSETJ_libera(TLSETJ* l) {
     if(l) {
+        free(l->jogador);
         l->prox = TLSETJ_libera(l->prox);
         free(l);
     }
