@@ -63,10 +63,26 @@ void criaData(char *destino, char *dia, char *meses, char *ano){
     strcat(destino, ano);
 }
 
+void skip_bom(FILE *fp) {
+    unsigned char bom[3];
+    if (fread(bom, 1, 3, fp) == 3) {
+        if (bom[0] != 0xEF || bom[1] != 0xBB || bom[2] != 0xBF) {
+            // Não é BOM, então volte o ponteiro de leitura para o início
+            fseek(fp, 0, SEEK_SET);
+        }
+    } else {
+        // Não há bytes suficientes para ser um BOM, então volte o ponteiro de leitura para o início
+        fseek(fp, 0, SEEK_SET);
+    }
+}
+
 TARVBP* catalogo2Arv(char *nomeArq, int t){
     TARVBP *a = TARVBP_cria(nomeArq, t);
     TH_inicializa("hash.dat", "dados.dat");
     FILE *fp = fopen("catalogo.txt", "r");
+    if(!fp) exit(1);
+    skip_bom(fp);
+
     char selecao[40];
     int size;
     TJ *j;
