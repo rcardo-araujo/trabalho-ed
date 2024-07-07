@@ -71,10 +71,10 @@ TLSETJ* maisAtuaramCadaEquipe(TARVBP* a, int t) {
         l_aux = maisAtuaramEquipe(a, t, reg_aux.nome_pais);
         p = l_aux;
         while(p) {
-            l = TLSETJ_insere(l, p->jogador);
+            l = TLSETJ_insere(l, TJ_copiaJogador(p->jogador));
             p = p->prox;
         }
-        TLSETJ_libera(l_aux);
+        l_aux = TLSETJ_libera(l_aux);
         i += sizeof(TSELE);
     }
     fclose(ftab);
@@ -95,7 +95,7 @@ TLSETJ* menosAtuaramCadaEquipe(TARVBP* a, int t) {
         l_aux = menosAtuaramEquipe(a, t, reg_aux.nome_pais);
         p = l_aux;
         while(p) {
-            l = TLSETJ_insere(l, p->jogador);
+            l = TLSETJ_insere(l, TJ_copiaJogador(p->jogador));
             p = p->prox;
         }
         TLSETJ_libera(l_aux);
@@ -307,7 +307,7 @@ TLSETJ* buscaAllNaOrigem(TARVBP* a, int t) {
         
         p = l_aux;
         while(p) {
-            l = TLSETJ_insere(l, p->jogador);
+            l = TLSETJ_insere(l, TJ_copiaJogador(p->jogador));
             p = p->prox;
         }
         l_aux = TLSETJ_libera(l_aux);
