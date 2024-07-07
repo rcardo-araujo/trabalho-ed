@@ -53,7 +53,8 @@ TJ *leJogador(FILE *fp, char *selecao){
     fscanf(fp, "%c", &c);
     fscanf(fp, "%21[^/]", j->pais_time);
     fscanf(fp, "%c", &c);
-    fscanf(fp, "%24[^\n]", j->time);
+    fscanf(fp, "%24[^\n\r]", j->time);
+    fscanf(fp, "%c", &c);
     fscanf(fp, "%c", &c);
     return j;
 }
