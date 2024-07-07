@@ -1,7 +1,7 @@
 #include "../headers/includes.h"
 #include <string.h>
 
-#define TAM 360
+#define TAM_TH 360
 
 int TH_hash(char *data){
 	char mes[3], ano[5];
@@ -25,7 +25,7 @@ void TH_inicializa(char *arq, char *dados){
 	fp = fopen(arq, "wb");
 	if(!fp) exit(1);
 	int i, elem = -1;
-	for(i = 0; i < TAM; i++)fwrite(&elem, sizeof(int), 1, fp);
+	for(i = 0; i < TAM_TH; i++)fwrite(&elem, sizeof(int), 1, fp);
 	fclose(fp);
 }
 
@@ -204,14 +204,14 @@ void TH_insere(char *tabHash, char *arq, char *data, int id){
 void TH_imprime (char *nome_hash, char *nome_dados){
 	FILE *fp = fopen(nome_hash, "rb");
 	if(!fp) exit(1);
-	int vet[TAM];
-	fread(&vet, sizeof(int), TAM, fp);
+	int vet[TAM_TH];
+	fread(&vet, sizeof(int), TAM_TH, fp);
 	fclose(fp);
 
 	fp = fopen(nome_dados, "rb");
 	if(!fp) exit(1);
 	int i, pos;
-	for(i = 0; i < TAM; i++){
+	for(i = 0; i < TAM_TH; i++){
 		int p = vet[i];
 		if(p != -1) printf("%d:\n", i);
 		TIJ x;
