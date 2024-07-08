@@ -728,3 +728,12 @@ TJ *maisVelhosPorEquipe(TARVBP *arv, int t, char *pais){
     TLSETJ_libera(l);
     return menor;
 }
+
+// Operação [20] - Retira jogadores dado um 
+// vetor de suas chaves primárias
+TARVBP *retiraIds(TARVBP *arv, int t, int *vet, int n){
+    for(int i = 0; i < n; i++){
+        arv = TARVBP_retira(arv, vet[i], t);
+    }
+    return arv;
+}

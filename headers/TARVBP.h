@@ -45,5 +45,6 @@ void TARVBP_imprime(TARVBP *arv, int t);
 void TARVBP_imprime_chaves(TARVBP *a, int t);
 
 void TARVBP_libera(TARVBP* a, int t);
+int TARVBP_possui_elemento(TARVBP *a, int elem, int t);
 
 #endif

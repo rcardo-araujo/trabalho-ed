@@ -138,6 +138,7 @@ TARVBP* menu(TARVBP* a, int t) {
         printf("[17] Remover todos os jogadores de uma equipe que jogam na origem\n");
         printf("[18] Remover todos os jogadores de uma equipe que não jogam na origem\n");
         printf("[19] Remover todos os jogadores de uma equipe\n");
+        printf("[20] Remover jogadores dado um conjunto de suas chaves primárias\n");
         printf("\n[0] Imprimir IDs da árvore\n");
         printf("[-1] Sair\n");
         printf("------------------------------\n");
@@ -569,6 +570,31 @@ TARVBP* menu(TARVBP* a, int t) {
             printf("\nDigite a equipe: ");
             scanf(" %11[^\n]", nome_equipe);
             a = retiraAllEquipe(a, t, nome_equipe);
+            continue;
+        }
+        // [20] Remoção de jogadores dado um vetor de suas chaves primárias
+        if(opcao == 20){
+            int num, idJ;
+            printf("\nDigite quantos jogadores você quer remover: ");
+            do{
+                scanf(" %d", &num);
+                if(num < 1 || num > 284) printf("\nDigite uma quantidade válida...\n");
+                else break;
+            } while(1);
+            int vet[num];
+            for(int i = 0; i < num; i++){
+                printf("\nDigite o id do jogador: ");
+                do{
+                    scanf(" %d", &idJ);
+                    if(!TARVBP_possui_elemento(a, idJ, t)){
+                        printf("\nNão existe jogador com esse id!\n");
+                    } else {
+                        vet[i] = idJ;
+                        break;
+                    }
+                } while(1);
+            }
+            a = retiraIds(a, t, vet, num);
             continue;
         }
 
