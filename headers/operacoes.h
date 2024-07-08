@@ -35,5 +35,6 @@ TARVBP* retiraAllEquipeAtuaPais(TARVBP* a, int t, char* nome_equipe, char* nome_
 TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais); // [17]
 TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais); // [18]
 TARVBP* retiraAllEquipe(TARVBP* a, int t, char* nome_pais); // [19]
+TARVBP *retiraIds(TARVBP *arv, int t, int *vet, int n); // [20]
 
 #endif
