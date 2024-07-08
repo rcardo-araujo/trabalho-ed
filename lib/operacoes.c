@@ -6,7 +6,7 @@ TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais) {
     FILE* ftab  = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
 
-    int ind = indSelecao(ftab, pais), i, maior = INT_MIN;
+    int ind = TABSELE_indiceEquipe(pais), i, maior = INT_MIN;
     TLSETJ* l = TLSETJ_inicializa();
     TJ* jog_aux;
     TSELE reg_aux;
@@ -34,7 +34,7 @@ TLSETJ* menosAtuaramEquipe(TARVBP* a, int t, char* pais) {
     FILE* ftab  = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
 
-    int ind = indSelecao(ftab, pais), i, menor = INT_MAX;
+    int ind = TABSELE_indiceEquipe(pais), i, menor = INT_MAX;
     TLSETJ* l = TLSETJ_inicializa();
     TJ* jog_aux;
     TSELE reg_aux;
@@ -65,7 +65,7 @@ TLSETJ* maisAtuaramCadaEquipe(TARVBP* a, int t) {
     TLSETJ* l = TLSETJ_inicializa(), * l_aux, * p;
     TSELE reg_aux;
     int i = 0;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         l_aux = maisAtuaramEquipe(a, t, reg_aux.nome_pais);
@@ -89,7 +89,7 @@ TLSETJ* menosAtuaramCadaEquipe(TARVBP* a, int t) {
     TLSETJ* l = TLSETJ_inicializa(), * l_aux, * p;
     TSELE reg_aux;
     int i = 0;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         l_aux = menosAtuaramEquipe(a, t, reg_aux.nome_pais);
@@ -114,7 +114,7 @@ TLSETJ* menosAtuaramTotal(TARVBP* a, int t) {
     int i = 0, j, menor = INT_MAX;
     TSELE reg_aux;
     TJ* jog_aux;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         for(j = 0; j < reg_aux.num_jogadores; j++) {
@@ -144,7 +144,7 @@ TLSETJ* maisAtuaramTotal(TARVBP* a, int t) {
     int i = 0, j, maior = INT_MIN;
     TSELE reg_aux;
     TJ* jog_aux;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         for(j = 0; j < reg_aux.num_jogadores; j++) {
@@ -173,7 +173,7 @@ TLSECHAR* maioresEquipes(int* qtd) {
     TLSECHAR* l = TLSECHAR_inicializa();
     int i = 0, j, maior = INT_MIN;
     TSELE reg_aux;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         if(reg_aux.num_jogadores > maior) {
@@ -199,7 +199,7 @@ TLSECHAR* menoresEquipes(int* qtd) {
     TLSECHAR* l = TLSECHAR_inicializa();
     int i = 0, j, menor = INT_MAX;
     TSELE reg_aux;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         if(reg_aux.num_jogadores < menor) {
@@ -224,7 +224,7 @@ TLSETJ* buscaAllForaOrigemEquipe(TARVBP* a, int t, char* nome_pais) {
     if(!ftab) exit(1);
 
     TLSETJ* l = TLSETJ_inicializa();
-    int ind = indSelecao(ftab, nome_pais), i;
+    int ind = TABSELE_indiceEquipe(nome_pais), i;
     TJ* jog_aux;
     TSELE reg_aux;
 
@@ -250,7 +250,7 @@ TLSETJ* buscaAllForaOrigem(TARVBP* a, int t) {
     TLSETJ* l = TLSETJ_inicializa(), *l_aux, *p;
     TSELE reg_aux;
     int i = 0;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         l_aux = buscaAllForaOrigemEquipe(a, t, reg_aux.nome_pais);
@@ -274,7 +274,7 @@ TLSETJ* buscaAllNaOrigemEquipe(TARVBP* a, int t, char* nome_pais) {
     if(!ftab) exit(1);
 
     TLSETJ* l = TLSETJ_inicializa();
-    int ind = indSelecao(ftab, nome_pais), i;
+    int ind = TABSELE_indiceEquipe(nome_pais), i;
     TJ* jog_aux;
     TSELE reg_aux;
 
@@ -300,7 +300,7 @@ TLSETJ* buscaAllNaOrigem(TARVBP* a, int t) {
     TLSETJ* l = TLSETJ_inicializa(), *l_aux, *p;
     TSELE reg_aux;
     int i = 0;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         l_aux = buscaAllNaOrigemEquipe(a, t, reg_aux.nome_pais);
@@ -327,7 +327,7 @@ TLSECHAR* maioresEquipesForaOrigem(TARVBP* a, int t, int* qtd) {
     TLSETJ* l_aux, *p;
     TSELE reg_aux;
     int i = 0, maior = INT_MIN, qtd_aux;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         l_aux = buscaAllForaOrigemEquipe(a, t, reg_aux.nome_pais);
@@ -363,7 +363,7 @@ TLSECHAR* maioresEquipesNaOrigem(TARVBP* a, int t, int* qtd) {
     TLSETJ* l_aux, *p;
     TSELE reg_aux;
     int i = 0, maior = INT_MIN, qtd_aux;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         l_aux = buscaAllNaOrigemEquipe(a, t, reg_aux.nome_pais);
@@ -394,7 +394,7 @@ TLSETJ* buscaAllJogadoresEquipe(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
 
-    int ind = indSelecao(ftab, nome_pais), i;
+    int ind = TABSELE_indiceEquipe(nome_pais), i;
     TLSETJ* l = TLSETJ_inicializa();
     TJ* jog_aux;
     TSELE reg_aux;
@@ -414,7 +414,7 @@ TJ* buscaCapitaoEquipe(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
 
-    int ind = indSelecao(ftab, nome_pais), i;
+    int ind = TABSELE_indiceEquipe(nome_pais), i;
     TJ* jog_aux = NULL;
     TSELE reg_aux;
 
@@ -434,7 +434,7 @@ TLSETJ* buscaAllCapitaes(TARVBP* a, int t) {
     TJ* jog_aux;
     TSELE reg_aux;
     int i = 0;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         jog_aux = buscaCapitaoEquipe(a, t, reg_aux.nome_pais);
@@ -450,7 +450,7 @@ TARVBP* retiraCapitaoEquipe(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
 
-    int ind = indSelecao(ftab, nome_pais), i;
+    int ind = TABSELE_indiceEquipe(nome_pais), i;
     TJ* jog_aux = NULL;
     TSELE reg_aux;
 
@@ -470,7 +470,7 @@ TARVBP* retiraAllCapitaes(TARVBP* a, int t) {
 
     TSELE reg_aux;
     int i = 0;
-    while(i < TABSELE_tam()) {
+    while(i < TAM_TABSELE) {
         fseek(ftab, i, SEEK_SET);
         fread(&reg_aux, sizeof(TSELE), 1, ftab);
         a = retiraCapitaoEquipe(a, t, reg_aux.nome_pais);
@@ -482,11 +482,11 @@ TARVBP* retiraAllCapitaes(TARVBP* a, int t) {
 
 // Operação [16] - Remoção de jogadores
 // de uma equipe que atuam num determinado país
-TARVBP* retiraAllEquipePais(TARVBP* a, int t, char* nome_equipe, char* nome_pais) {
+TARVBP* retiraAllEquipeAtuaPais(TARVBP* a, int t, char* nome_equipe, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
 
-    int ind = indSelecao(ftab, nome_equipe), i;
+    int ind = TABSELE_indiceEquipe(nome_equipe), i;
     TJ* jog_aux;
     TSELE reg_aux;
     
@@ -509,7 +509,7 @@ TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb+");
     if(!ftab) exit(1);
     
-    int ind = indSelecao(ftab, nome_pais), i;
+    int ind = TABSELE_indiceEquipe(nome_pais), i;
     TJ* jog_aux;
     TSELE reg_aux;
 
@@ -517,7 +517,7 @@ TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais) {
     fread(&reg_aux, sizeof(TSELE), 1, ftab);
     for(i = 0; i < reg_aux.num_jogadores; i++) {
         jog_aux = TARVBP_buscaJogador(a, reg_aux.jogadores[i], t);
-        if(!strcmp(jog_aux->pais, reg_aux.nome_pais)) {
+        if(!strcmp(jog_aux->pais_time, nome_pais)) {
             a = TARVBP_retira(a, jog_aux->id, t);
         }
         free(jog_aux);
@@ -532,15 +532,17 @@ TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb+");
     if(!ftab) exit(1);
     
-    int ind = indSelecao(ftab, nome_pais), i;
+    int ind = TABSELE_indiceEquipe(nome_pais), i;
     TJ* jog_aux;
     TSELE reg_aux;
 
     fseek(ftab, ind, SEEK_SET);
     fread(&reg_aux, sizeof(TSELE), 1, ftab);
     for(i = 0; i < reg_aux.num_jogadores; i++) {
+        printf("ID: %d\n", reg_aux.jogadores[i]);
         jog_aux = TARVBP_buscaJogador(a, reg_aux.jogadores[i], t);
-        if(strcmp(jog_aux->pais, reg_aux.nome_pais)) {
+        if(!jog_aux) printf("\nJogador não enccontrado!\n");
+        if(strcmp(jog_aux->pais_time, nome_pais)) {
             a = TARVBP_retira(a, jog_aux->id, t);
         }
         free(jog_aux);
@@ -555,7 +557,7 @@ TARVBP* retiraAllEquipe(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
     if(!ftab) exit(1);
 
-    int ind = indSelecao(ftab, nome_pais), i;
+    int ind = TABSELE_indiceEquipe(nome_pais), i;
     TSELE reg_aux;
 
     fseek(ftab, ind, SEEK_SET);

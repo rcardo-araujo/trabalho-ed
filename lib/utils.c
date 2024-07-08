@@ -135,6 +135,7 @@ TARVBP* menu(TARVBP* a, int t) {
         printf("[11] Buscar jogador\n");
         printf("[13] Buscar todos os jogadores de uma equipe\n");
         printf("[14] Buscar ou remover os capitães\n");
+        printf("[16] Remover jogadores de um equipe que atuam num determinado país\n");
         printf("[17] Remover todos os jogadores de uma equipe que jogam na origem\n");
         printf("[18] Remover todos os jogadores de uma equipe que não jogam na origem\n");
         printf("[19] Remover todos os jogadores de uma equipe\n");
@@ -166,6 +167,11 @@ TARVBP* menu(TARVBP* a, int t) {
             if(opcao == 1){
                 printf("\nDigite o país desejado: ");
                 scanf(" %11[^\n]", nome_equipe);
+                if(!existeEquipe(nome_equipe)) {
+                    printf("\nOpção de equipe inválida!\n");
+                    continue;
+                }
+
                 TJ *j = maisNovosPorEquipe(a, t, nome_equipe);
                 if(j){
                     imprimeJogador(j);
@@ -196,6 +202,11 @@ TARVBP* menu(TARVBP* a, int t) {
             if(opcao == 1) {
                 printf("\nDigite o país desejado: ");
                 scanf(" %11[^\n]", nome_equipe);
+                if(!existeEquipe(nome_equipe)) {
+                    printf("\nOpção de equipe inválida!\n");
+                    continue;
+                }
+
                 TLSETJ* l = maisAtuaramEquipe(a, t, nome_equipe);
                 if(!l) {
                     printf("\nBase de dados OU seleção vazia!\n");
@@ -212,6 +223,11 @@ TARVBP* menu(TARVBP* a, int t) {
             if(opcao == 2) {
                 printf("\nDigite o país desejado: ");
                 scanf(" %11[^\n]", nome_equipe);
+                if(!existeEquipe(nome_equipe)) {
+                    printf("\nOpção de equipe inválida!\n");
+                    continue;
+                }
+
                 TLSETJ* l = menosAtuaramEquipe(a, t, nome_equipe);
                 if(!l) {
                     printf("\nBase de dados OU seleção vazia!\n");
@@ -344,6 +360,11 @@ TARVBP* menu(TARVBP* a, int t) {
             if(opcao == 1) {
                 printf("\nDigite a equipe desejada: ");
                 scanf(" %11[^\n]", nome_equipe);
+                if(!existeEquipe(nome_equipe)) {
+                    printf("\nOpção de equipe inválida!\n");
+                    continue;
+                }
+
                 TLSETJ* l = buscaAllForaOrigemEquipe(a, t, nome_equipe);
                 if(!l) {
                     printf("\nNenhum jogador dessa seleção atua fora da origem!\n");
@@ -384,6 +405,11 @@ TARVBP* menu(TARVBP* a, int t) {
             if(opcao == 1) {
                 printf("\nDigite a equipe desejada: ");
                 scanf(" %11[^\n]", nome_equipe);
+                if(!existeEquipe(nome_equipe)) {
+                    printf("\nOpção de equipe inválida!\n");
+                    continue;
+                }
+
                 TLSETJ* l = buscaAllNaOrigemEquipe(a, t, nome_equipe);
                 if(!l) {
                     printf("\nNenhum jogador dessa seleção atua na origem!\n");
@@ -470,6 +496,11 @@ TARVBP* menu(TARVBP* a, int t) {
         if(opcao == 13) {
             printf("\nDigite o nome da seleção: ");
             scanf(" %11[^\n]", nome_equipe);
+            if(!existeEquipe(nome_equipe)) {
+                printf("\nOpção de equipe inválida!\n");
+                continue;
+            }
+
             TLSETJ* l = buscaAllJogadoresEquipe(a, t, nome_equipe);
             if(!l) {
                 printf("\nSeleção vazia!\n");
@@ -495,6 +526,11 @@ TARVBP* menu(TARVBP* a, int t) {
             if(opcao == 1) {
                 printf("\nDigite a equipe desejada: ");
                 scanf(" %11[^\n]", nome_equipe);
+                if(!existeEquipe(nome_equipe)) {
+                    printf("\nOpção de equipe inválida!\n");
+                    continue;
+                }
+
                 TJ* jog = buscaCapitaoEquipe(a, t, nome_equipe);
                 if(!jog) {
                     printf("Seleção não possui capitão!\n");
@@ -511,6 +547,11 @@ TARVBP* menu(TARVBP* a, int t) {
             if(opcao == 2) {
                 printf("\nDigite a equipe desejada: ");
                 scanf(" %11[^\n]", nome_equipe);
+                if(!existeEquipe(nome_equipe)) {
+                    printf("\nOpção de equipe inválida!\n");
+                    continue;
+                }
+
                 a = retiraCapitaoEquipe(a, t, nome_equipe);
                 continue;
             }
@@ -544,7 +585,11 @@ TARVBP* menu(TARVBP* a, int t) {
             scanf(" %11[^\n]", nome_equipe);
             printf("\nDigite o nome do país de atuação: ");
             scanf(" %11[^\n]", nome_pais);
-            a = retiraAllEquipePais(a, t, nome_equipe, nome_pais);
+            if(!existeEquipe(nome_equipe) || !existeEquipe(nome_pais)) {
+                printf("\nOpção de equipe inválida!\n");
+                continue;
+            }
+            a = retiraAllEquipeAtuaPais(a, t, nome_equipe, nome_pais);
             continue;
         }
 
@@ -552,6 +597,11 @@ TARVBP* menu(TARVBP* a, int t) {
         if(opcao == 17) {
             printf("\nDigite a equipe: ");
             scanf(" %11[^\n]", nome_equipe);
+            if(!existeEquipe(nome_equipe)) {
+                printf("\nOpção de equipe inválida!\n");
+                continue;
+            }
+
             a = retiraAllNaOrigem(a, t, nome_equipe);
             continue;
         }
@@ -560,6 +610,11 @@ TARVBP* menu(TARVBP* a, int t) {
         if(opcao == 18) {
             printf("\nDigite a equipe: ");
             scanf(" %11[^\n]", nome_equipe);
+            if(!existeEquipe(nome_equipe)) {
+                printf("\nOpção de equipe inválida!\n");
+                continue;
+            }
+
             a = retiraAllForaOrigem(a, t, nome_equipe);
             continue;
         }
@@ -568,6 +623,11 @@ TARVBP* menu(TARVBP* a, int t) {
         if(opcao == 19) {
             printf("\nDigite a equipe: ");
             scanf(" %11[^\n]", nome_equipe);
+            if(!existeEquipe(nome_equipe)) {
+                printf("\nOpção de equipe inválida!\n");
+                continue;
+            }
+
             a = retiraAllEquipe(a, t, nome_equipe);
             continue;
         }
