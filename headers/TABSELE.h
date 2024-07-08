@@ -11,15 +11,15 @@ typedef struct selecao {
     int jogadores[27];
 } TSELE;
 
-int TABSELE_tam();
-int indSelecao(FILE* ftab, char* nome_pais);
-int existeSelecao(FILE* ftab, char* nome_pais);
+int existeEquipe(char* nome_pais);
 int existeJogador(FILE* ftab, TJ* jogador);
+int TABSELE_indiceEquipe(char* nome_pais);
+TSELE* TABSELE_criaReg(const char* nome_pais);
 void TABSELE_inicializa(void);
-TSELE* TABSELE_criaReg(char* nome_pais);
 void TABSELE_adicionaJogador(TJ* jogador);
 void TABSELE_removeJogador(TJ* jogador);
-void TABSELE_imprimeTabela(void);
+void TABSELE_alteraCapitao(TJ* jogador, int novoCapitao);
+void TABSELE_imprime(void);
 
 extern const char* TAB_SELECOES;
 extern const int TAM_TABSELE;
