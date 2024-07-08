@@ -692,3 +692,39 @@ TARVBP **BuscaJogadoresPorMes_8(TARVBP *arv, int t, char *mes, int *tam){
     *tam = size;
     return lista;
 }
+
+TJ *maisNovosPorEquipe(TARVBP *arv, int t, char *pais){
+    TLSETJ *l = buscaAllJogadoresEquipe(arv, t, pais);
+    
+    TJ *menor = NULL;
+    for(TLSETJ *i = l; i != NULL; i = i->prox) {
+        if(!menor){
+            menor = TJ_copiaJogador(i->jogador);
+        }
+
+        if(datacmp(menor->data_nasc, i->jogador->data_nasc) < 0){
+            free(menor);
+            menor = TJ_copiaJogador(i->jogador);
+        }
+    }
+    TLSETJ_libera(l);
+    return menor;
+}
+
+TJ *maisVelhosPorEquipe(TARVBP *arv, int t, char *pais){
+    TLSETJ *l = buscaAllJogadoresEquipe(arv, t, pais);
+    
+    TJ *menor = NULL;
+    for(TLSETJ *i = l; i != NULL; i = i->prox) {
+        if(!menor){
+            menor = TJ_copiaJogador(i->jogador);
+        }
+
+        if(datacmp(menor->data_nasc, i->jogador->data_nasc) > 0){
+            free(menor);
+            menor = TJ_copiaJogador(i->jogador);
+        }
+    }
+    TLSETJ_libera(l);
+    return menor;
+}

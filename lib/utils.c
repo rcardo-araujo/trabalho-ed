@@ -76,6 +76,25 @@ void skip_bom(FILE *fp) {
     }
 }
 
+int datacmp(char *data1, char *data2){
+    for(int i = 6; i <= 9; i++){
+        if(data1[i] < data2[i]) return -1;
+        if(data1[i] > data2[i]) return 1;
+    }
+
+    for(int i = 3; i <= 4; i++){
+        if(data1[i] < data2[i]) return -1;
+        if(data1[i] > data2[i]) return 1;
+    }
+
+    for(int i = 0; i <= 1; i++){
+        if(data1[i] < data2[i]) return -1;
+        if(data1[i] > data2[i]) return 1;
+    }
+
+    return 0;
+}
+
 TARVBP* catalogo2Arv(char *nomeArq, int t){
     TARVBP *a = TARVBP_cria(nomeArq, t);
     TH_inicializa("hash.dat", "dados.dat");
@@ -105,6 +124,7 @@ TARVBP* menu(TARVBP* a, int t) {
     do {
         printf("\n-----------Menu-------------\n");
         printf("Selecione a opcao desejada: \n");
+        printf("[1] Buscar jogadores mais novos e mais velhos\n");
         printf("[2] Jogadores que mais e menos atuaram por equipe\n");
         printf("[3] Jogadores que mais e menos atuaram no total\n");
         printf("[4] Seleções com mais e menos convocações no total\n");
@@ -134,6 +154,36 @@ TARVBP* menu(TARVBP* a, int t) {
             TARVBP_imprime(a, t);
             continue;
         }
+
+
+        //[1] Jog mais novo e velho
+        if(opcao == 1){
+            printf("\n[1] Jogadores mais novos\n");
+            printf("[2] Jogadores mais velhos\n");
+            printf("\nDigite a opcao desejada: ");
+            scanf("%d", &opcao);
+
+            if(opcao == 1){
+                printf("\nDigite o país desejado: ");
+                scanf(" %11[^\n]", nome_equipe);
+                TJ *j = maisNovosPorEquipe(a, t, nome_equipe);
+                if(j){
+                    imprimeJogador(j);
+                    free(j);
+                }
+                continue;
+            }else if(opcao == 2){
+                printf("\nDigite o país desejado: ");
+                scanf(" %11[^\n]", nome_equipe);
+                TJ *j = maisVelhosPorEquipe(a, t, nome_equipe);
+                if(j){
+                    imprimeJogador(j);
+                    free(j);
+                }
+                continue;
+            }
+        }
+
         
         // [2] Jogadores que mais e menos atuaram por equipe
         if(opcao == 2) {
