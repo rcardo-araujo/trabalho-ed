@@ -389,6 +389,75 @@ TLSECHAR* maioresEquipesNaOrigem(TARVBP* a, int t, int* qtd) {
     return l;
 }
 
+// Operação [12] - Alteração de algumas informações dos jogadores
+void alteraPosicao(TARVBP *a, int t, int id, char *pos){
+    if(!strcmp(pos, "GK")) return;
+    if(!TARVBP_possui_elemento(a, id, t)) return;
+    TARVBP *b = TARVBP_busca(a, id, t);
+    int i = 0;
+    while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    if(strcmp(b->reg[i]->pos, "GK")) {
+        strcpy(b->reg[i]->pos, pos);
+        escreveNo(b->nomeArq, b);
+    }
+    TARVBP_libera(b, t);
+}
+
+void alteraTime(TARVBP *a, int t, int id, char *time){
+    if(!strcmp(time, "")) return;
+    if(!TARVBP_possui_elemento(a, id, t)) return;
+    TARVBP *b = TARVBP_busca(a, id, t);
+    int i = 0;
+    while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    strcpy(b->reg[i]->time, time);
+    escreveNo(b->nomeArq, b);
+    TARVBP_libera(b, t);
+}
+
+void alteraPaisTime(TARVBP *a, int t, int id, char *pais_time){
+    if(!strcmp(pais_time, "")) return;
+    if(!TARVBP_possui_elemento(a, id, t)) return;
+    TARVBP *b = TARVBP_busca(a, id, t);
+    int i = 0;
+    while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    strcpy(b->reg[i]->pais_time, pais_time);
+    escreveNo(b->nomeArq, b);
+    TARVBP_libera(b, t);
+}
+
+void alteraGols(TARVBP *a, int t, int id, int gols){
+    if(gols < 0) return;
+    if(!TARVBP_possui_elemento(a, id, t)) return;
+    TARVBP *b = TARVBP_busca(a, id, t);
+    int i = 0;
+    while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    b->reg[i]->num_gols = gols;
+    escreveNo(b->nomeArq, b);
+    TARVBP_libera(b, t);
+}
+
+void alteraNumero(TARVBP *a, int t, int id, int num){
+    if(num < 1) return;
+    if(!TARVBP_possui_elemento(a, id, t)) return;
+    TARVBP *b = TARVBP_busca(a, id, t);
+    int i = 0;
+    while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    b->reg[i]->num = num;
+    escreveNo(b->nomeArq, b);
+    TARVBP_libera(b, t);
+}
+
+void alteraPartidas(TARVBP *a, int t, int id, int part){
+    if(part < 0) return;
+    if(!TARVBP_possui_elemento(a, id, t)) return;
+    TARVBP *b = TARVBP_busca(a, id, t);
+    int i = 0;
+    while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    b->reg[i]->num_part = part;
+    escreveNo(b->nomeArq, b);
+    TARVBP_libera(b, t);
+}
+
 // Operação [13] - Busca todos os jogadores de uma seleção
 TLSETJ* buscaAllJogadoresEquipe(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");
