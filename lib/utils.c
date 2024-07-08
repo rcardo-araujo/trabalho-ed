@@ -502,10 +502,11 @@ TARVBP* menu(TARVBP* a, int t) {
             printf("\n[4] Alterar time de um jogador\n");
             printf("\n[5] Alterar país do time de um jogador\n");
             printf("\n[6] Alterar participações de um jogador\n");
+            printf("\n[7] Tornar um jogador capitão de sua seleção\n");
             printf("\nDigite a opção desejada: ");
             do{
                 scanf(" %d", &opcao);
-                if(opcao < 1 || opcao > 6) printf("\nOpção inválida\n");
+                if(opcao < 1 || opcao > 7) printf("\nOpção inválida\n");
                 else break;
             } while(1);
             char str[40];
@@ -547,6 +548,9 @@ TARVBP* menu(TARVBP* a, int t) {
                 printf("\nDigite o novo número de participações do jogador: ");
                 scanf(" %d", &val);
                 alteraPartidas(a, t, id, val);
+                break;
+            case 7:
+                alteraCapitao(a, t, id);
                 break;
             default:
                 break;

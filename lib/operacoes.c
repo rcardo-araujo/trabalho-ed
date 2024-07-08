@@ -458,6 +458,28 @@ void alteraPartidas(TARVBP *a, int t, int id, int part){
     TARVBP_libera(b, t);
 }
 
+void alteraCapitao(TARVBP *a, int t, int id){
+    if(!a) return;
+    if(!TARVBP_possui_elemento(a, id, t)) return;
+    TARVBP *c, *b = TARVBP_busca(a, id, t);
+    int idCap, i=0;
+    TJ *j = buscaCapitaoEquipe(a, t, b->reg[i]->pais);
+    while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    b->reg[i]->capitao = 1;
+    TABSELE_alteraCapitao(b->reg[i], 1);
+    escreveNo(b->nomeArq, b);
+    TARVBP_libera(b, t);
+    if(!j) return;
+    idCap = j->id;
+    free(j);
+    c = TARVBP_busca(a, idCap, t);
+    i = 0;
+    while(i < c->num_chaves && c->reg[i]->id < idCap) i++;
+    c->reg[i]->capitao = 0;
+    escreveNo(c->nomeArq, c);
+    TARVBP_libera(c, t);
+}
+
 // Operação [13] - Busca todos os jogadores de uma seleção
 TLSETJ* buscaAllJogadoresEquipe(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb");

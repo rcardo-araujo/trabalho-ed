@@ -5,14 +5,14 @@ int main(void) {
     TARVBP *a = catalogo2Arv("root", 2);
     TABSELE_imprime();
 
-    TJ* j = TARVBP_buscaJogador(a, 16, 2);
+    /* TJ* j = TARVBP_buscaJogador(a, 16, 2);
     imprimeJogador(j);
     TABSELE_alteraCapitao(j, 0);
-    TABSELE_imprime();
+    TABSELE_imprime(); */
     
-    // a = menu(a, 2);
+    a = menu(a, 2);
 
-    free(j);
+    //free(j);
     
     TARVBP_libera(a, 2);
 
