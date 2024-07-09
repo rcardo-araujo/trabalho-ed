@@ -97,6 +97,7 @@ int datacmp(char *data1, char *data2){
 
 TARVBP* catalogo2Arv(char *nomeArq, int t){
     TARVBP *a = TARVBP_cria(nomeArq, t);
+    TABSELE_inicializa();
     TH_inicializa("hash.dat", "dados.dat");
     FILE *fp = fopen("catalogo.txt", "r");
     if(!fp) exit(1);
@@ -766,7 +767,7 @@ TARVBP* menu(TARVBP* a, int t) {
             } while(1);
             int vet[num];
             for(int i = 0; i < num; i++){
-                printf("\nDigite o id do jogador: ");
+                printf("\nDigite o ID do jogador: ");
                 do{
                     scanf(" %d", &idJ);
                     if(!TARVBP_possui_elemento(a, idJ, t)){
