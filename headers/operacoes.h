@@ -11,6 +11,7 @@ TJ *maisVelhosPorEquipe(TARVBP *arv, int t, char *pais);
 TJ *maisVelhosPorEquipe(TARVBP *arv, int t, char *pais);
 TJ *maisNovo(TARVBP *arv, int t);
 TJ *maisVelho(TARVBP *arv, int t);
+TARVBP *remocaoPorIdade(TARVBP *arv, int t, int idade);
 
 TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]
 TLSETJ* menosAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]

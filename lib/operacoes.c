@@ -678,7 +678,7 @@ TJ **buscaJogadorAno(TARVBP *arv, int t, char *ano, int *tam){
         }
 
         int n = 0;
-        TIJ **jogadores = TH_busca_mes_ano("hash.dat", "dados.dat", s, &n);
+        TIJ **jogadores = TH_busca_mes_ano("./tabelas/hash.dat", "./tabelas/dados.dat", s, &n);
         size += n;
         if(jogadores) lista = realloc(lista, sizeof(TJ *) * size);
         for(int j = size-n; j < size; j++){
@@ -708,7 +708,7 @@ TJ **buscaJogadorMes(TARVBP *arv, int t, char *mes, int *tam){
         }
 
         int n = 0;
-        TIJ **jogadores = TH_busca_mes_ano("hash.dat", "dados.dat", s, &n);
+        TIJ **jogadores = TH_busca_mes_ano("./tabelas/hash.dat", "./tabelas/dados.dat", s, &n);
         size += n;
         if(jogadores) lista = realloc(lista, sizeof(TJ *) * size);
         for(int j = size-n; j < size; j++){
@@ -791,6 +791,34 @@ TJ *maisVelho(TARVBP *arv, int t){
         }
     }
     return menor;
+}
+
+TARVBP *remocaoPorIdade(TARVBP *arv, int t, int idade){
+    if(idade < 0) return arv;
+    int ano = 2024 - idade;
+    char s[11]; 
+    char r[11];
+    for(int i = ano; i >= 1977; i--){
+        for(int j = 12; j >= 1; j--){
+            if(j < 10){
+                sprintf(s, "01/0%d/%d", j, i);
+            }else{
+                sprintf(s, "01/%d/%d", j, i);
+            }
+            sprintf(r, "15/06/%d", i);
+            int tam = 0;
+            TIJ **lista = TH_busca_mes_ano("./tabelas/hash.dat", "./tabelas/dados.dat", s, &tam);
+            if(!lista) continue;
+            for(int a = 0; a < tam; a++){
+                if(datacmp(r, lista[a]->data) > 0){
+                    arv = TARVBP_retira(arv, lista[a]->id, t);
+                }
+                free(lista[a]);
+            }
+            free(lista);
+        }
+    }
+    return arv;
 }
 
 // Operação [20] - Retira jogadores dado um 
