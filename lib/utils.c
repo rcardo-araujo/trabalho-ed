@@ -138,7 +138,7 @@ TARVBP* menu(TARVBP* a, int t) {
         printf("[12] Alterar informações de jogadores\n");
         printf("[13] Buscar todos os jogadores de uma equipe\n");
         printf("[14] Buscar ou remover os capitães\n");
-        printf("[15] Remover jogadores de um equipe que atuam num determinado país\n");
+        printf("[15] Remover jogadores a partir de determinada idade\n");
         printf("[16] Remover jogadores de um equipe que atuam num determinado país\n");
         printf("[17] Remover todos os jogadores de uma equipe que jogam na origem\n");
         printf("[18] Remover todos os jogadores de uma equipe que não jogam na origem\n");
