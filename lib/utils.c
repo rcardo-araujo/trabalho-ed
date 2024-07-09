@@ -99,7 +99,7 @@ TARVBP* catalogo2Arv(char *nomeArq, int t){
     TARVBP *a = TARVBP_cria(nomeArq, t);
     TABSELE_inicializa();
     TH_inicializa("hash.dat", "dados.dat");
-    FILE *fp = fopen("catalogo.txt", "r");
+    FILE *fp = fopen(nomeArq, "r");
     if(!fp) exit(1);
     skip_bom(fp);
 

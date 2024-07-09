@@ -21,7 +21,7 @@ TARVBP *TARVBP_cria(char *nomeArq, int t){
     a->reg = (TJ **)malloc(sizeof(TJ *)*(2*t-1));
     for(int i=0; i<2*t-1; i++) a->reg[i] = NULL;
     a->filhos = (char **)malloc(sizeof(char *)*2*t);
-    for(int i=0; i<2*t; i++) {
+    for(int i=0; i < 2*t; i++) {
         a->filhos[i] = (char *)malloc(sizeof(char)*40);
         a->filhos[i][0] = '\0';
     }
