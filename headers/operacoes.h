@@ -3,14 +3,14 @@
 
 #include "../headers/includes.h"
 
-TARVBP *BuscaJogadorMaisNovo_1(TARVBP *arv, int t);
 int TIJcmp(const void *p1, const void *p2);
-TARVBP *BuscaJogadorMaisVelho_2(TARVBP *arv, int t);
-TARVBP **BuscaJogadoresPorAno_7(TARVBP *arv, int t, char *ano, int *tam);
-TARVBP **BuscaJogadoresPorMes_8(TARVBP *arv, int t, char *mes, int *tam);
+TJ **buscaJogadorAno(TARVBP *arv, int t, char *ano, int *tam);
+TJ **buscaJogadorMes(TARVBP *arv, int t, char *mes, int *tam);
 TJ *maisNovosPorEquipe(TARVBP *arv, int t, char *pais);
 TJ *maisVelhosPorEquipe(TARVBP *arv, int t, char *pais);
 TJ *maisVelhosPorEquipe(TARVBP *arv, int t, char *pais);
+TJ *maisNovo(TARVBP *arv, int t);
+TJ *maisVelho(TARVBP *arv, int t);
 
 TLSETJ* maisAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]
 TLSETJ* menosAtuaramEquipe(TARVBP* a, int t, char* pais); // [02]

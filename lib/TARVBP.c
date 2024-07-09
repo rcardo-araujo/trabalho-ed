@@ -128,18 +128,6 @@ void TARVBP_libera(TARVBP *a, int t){
 }
 #pragma endregion
 
-TJ* TARVBP_buscaJogador(TARVBP* a, int id, int t) {
-    TARVBP* no = TARVBP_busca(a, id, t);
-    if(!no) return NULL;   
-    for(int i = 0; i < no->num_chaves; i++) {
-        if(no->reg[i]->id == id) {
-            TJ *j = no->reg[i];
-            no->reg[i] = NULL;
-            TARVBP_libera(no, t);
-            return j;
-        }
-    }
-}
 
 #pragma region Busca
 TARVBP *buscaAux(TARVBP *a, int elem, int t){
@@ -179,6 +167,18 @@ TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
     return res;
 }
 
+TJ* TARVBP_buscaJogador(TARVBP* a, int id, int t) {
+    TARVBP* no = TARVBP_busca(a, id, t);
+    if(!no) return NULL;   
+    for(int i = 0; i < no->num_chaves; i++) {
+        if(no->reg[i]->id == id) {
+            TJ *j = no->reg[i];
+            no->reg[i] = NULL;
+            TARVBP_libera(no, t);
+            return j;
+        }
+    }
+}
 /**
  * @brief Verifica se a árvore possui um elemento
  * @param a Árvore
