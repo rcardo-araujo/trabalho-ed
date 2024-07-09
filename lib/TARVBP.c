@@ -263,8 +263,12 @@ TARVBP *remover(TARVBP *a, int id, int t){
     else
         for(i=0; i< a->num_chaves && a->reg[i]->id < id; i++);
     
+    
     if((i < a->num_chaves) && (a->folha) && (id == a->reg[i]->id)){
         int j;
+        free(a->reg[i]);
+        for(j=i; j < a->num_chaves-1; j++) a->reg[j] = a->reg[j+1];
+        a->reg[a->num_chaves-1] = NULL;
         free(a->reg[i]);
         for(j=i; j < a->num_chaves-1; j++) a->reg[j] = a->reg[j+1];
         a->reg[a->num_chaves-1] = NULL;
@@ -300,6 +304,8 @@ TARVBP *remover(TARVBP *a, int id, int t){
             if(z->folha){
                 for(j = 0; j < z->num_chaves-1; j++) z->reg[j] = z->reg[j+1];
                 z->reg[z->num_chaves-1] = NULL;
+                for(j = 0; j < z->num_chaves-1; j++) z->reg[j] = z->reg[j+1];
+                z->reg[z->num_chaves-1] = NULL;
             } else {
                 for(j = 0; j< z->num_chaves-1; j++) z->chaves[j] = z->chaves[j+1];
                 strcpy(y->filhos[y->num_chaves], z->filhos[0]);
@@ -310,6 +316,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
             y = remover(y, id, t);
             escreveNo(y->nomeArq, y);
             TARVBP_libera(y, t);
+            TARVBP_libera(z, t);
             TARVBP_libera(z, t);
             return a;
         }
@@ -329,6 +336,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
                 for(j = y->num_chaves; j > 0; j--) y->reg[j] = y->reg[j-1];
                 a->chaves[i-1] = z->reg[z->num_chaves-1]->id;
                 y->reg[0] = z->reg[z->num_chaves-1];
+                z->reg[z->num_chaves-1] = NULL;
                 z->reg[z->num_chaves-1] = NULL;
             }
             y->num_chaves++;
@@ -354,6 +362,10 @@ TARVBP *remover(TARVBP *a, int id, int t){
             int j=0;
             while(j < t-1){
                 if(!y->folha) y->chaves[t+j] = z->chaves[j];
+                else {
+                    y->reg[t+j-1] = z->reg[j];
+                    z->reg[j] = NULL;
+                }
                 else {
                     y->reg[t+j-1] = z->reg[j];
                     z->reg[j] = NULL;
