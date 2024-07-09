@@ -130,6 +130,8 @@ TARVBP* menu(TARVBP* a, int t) {
         printf("[4] Seleções com mais e menos convocações no total\n");
         printf("[5] Buscar jogadores que atuam fora da origem\n");
         printf("[6] Buscar jogadores que atuam na origem\n");
+        printf("[7] Buscar jogadores que nasceram no mesmo ano\n");
+        printf("[8] Buscar jogadores que nasceram no mesmo mês\n");
         printf("[9] Equipes com mais jogadores atuando fora da origem\n");
         printf("[10] Equipes com mais jogadores atuando na origem\n");
         printf("[11] Buscar jogador\n");
@@ -159,10 +161,13 @@ TARVBP* menu(TARVBP* a, int t) {
         }
 
 
-        //[1] Jog mais novo e velho
+        // [1] Retorno do jogador mais novo e mais velho da competição, ilustrando essas mesmas informações
+        //     por seleções e por posições;
         if(opcao == 1){
-            printf("\n[1] Jogadores mais novos\n");
-            printf("[2] Jogadores mais velhos\n");
+            printf("\n[1] Jogador mais novo por equipe\n");
+            printf("[2] Jogador mais velho por equipe\n");
+            printf("[3] Jogador mais novo\n");
+            printf("[4] Jogador mais velho\n");
             printf("\nDigite a opcao desejada: ");
             scanf("%d", &opcao);
 
@@ -178,6 +183,8 @@ TARVBP* menu(TARVBP* a, int t) {
                 if(j){
                     imprimeJogador(j);
                     free(j);
+                }else{
+                    printf("\nNão foram encontrados jogadores.\n");
                 }
                 continue;
             }else if(opcao == 2){
@@ -187,6 +194,26 @@ TARVBP* menu(TARVBP* a, int t) {
                 if(j){
                     imprimeJogador(j);
                     free(j);
+                }else{
+                    printf("\nNão foram encontrados jogadores.\n");
+                }
+                continue;
+            }else if(opcao == 3){
+                TJ *j = maisNovo(a, t);
+                if(j){
+                    imprimeJogador(j);
+                    free(j);
+                }else{
+                    printf("\nNão foram encontrados jogadores.\n");
+                }
+                continue;
+            }else if(opcao == 4){
+                TJ *j = maisVelho(a, t);
+                if(j){
+                    imprimeJogador(j);
+                    free(j);
+                }else{
+                    printf("\nNão foram encontrados jogadores.\n");
                 }
                 continue;
             }
@@ -443,8 +470,39 @@ TARVBP* menu(TARVBP* a, int t) {
             continue;
         }
 
+        // Busca de todos os jogadores que nasceram no mesmo ano
+        if(opcao == 7){
+            char s[5];
+            printf("Digite o ano: ");
+            scanf("%s", s);
+            int tam = 0;
+            TJ **l = buscaJogadorAno(a, t, s, &tam);
+            if(!l) printf("Não foram encontrados jogadores nascidos nesse ano.\n");
+            for(int i = 0; i < tam; i++){
+                imprimeJogador(l[i]);
+                free(l[i]);
+            }
+            free(l);
+            continue;
+        }
+
+        if(opcao == 8){
+            char s[5];
+            printf("Digite o mês: ");
+            scanf("%s", s);
+            int tam = 0;
+            TJ **l = buscaJogadorMes(a, t, s, &tam);
+            if(!l) printf("Não foram encontrados jogadores nascidos nesse mês.\n");
+            for(int i = 0; i < tam; i++){
+                imprimeJogador(l[i]);
+                free(l[i]);
+            }
+            free(l);
+            continue;
+        }
+
         // [09] Seleções com mais jogadores
-        // atuando fora da origem
+        //      atuando fora da origem
         if(opcao == 9) {
             qtd = 0;
             TLSECHAR* l = maioresEquipesForaOrigem(a, t, &qtd);
