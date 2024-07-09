@@ -183,6 +183,8 @@ TARVBP* menu(TARVBP* a, int t) {
                 if(j){
                     imprimeJogador(j);
                     free(j);
+                }else{
+                    printf("\nNão foram encontrados jogadores.\n");
                 }
                 continue;
             }else if(opcao == 2){
@@ -192,6 +194,8 @@ TARVBP* menu(TARVBP* a, int t) {
                 if(j){
                     imprimeJogador(j);
                     free(j);
+                }else{
+                    printf("\nNão foram encontrados jogadores.\n");
                 }
                 continue;
             }else if(opcao == 3){
@@ -199,6 +203,8 @@ TARVBP* menu(TARVBP* a, int t) {
                 if(j){
                     imprimeJogador(j);
                     free(j);
+                }else{
+                    printf("\nNão foram encontrados jogadores.\n");
                 }
                 continue;
             }else if(opcao == 4){
@@ -206,6 +212,8 @@ TARVBP* menu(TARVBP* a, int t) {
                 if(j){
                     imprimeJogador(j);
                     free(j);
+                }else{
+                    printf("\nNão foram encontrados jogadores.\n");
                 }
                 continue;
             }
