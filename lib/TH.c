@@ -1,7 +1,7 @@
 #include "../headers/includes.h"
 #include <string.h>
 
-#define TAM_TH 360
+#define TAM_TH 432
 
 int TH_hash(char *data){
 	char mes[3], ano[5];
