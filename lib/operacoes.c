@@ -608,7 +608,6 @@ TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais) {
     fseek(ftab, ind, SEEK_SET);
     fread(&reg_aux, sizeof(TSELE), 1, ftab);
     for(i = 0; i < reg_aux.num_jogadores; i++) {
-        printf("ID: %d\n", reg_aux.jogadores[i]);
         jog_aux = TARVBP_buscaJogador(a, reg_aux.jogadores[i], t);
         if(!jog_aux) printf("\nJogador não enccontrado!\n");
         if(strcmp(jog_aux->pais_time, nome_pais)) {
@@ -705,9 +704,7 @@ TJ *maisNovosPorEquipe(TARVBP *arv, int t, char *pais){
     for(TLSETJ *i = l; i != NULL; i = i->prox) {
         if(!menor){
             menor = TJ_copiaJogador(i->jogador);
-        }
-
-        if(datacmp(menor->data_nasc, i->jogador->data_nasc) < 0){
+        }else if(datacmp(menor->data_nasc, i->jogador->data_nasc) < 0){
             free(menor);
             menor = TJ_copiaJogador(i->jogador);
         }
@@ -741,10 +738,10 @@ TJ *maisNovo(TARVBP *arv, int t){
         if(!menor) menor = maisNovosPorEquipe(arv, t, paises[i]);
 
         TJ *temp = maisNovosPorEquipe(arv, t, paises[i]);
-        if(datacmp(menor->data_nasc, temp->data_nasc) < 0){
+        if(temp && datacmp(menor->data_nasc, temp->data_nasc) < 0){
             free(menor);
             menor = temp;
-        }else{
+        }else if(temp){
             free(temp);
         }
     }
@@ -758,10 +755,10 @@ TJ *maisVelho(TARVBP *arv, int t){
         if(!menor) menor = maisVelhosPorEquipe(arv, t, paises[i]);
 
         TJ *temp = maisVelhosPorEquipe(arv, t, paises[i]);
-        if(datacmp(menor->data_nasc, temp->data_nasc) > 0){
+        if(temp && datacmp(menor->data_nasc, temp->data_nasc) > 0){
             free(menor);
             menor = temp;
-        }else{
+        }else if(temp){
             free(temp);
         }
     }
@@ -774,5 +771,6 @@ TARVBP *retiraIds(TARVBP *arv, int t, int *vet, int n){
     for(int i = 0; i < n; i++){
         arv = TARVBP_retira(arv, vet[i], t);
     }
+
     return arv;
 }
