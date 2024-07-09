@@ -446,8 +446,20 @@ void alteraNumero(TARVBP *a, int t, int id, int num){
     TARVBP *b = TARVBP_busca(a, id, t);
     int i = 0;
     while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    TLSETJ *l = buscaAllJogadoresEquipe(a, t, b->reg[i]->pais), *lis;
+    lis = l;
+    while(lis){
+        if(lis->jogador->num == num){
+            TLSETJ_libera(l);
+            TARVBP_libera(b, t);
+            printf("\nJá existe jogador com este número!\n");
+            return;
+        }
+        lis = lis->prox;
+    }
     b->reg[i]->num = num;
     escreveNo(b->nomeArq, b);
+    TLSETJ_libera(l);
     TARVBP_libera(b, t);
 }
 
@@ -469,11 +481,22 @@ void alteraCapitao(TARVBP *a, int t, int id){
     int idCap, i=0;
     TJ *j = buscaCapitaoEquipe(a, t, b->reg[i]->pais);
     while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    if(!j) {
+        b->reg[i]->capitao = 1;
+        TABSELE_alteraCapitao(b->reg[i], 1);
+        TARVBP_libera(b, t);
+        return;
+    }
+    if(j->id == id){
+        TABSELE_alteraCapitao(b->reg[i], !b->reg[i]->capitao);
+        b->reg[i]->capitao = 0;
+        TARVBP_libera(b, t);
+        return; 
+    }
     b->reg[i]->capitao = 1;
     TABSELE_alteraCapitao(b->reg[i], 1);
     escreveNo(b->nomeArq, b);
     TARVBP_libera(b, t);
-    if(!j) return;
     idCap = j->id;
     free(j);
     c = TARVBP_busca(a, idCap, t);
