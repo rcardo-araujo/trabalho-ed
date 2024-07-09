@@ -2,14 +2,17 @@
 gcc -fsanitize=address -g ./src/main.c ./lib/*.c -o ./bin/main
 gcc -fsanitize=address -g ./src/teste.c ./lib/*.c -o ./bin/teste
 gcc ./src/main.c ./lib/*.c -o ./bin/main
+gcc -g ./src/main.c ./lib/*.c -o ./bin/a.out
 
 ## Execução ##
 ./bin/main
 ./bin/teste
+./bin/main <t> ./catalogo.txt
 
 ## Compilação + Execução ##
 gcc -fsanitize=address -g ./src/main.c ./lib/*.c -o ./bin/main && ./bin/main
 gcc -fsanitize=address -g ./src/teste.c ./lib/*.c -o ./bin/teste && ./bin/teste
+gcc ./src/main.c ./lib/*.c -o ./bin/main && ./bin/main
 
-## Exclusão dos nós ##
-rm ./db/*.c
+## Exclusão dos nós ##
+rm ./db/*.c
