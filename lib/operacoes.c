@@ -248,6 +248,7 @@ TLSETJ* buscaAllForaOrigem(TARVBP* a, int t) {
     if(!ftab) exit(1);
 
     TLSETJ* l = TLSETJ_inicializa(), *l_aux, *p;
+    TJ* cop_j;
     TSELE reg_aux;
     int i = 0;
     while(i < TAM_TABSELE) {
@@ -257,7 +258,8 @@ TLSETJ* buscaAllForaOrigem(TARVBP* a, int t) {
         
         p = l_aux;
         while(p) {
-            l = TLSETJ_insere(l, p->jogador);
+            cop_j = TJ_copiaJogador(p->jogador);
+            l = TLSETJ_insere(l, cop_j);
             p = p->prox;
         }
         l_aux = TLSETJ_libera(l_aux);
@@ -298,6 +300,7 @@ TLSETJ* buscaAllNaOrigem(TARVBP* a, int t) {
     if(!ftab) exit(1);
 
     TLSETJ* l = TLSETJ_inicializa(), *l_aux, *p;
+    TJ* cop_j;
     TSELE reg_aux;
     int i = 0;
     while(i < TAM_TABSELE) {
@@ -307,7 +310,8 @@ TLSETJ* buscaAllNaOrigem(TARVBP* a, int t) {
         
         p = l_aux;
         while(p) {
-            l = TLSETJ_insere(l, TJ_copiaJogador(p->jogador));
+            cop_j = TJ_copiaJogador(p->jogador);
+            l = TLSETJ_insere(l, cop_j);
             p = p->prox;
         }
         l_aux = TLSETJ_libera(l_aux);
@@ -442,8 +446,20 @@ void alteraNumero(TARVBP *a, int t, int id, int num){
     TARVBP *b = TARVBP_busca(a, id, t);
     int i = 0;
     while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    TLSETJ *l = buscaAllJogadoresEquipe(a, t, b->reg[i]->pais), *lis;
+    lis = l;
+    while(lis){
+        if(lis->jogador->num == num){
+            TLSETJ_libera(l);
+            TARVBP_libera(b, t);
+            printf("\nJá existe jogador com este número!\n");
+            return;
+        }
+        lis = lis->prox;
+    }
     b->reg[i]->num = num;
     escreveNo(b->nomeArq, b);
+    TLSETJ_libera(l);
     TARVBP_libera(b, t);
 }
 
@@ -465,11 +481,22 @@ void alteraCapitao(TARVBP *a, int t, int id){
     int idCap, i=0;
     TJ *j = buscaCapitaoEquipe(a, t, b->reg[i]->pais);
     while(i < b->num_chaves && b->reg[i]->id < id) i++;
+    if(!j) {
+        b->reg[i]->capitao = 1;
+        TABSELE_alteraCapitao(b->reg[i], 1);
+        TARVBP_libera(b, t);
+        return;
+    }
+    if(j->id == id){
+        TABSELE_alteraCapitao(b->reg[i], !b->reg[i]->capitao);
+        b->reg[i]->capitao = 0;
+        TARVBP_libera(b, t);
+        return; 
+    }
     b->reg[i]->capitao = 1;
     TABSELE_alteraCapitao(b->reg[i], 1);
     escreveNo(b->nomeArq, b);
     TARVBP_libera(b, t);
-    if(!j) return;
     idCap = j->id;
     free(j);
     c = TARVBP_busca(a, idCap, t);
@@ -597,47 +624,26 @@ TARVBP* retiraAllEquipeAtuaPais(TARVBP* a, int t, char* nome_equipe, char* nome_
 // Operação [17] - Retira todos
 // de uma equipe que jogam na origem
 TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais) {
-    FILE* ftab = fopen(TAB_SELECOES, "rb+");
-    if(!ftab) exit(1);
-    
-    int ind = TABSELE_indiceEquipe(nome_pais), i;
-    TJ* jog_aux;
-    TSELE reg_aux;
-
-    fseek(ftab, ind, SEEK_SET);
-    fread(&reg_aux, sizeof(TSELE), 1, ftab);
-    for(i = 0; i < reg_aux.num_jogadores; i++) {
-        jog_aux = TARVBP_buscaJogador(a, reg_aux.jogadores[i], t);
-        if(!strcmp(jog_aux->pais_time, nome_pais)) {
-            a = TARVBP_retira(a, jog_aux->id, t);
-        }
-        free(jog_aux);
+    TLSETJ* l = buscaAllNaOrigemEquipe(a, t, nome_pais), * p;
+    p = l;
+    while(p) {
+        a = TARVBP_retira(a, p->jogador->id, t);
+        p = p->prox;
     }
-    fclose(ftab);
+    TLSETJ_libera(l);
     return a;
 }
 
 // Operação [18] - Retira todos de uma 
 // equipe que jogam fora da origem
 TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais) {
-    FILE* ftab = fopen(TAB_SELECOES, "rb+");
-    if(!ftab) exit(1);
-    
-    int ind = TABSELE_indiceEquipe(nome_pais), i;
-    TJ* jog_aux;
-    TSELE reg_aux;
-
-    fseek(ftab, ind, SEEK_SET);
-    fread(&reg_aux, sizeof(TSELE), 1, ftab);
-    for(i = 0; i < reg_aux.num_jogadores; i++) {
-        jog_aux = TARVBP_buscaJogador(a, reg_aux.jogadores[i], t);
-        if(!jog_aux) printf("\nJogador não enccontrado!\n");
-        if(strcmp(jog_aux->pais_time, nome_pais)) {
-            a = TARVBP_retira(a, jog_aux->id, t);
-        }
-        free(jog_aux);
+    TLSETJ* l = buscaAllForaOrigemEquipe(a, t, nome_pais), * p;
+    p = l;
+    while(p) {
+        a = TARVBP_retira(a, p->jogador->id, t);
+        p = p->prox;
     }
-    fclose(ftab);
+    TLSETJ_libera(l);
     return a;
 }
 
@@ -820,6 +826,7 @@ TARVBP *remocaoPorIdade(TARVBP *arv, int t, int idade){
 TARVBP *retiraIds(TARVBP *arv, int t, int *vet, int n){
     for(int i = 0; i < n; i++){
         arv = TARVBP_retira(arv, vet[i], t);
+        TARVBP_imprime(arv, t);
     }
 
     return arv;

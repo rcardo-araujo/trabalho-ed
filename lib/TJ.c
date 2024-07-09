@@ -94,6 +94,7 @@ TJ *TJ_copiaJogador(TJ *j){
     novo->num = j->num;
     strcpy(novo->pos, j->pos);
     strcpy(novo->nome, j->nome);  
+    novo->capitao = j->capitao;
     strcpy(novo->data_nasc, j->data_nasc);
     novo->num_part = j->num_part;
     novo->num_gols = j->num_gols;

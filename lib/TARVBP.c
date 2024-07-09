@@ -162,7 +162,8 @@ TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
     while(i < a->num_chaves && a->chaves[i] <= elem){
         i++;
     }
-    TARVBP *res = buscaAux(leNo(a->filhos[i], t), elem, t);
+    TARVBP* x = leNo(a->filhos[i], t);
+    TARVBP *res = buscaAux(x, elem, t);
     return res;
 }
 
@@ -337,7 +338,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
             } else {
                 a->chaves[i] = z->reg[0]->id + 1;
                 y->reg[t-1] = z->reg[0];
-                z->reg[0] = NULL;
+                //z->reg[0] = NULL;
             }
             y->num_chaves++;
 
