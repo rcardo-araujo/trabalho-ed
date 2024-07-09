@@ -133,6 +133,7 @@ TARVBP* menu(TARVBP* a, int t) {
         printf("[9] Equipes com mais jogadores atuando fora da origem\n");
         printf("[10] Equipes com mais jogadores atuando na origem\n");
         printf("[11] Buscar jogador\n");
+        printf("[12] Alterar informações de jogadores\n");
         printf("[13] Buscar todos os jogadores de uma equipe\n");
         printf("[14] Buscar ou remover os capitães\n");
         printf("[16] Remover jogadores de um equipe que atuam num determinado país\n");
@@ -490,6 +491,70 @@ TARVBP* menu(TARVBP* a, int t) {
 
             imprimeJogador(jog);
             free(jog);
+            continue;
+        }
+
+        // [12] Alterar infos dos jogadores
+        if(opcao == 12){
+            printf("\n[1] Alterar posição de um jogador\n");
+            printf("\n[3] Alterar quantidade de gols de um jogador\n");
+            printf("\n[2] Alterar numeração de um jogador\n");
+            printf("\n[4] Alterar time de um jogador\n");
+            printf("\n[5] Alterar país do time de um jogador\n");
+            printf("\n[6] Alterar participações de um jogador\n");
+            printf("\n[7] Tornar um jogador capitão de sua seleção\n");
+            printf("\nDigite a opção desejada: ");
+            do{
+                scanf(" %d", &opcao);
+                if(opcao < 1 || opcao > 7) printf("\nOpção inválida\n");
+                else break;
+            } while(1);
+            char str[40];
+            int id, val;
+            printf("\nDigite o id do jogador que sofrerá alterações: ");
+            do{
+                scanf(" %d", &id);
+                if(id < 1 || id > 284) printf("ID inválido!\n");
+                else break;
+            } while(1);
+            switch (opcao)
+            {
+            case 1:
+                printf("\nDigite a nova posição do jogador: ");
+                scanf(" %2[^\n]", str);
+                alteraPosicao(a, t, id, str);
+                break;
+            case 2:
+                printf("\nDigite o novo número de gols do jogador: ");
+                scanf(" %d", &val);
+                alteraGols(a, t, id, val);
+                break;
+            case 3:
+                printf("\nDigite o novo número de camisa do jogador: ");
+                scanf(" %d", &val);
+                alteraNumero(a, t, id, val);
+                break;
+            case 4:
+                printf("\nDigite o novo time do jogador: ");
+                scanf(" %23[^\n]", str);
+                alteraTime(a, t, id, str);
+                break;
+            case 5:
+                printf("\nDigite o novo país do time do jogador: ");
+                scanf(" %20[^\n]", str);
+                alteraPaisTime(a, t, id, str);
+                break;
+            case 6:
+                printf("\nDigite o novo número de participações do jogador: ");
+                scanf(" %d", &val);
+                alteraPartidas(a, t, id, val);
+                break;
+            case 7:
+                alteraCapitao(a, t, id);
+                break;
+            default:
+                break;
+            }
             continue;
         }
 
