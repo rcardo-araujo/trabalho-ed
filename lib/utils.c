@@ -556,12 +556,12 @@ TARVBP* menu(TARVBP* a, int t) {
         // [12] Alterar infos dos jogadores
         if(opcao == 12){
             printf("\n[1] Alterar posição de um jogador\n");
-            printf("[3] Alterar quantidade de gols de um jogador\n");
-            printf("[2] Alterar numeração de um jogador\n");
+            printf("[2] Alterar quantidade de gols de um jogador\n");
+            printf("[3] Alterar numeração de um jogador\n");
             printf("[4] Alterar time de um jogador\n");
             printf("[5] Alterar país do time de um jogador\n");
             printf("[6] Alterar participações de um jogador\n");
-            printf("[7] Tornar um jogador capitão de sua seleção\n");
+            printf("[7] Tornar um jogador capitão de sua seleção\nou fazer um jogador deixar de ser\n");
             printf("\nDigite a opção desejada: ");
             do{
                 scanf(" %d", &opcao);
