@@ -1,18 +1,7 @@
-/**
- * @file TARVBP.c
- * @brief Funções relacionadas ao funcionamento da Árvore B+
- */
-
 #include "../headers/includes.h"
 
 static int numofnodes = 0; ///< Número de nós
 
-/**
- * @brief Cria um novo nó da árvore B+.
- * @param nomeArq Nome do arquivo
- * @param t Ordem da árvore
- * @return @c TARVBP vazia
- */
 TARVBP *TARVBP_cria(char *nomeArq, int t){
     TARVBP *a = (TARVBP *) malloc(sizeof(TARVBP));
     a->folha = 1;
@@ -34,11 +23,6 @@ TARVBP *TARVBP_cria(char *nomeArq, int t){
 }
 
 #pragma region Utils
-/**
- * @brief Escreve as informações do nó em um arquivo binário.
- * @param nomeF Nome do arquivo
- * @param no Nó
- */
 void escreveNo(char *nomeF, TARVBP *no){
     char nome_com_ext[50];
     strcpy(nome_com_ext, "./db/");
@@ -66,12 +50,6 @@ void escreveNo(char *nomeF, TARVBP *no){
     fclose(fp);
 }
 
-/**
- * @brief Carrega um arquivo para um @c TARVBP.
- * @param nomeF Nome do arquivo
- * @param t Ordem da árvore
- * @return @c TARVB com as informações carregadas do arquivo.
- */
 TARVBP *leNo(char *nomeF, int t){
     char nome_com_ext[strlen(nomeF)+10];
     strcpy(nome_com_ext, "./db/");
@@ -107,11 +85,6 @@ TARVBP *leNo(char *nomeF, int t){
     return no;
 }
 
-/**
- * @brief Libera o nó da memória
- * @param a Nó
- * @param t Ordem da árvore
- */
 void TARVBP_libera(TARVBP *a, int t){
     free(a->chaves);
     if(a->folha){
@@ -150,13 +123,6 @@ TARVBP *buscaAux(TARVBP *a, int elem, int t){
     }
 }
 
-/**
- * @brief Faz a busca de um nó numa árvore B+.
- * @param a Árvore
- * @param elem Elemento a ser buscado
- * @param t Ordem da árvore
- * @return @c TARVB contendo as informações referentes ao nó.
- */
 TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
     int i = 0;
     while(i < a->num_chaves && a->chaves[i] <= elem){
@@ -179,13 +145,7 @@ TJ* TARVBP_buscaJogador(TARVBP* a, int id, int t) {
         }
     }
 }
-/**
- * @brief Verifica se a árvore possui um elemento
- * @param a Árvore
- * @param elem Elemento para procurar
- * @param t Ordem da árvore
- * @return 0 se não existe ou 1 se existe
- */
+
 int TARVBP_possui_elemento(TARVBP *a, int elem, int t){
     TARVBP *b = TARVBP_busca(a, elem, t);
     if(b){
@@ -197,14 +157,6 @@ int TARVBP_possui_elemento(TARVBP *a, int elem, int t){
 #pragma endregion
 
 #pragma region Inserção
-/**
- * @brief Faz a divisão de um nó
- * @param pai Raiz da árvore a ser dividida
- * @param i nao sei
- * @param a nao sei
- * @param t Ordem da ávore
- * @return Nova raiz @c TARVBP com a divisão feita
- */
 TARVBP *divisao(TARVBP *pai, int i, TARVBP *a, int t){
     numofnodes++;
     char str[10];
@@ -550,11 +502,6 @@ void imprimeNo(TARVBP *a){
     printf("---------------------------\n");
 }
 
-/**
- * @brief Imprime os registros da árvore
- * @param a Árvore
- * @param t Ordem da árvore
- */
 void TARVBP_imprime_registros(TARVBP *a, int t){
     if(!a) return;
     TARVBP *p = a;
@@ -594,11 +541,6 @@ void TARVBP_imprime_aux(TARVBP *arv, int andar, int t){
     }
 }
 
-/**
- * @brief Imprime a árvore
- * @param arv Árvore
- * @param t Ordem da árvore
- */
 void TARVBP_imprime(TARVBP *arv, int t){
     TARVBP_imprime_aux(arv, 0, t);
     printf("\n");
