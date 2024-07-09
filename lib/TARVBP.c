@@ -338,7 +338,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
             } else {
                 a->chaves[i] = z->reg[0]->id + 1;
                 y->reg[t-1] = z->reg[0];
-                z->reg[0] = NULL;
+                //z->reg[0] = NULL;
             }
             y->num_chaves++;
 
@@ -353,8 +353,8 @@ TARVBP *remover(TARVBP *a, int id, int t){
             }
             z->num_chaves--;
             escreveNo(z->nomeArq, z);
-            escreveNo(y->nomeArq, y);
             y = remover(y, id, t);
+            escreveNo(y->nomeArq, y);
             TARVBP_libera(y, t);
             TARVBP_libera(z, t);
             return a;

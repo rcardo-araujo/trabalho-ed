@@ -248,6 +248,7 @@ TLSETJ* buscaAllForaOrigem(TARVBP* a, int t) {
     if(!ftab) exit(1);
 
     TLSETJ* l = TLSETJ_inicializa(), *l_aux, *p;
+    TJ* cop_j;
     TSELE reg_aux;
     int i = 0;
     while(i < TAM_TABSELE) {
@@ -257,7 +258,8 @@ TLSETJ* buscaAllForaOrigem(TARVBP* a, int t) {
         
         p = l_aux;
         while(p) {
-            l = TLSETJ_insere(l, p->jogador);
+            cop_j = TJ_copiaJogador(p->jogador);
+            l = TLSETJ_insere(l, cop_j);
             p = p->prox;
         }
         l_aux = TLSETJ_libera(l_aux);
@@ -298,6 +300,7 @@ TLSETJ* buscaAllNaOrigem(TARVBP* a, int t) {
     if(!ftab) exit(1);
 
     TLSETJ* l = TLSETJ_inicializa(), *l_aux, *p;
+    TJ* cop_j;
     TSELE reg_aux;
     int i = 0;
     while(i < TAM_TABSELE) {
@@ -307,7 +310,8 @@ TLSETJ* buscaAllNaOrigem(TARVBP* a, int t) {
         
         p = l_aux;
         while(p) {
-            l = TLSETJ_insere(l, TJ_copiaJogador(p->jogador));
+            cop_j = TJ_copiaJogador(p->jogador);
+            l = TLSETJ_insere(l, cop_j);
             p = p->prox;
         }
         l_aux = TLSETJ_libera(l_aux);
