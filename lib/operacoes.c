@@ -638,74 +638,10 @@ TARVBP* retiraAllEquipe(TARVBP* a, int t, char* nome_pais) {
     return a;
 }
 
-TARVBP *BuscaJogadorMaisNovo_1(TARVBP *arv, int t){
-    TIJ *menor = NULL;
-    int c = 0;
-    for(int i = 2012; i >= 1977; i--){
-        if(c) break;
-        for(int j = 12; j >= 1; j--){
-            if(c) break;
-            char s[11];
-            if(j < 10){
-                sprintf(s, "01/0%d/%d", j, i);
-            }else{
-                sprintf(s, "01/%d/%d", j, i);
-            }
-            int tam = 0;
-            TIJ **v = TH_busca_mes_ano("hash.dat", "dados.dat", s, &tam);
-            if(v){
-                menor = v[0];
-                c = 1;
-            }
-
-            for(int f = !c ? 0 : 1; f < tam; f++){
-                free(v[f]);
-            }
-            free(v);
-        }
-    }
-
-    TARVBP *b = TARVBP_busca(arv, menor->id, t);
-    free(menor);
-    return b;
-}
-
-TARVBP *BuscaJogadorMaisVelho_2(TARVBP *arv, int t){
-    TIJ *maior = NULL;
-    int c = 0;
-    for(int i = 1977; i <= 2012; i++){
-        if(c) break;
-        for(int j = 1; j <= 12; j++){
-            if(c) break;
-            char s[11];
-            if(j < 10){
-                sprintf(s, "01/0%d/%d", j, i);
-            }else{
-                sprintf(s, "01/%d/%d", j, i);
-            }
-            int tam = 0;
-            TIJ **v = TH_busca_mes_ano("hash.dat", "dados.dat", s, &tam);
-            if(v){
-                maior = v[0];
-                c = 1;
-            }
-
-            for(int f = !c ? tam-1 : tam-2; f >= 0; f--){
-                free(v[f]);
-            }
-            free(v);
-        }
-    }
-
-    TARVBP *b = TARVBP_busca(arv, maior->id, t);
-    free(maior);
-    return b;
-}
-
-TARVBP **BuscaJogadoresPorAno_7(TARVBP *arv, int t, char *ano, int *tam){
+TJ **buscaJogadorAno(TARVBP *arv, int t, char *ano, int *tam){
     if(strlen(ano) > 4) return NULL;
 
-    TARVBP **lista = NULL; int size = 0;
+    TJ **lista = NULL; int size = 0;
     for(int i = 1; i <= 12; i++){
         char s[11];
         if(i < 10){
@@ -717,10 +653,9 @@ TARVBP **BuscaJogadoresPorAno_7(TARVBP *arv, int t, char *ano, int *tam){
         int n = 0;
         TIJ **jogadores = TH_busca_mes_ano("hash.dat", "dados.dat", s, &n);
         size += n;
-        if(jogadores) lista = realloc(lista, sizeof(TARVBP *) * size);
+        if(jogadores) lista = realloc(lista, sizeof(TJ *) * size);
         for(int j = size-n; j < size; j++){
-            int a = j-(size-n);
-            lista[j] = TARVBP_busca(arv, jogadores[j-(size-n)]->id, t);
+            lista[j] = TARVBP_buscaJogador(arv, jogadores[j-(size-n)]->id, t);
         }
 
         for(int f = 0; f < n; f++){
@@ -733,25 +668,24 @@ TARVBP **BuscaJogadoresPorAno_7(TARVBP *arv, int t, char *ano, int *tam){
     return lista;
 }
 
-TARVBP **BuscaJogadoresPorMes_8(TARVBP *arv, int t, char *mes, int *tam){
+TJ **buscaJogadorMes(TARVBP *arv, int t, char *mes, int *tam){
     if(strlen(mes) > 2) return NULL;
-
-    TARVBP **lista = NULL; int size = 0;
-    for(int i = 1992; i <= 2012; i++){
+    int m = atoi(mes);
+    TJ **lista = NULL; int size = 0;
+    for(int i = 1977; i <= 2012; i++){
         char s[11];
-        if(i < 10){
-            sprintf(s, "01/%s/%d", mes, i);
+        if(m < 10){
+            sprintf(s, "01/0%d/%d", m, i);
         }else{
-            sprintf(s, "01/%s/%d", mes, i);
+            sprintf(s, "01/%d/%d", m, i);
         }
 
         int n = 0;
         TIJ **jogadores = TH_busca_mes_ano("hash.dat", "dados.dat", s, &n);
         size += n;
-        if(jogadores) lista = realloc(lista, sizeof(TARVBP *) * size);
+        if(jogadores) lista = realloc(lista, sizeof(TJ *) * size);
         for(int j = size-n; j < size; j++){
-            int a = j-(size-n);
-            lista[j] = TARVBP_busca(arv, jogadores[j-(size-n)]->id, t);
+            lista[j] = TARVBP_buscaJogador(arv, jogadores[j-(size-n)]->id, t);
         }
 
         for(int f = 0; f < n; f++){
@@ -797,6 +731,40 @@ TJ *maisVelhosPorEquipe(TARVBP *arv, int t, char *pais){
         }
     }
     TLSETJ_libera(l);
+    return menor;
+}
+
+TJ *maisNovo(TARVBP *arv, int t){
+    char paises[11][12] = {"Germany", "Scotland", "Croatia", "Albania", "Slovenia", "Denmark", "Netherlands", "France", "Ukraine", "Georgia", "Portugal"};
+    TJ *menor = NULL;
+    for(int i = 0; i < 11; i++){
+        if(!menor) menor = maisNovosPorEquipe(arv, t, paises[i]);
+
+        TJ *temp = maisNovosPorEquipe(arv, t, paises[i]);
+        if(datacmp(menor->data_nasc, temp->data_nasc) < 0){
+            free(menor);
+            menor = temp;
+        }else{
+            free(temp);
+        }
+    }
+    return menor;
+}
+
+TJ *maisVelho(TARVBP *arv, int t){
+    char paises[11][12] = {"Germany", "Scotland", "Croatia", "Albania", "Slovenia", "Denmark", "Netherlands", "France", "Ukraine", "Georgia", "Portugal"};
+    TJ *menor = NULL;
+    for(int i = 0; i < 11; i++){
+        if(!menor) menor = maisVelhosPorEquipe(arv, t, paises[i]);
+
+        TJ *temp = maisVelhosPorEquipe(arv, t, paises[i]);
+        if(datacmp(menor->data_nasc, temp->data_nasc) > 0){
+            free(menor);
+            menor = temp;
+        }else{
+            free(temp);
+        }
+    }
     return menor;
 }
 
