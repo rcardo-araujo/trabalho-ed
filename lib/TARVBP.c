@@ -174,7 +174,8 @@ TARVBP *TARVBP_busca(TARVBP *a, int elem, int t){
     while(i < a->num_chaves && a->chaves[i] <= elem){
         i++;
     }
-    TARVBP *res = buscaAux(leNo(a->filhos[i], t), elem, t);
+    TARVBP* x = leNo(a->filhos[i], t);
+    TARVBP *res = buscaAux(x, elem, t);
     return res;
 }
 

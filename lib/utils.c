@@ -122,7 +122,7 @@ TARVBP* catalogo2Arv(char *nomeArq, int t){
 
 TARVBP* menu(TARVBP* a, int t) {
     do {
-        printf("\n-----------Menu-------------\n");
+        printf("\n----------- Menu -------------\n");
         printf("Selecione a opcao desejada: \n");
         printf("[1] Buscar jogadores mais novos e mais velhos\n");
         printf("[2] Jogadores que mais e menos atuaram por equipe\n");
@@ -142,7 +142,7 @@ TARVBP* menu(TARVBP* a, int t) {
         printf("[20] Remover jogadores dado um conjunto de suas chaves primárias\n");
         printf("\n[0] Imprimir IDs da árvore\n");
         printf("[-1] Sair\n");
-        printf("------------------------------\n");
+        printf("--------------------------------\n");
         printf("\nDigite a opcao desejada: ");
 
         int opcao, qtd;
@@ -308,7 +308,7 @@ TARVBP* menu(TARVBP* a, int t) {
                 TLSETJ_libera(l);
                 continue;
             }
-            printf("Opcao invalida!\n");
+            printf("\nOpcao invalida!\n");
             continue;
         }
 
@@ -348,7 +348,7 @@ TARVBP* menu(TARVBP* a, int t) {
                 TLSECHAR_libera(l);
                 continue;
             }
-            printf("Opção inválida!\n");
+            printf("\nOpção inválida!\n");
             continue;
         }
 

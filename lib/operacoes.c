@@ -509,19 +509,13 @@ TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais) {
     FILE* ftab = fopen(TAB_SELECOES, "rb+");
     if(!ftab) exit(1);
     
-    int ind = TABSELE_indiceEquipe(nome_pais), i;
-    TJ* jog_aux;
-    TSELE reg_aux;
-
-    fseek(ftab, ind, SEEK_SET);
-    fread(&reg_aux, sizeof(TSELE), 1, ftab);
-    for(i = 0; i < reg_aux.num_jogadores; i++) {
-        jog_aux = TARVBP_buscaJogador(a, reg_aux.jogadores[i], t);
-        if(!strcmp(jog_aux->pais_time, nome_pais)) {
-            a = TARVBP_retira(a, jog_aux->id, t);
-        }
-        free(jog_aux);
+    TLSETJ* l = buscaAllNaOrigemEquipe(a, t, nome_pais), * p;
+    p = l;
+    while(p) {
+        a = TARVBP_retira(a, p->jogador->id, t);
+        p = p->prox;
     }
+    TLSETJ_libera(l);
     fclose(ftab);
     return a;
 }
@@ -529,25 +523,13 @@ TARVBP* retiraAllNaOrigem(TARVBP* a, int t, char* nome_pais) {
 // Operação [18] - Retira todos de uma 
 // equipe que jogam fora da origem
 TARVBP* retiraAllForaOrigem(TARVBP* a, int t, char* nome_pais) {
-    FILE* ftab = fopen(TAB_SELECOES, "rb+");
-    if(!ftab) exit(1);
-    
-    int ind = TABSELE_indiceEquipe(nome_pais), i;
-    TJ* jog_aux;
-    TSELE reg_aux;
-
-    fseek(ftab, ind, SEEK_SET);
-    fread(&reg_aux, sizeof(TSELE), 1, ftab);
-    for(i = 0; i < reg_aux.num_jogadores; i++) {
-        printf("ID: %d\n", reg_aux.jogadores[i]);
-        jog_aux = TARVBP_buscaJogador(a, reg_aux.jogadores[i], t);
-        if(!jog_aux) printf("\nJogador não enccontrado!\n");
-        if(strcmp(jog_aux->pais_time, nome_pais)) {
-            a = TARVBP_retira(a, jog_aux->id, t);
-        }
-        free(jog_aux);
+    TLSETJ* l = buscaAllForaOrigemEquipe(a, t, nome_pais), * p;
+    p = l;
+    while(p) {
+        a = TARVBP_retira(a, p->jogador->id, t);
+        p = p->prox;
     }
-    fclose(ftab);
+    TLSETJ_libera(l);
     return a;
 }
 
@@ -736,6 +718,7 @@ TJ *maisVelhosPorEquipe(TARVBP *arv, int t, char *pais){
 TARVBP *retiraIds(TARVBP *arv, int t, int *vet, int n){
     for(int i = 0; i < n; i++){
         arv = TARVBP_retira(arv, vet[i], t);
+        TARVBP_imprime(arv, t);
     }
     return arv;
 }
