@@ -511,6 +511,7 @@ TARVBP *remover(TARVBP *a, int id, int t){
 TARVBP *TARVBP_retira(TARVBP* a, int id, int t){
     if(!a || !TARVBP_possui_elemento(a, id, t)) return a;
     TJ* jogador = TARVBP_buscaJogador(a, id, t);
+    TH_retira("hash.dat", "dados.dat", jogador->data_nasc);
     TABSELE_removeJogador(jogador);
     free(jogador);
 
