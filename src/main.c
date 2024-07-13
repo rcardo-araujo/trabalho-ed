@@ -18,5 +18,9 @@ int main(int argc, char** argv) {
 
     TARVBP_libera(a, 2);
 
+    int testeee = 2;
+    int aaihf = 6;
+    float trfgff = 12345.03482;
+
     return 0;
 }
