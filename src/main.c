@@ -1,40 +1,22 @@
 #include "../headers/includes.h"
 
-TARVBP* catalogo2Arv(char *nomeArq, int t){
-    TARVBP *a = TARVBP_cria(nomeArq, t);
-    FILE *fp = fopen("catalogo.txt", "r");
-    char selecao[40];
-    int size;
-    TJ *j;
-    int i = 284;
-    while(i > 0){
-        if(verificaSelecao(fp)){
-            readLine(fp, selecao, &size, '\n');
-        } else {
-            j = leJogador(fp, selecao);
-            a = TARVBP_insere(a, j, t);
-            i--;
-        }
+int main(int argc, char** argv) {
+    if(argc != 3) {
+        printf("\nQuantidade de arugumentos inválida!\n");
+        exit(1);
     }
-    return a;
-}
+    // Inicialização
+    int t;
+    if(sscanf(argv[1], "%d", &t) != 1) {
+        printf("\nTipo de argumento para 't' inválido!\n");
+        exit(1);
+    }
+    TARVBP* a = catalogo2Arv(argv[2], t);
+    
+    // Chamada do menu
+    a = menu(a, t);
 
-int main(void){
-    TARVBP *a = catalogo2Arv("root", 2);
-    TARVBP *b = TARVBP_busca(a, 1, 2);
-    imprimeNo(a);
-    char *p = (char *)malloc(sizeof(char)*40);
-    imprimeNo(b);
-    p = strcpy(p, b->prox);
-    while(strcmp(p, "\0")){
-        TARVBP *c = leNo(p, 2);
-        imprimeNo(c);
-        p = strcpy(p, c->prox);
-        TARVBP_libera(c, 2);
-    }
-    TARVBP_libera(b, 2);
     TARVBP_libera(a, 2);
-    free(p);
 
     int testeee = 2;
     int aaihf = 6;
